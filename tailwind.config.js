@@ -11,6 +11,7 @@ module.exports = {
 				SecondaryRed: "#780000",
 				PrimaryBlue: "#003049",
 				SecondaryBlue: "#669BBC",
+				Line: "#B3B3B3",
 			},
 		},
 	},
