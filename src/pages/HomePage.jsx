@@ -1,7 +1,76 @@
 import React from "react";
+import Layout from "../components/Layout";
+import Button from "../components/CustomButton";
+import Hero from "../assets/Hero.png";
+import { TfiReload, TfiMoney, TfiBolt, TfiThumbUp } from "react-icons/tfi";
 
 function HomePage() {
-  return <div>HomePage</div>;
+	return (
+		<Layout>
+			<div
+				id="hero"
+				className="hero min-h-screen"
+			>
+				<div className="hero-content text-center">
+					<div className="w-full lg:w-3/4">
+						<img src={Hero} />
+						<Button
+							id="button-submit"
+							className="flex justify-center items-center border border-PrimaryRed rounded-lg font-semibold text-sm lg:text-2xl text-PrimaryRed mx-auto mt-8 lg:mt-16 mb-5 w-36 h-7 lg:w-52 lg:h-14 max-w-xs cursor-pointer"
+							label="Service Now!"
+							// onClick={handleSubmit}
+						/>
+						<p className="italic text-xs lg:text-xl text-black">You already book a service on</p>
+						<p className="italic text-xs lg:text-xl text-black">Check at Service Icon</p>
+					</div>
+				</div>
+			</div>
+			<div
+				id="content"
+				className="lg:mx-44 mt-20 mb-12"
+			>
+				<h1 className="font-bold text-lg lg:text-5xl text-left">Benefits service with us</h1>
+				<div className="card grid grid-rows-4 lg:grid-rows-2 grid-flow-col my-6 mx-2 gap-5">
+					<div className="flex justify-between gap-5 my-6">
+						<div>
+							<TfiReload className="bg-SecondaryBlue rounded w-10 h-10 p-1 text-white" />
+						</div>
+						<div>
+							<h1 className="text-lg lg:text-4xl text-PrimaryBlue font-bold mb-2.5">More Flexibility</h1>
+							<p className="text-base lg:text-xl text-black">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+						</div>
+					</div>
+					<div className="flex justify-between gap-5 my-6 ">
+						<div>
+							<TfiReload className="bg-SecondaryBlue rounded w-10 h-10 p-1 text-white" />
+						</div>
+						<div>
+							<h1 className="text-lg lg:text-4xl text-PrimaryBlue font-bold mb-2.5">More Flexibility</h1>
+							<p className="text-base lg:text-xl text-black">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+						</div>
+					</div>
+					<div className="flex justify-between gap-5 my-6">
+						<div>
+							<TfiReload className="bg-SecondaryBlue rounded w-10 h-10 p-1 text-white" />
+						</div>
+						<div>
+							<h1 className="text-lg lg:text-4xl text-PrimaryBlue font-bold mb-2.5">More Flexibility</h1>
+							<p className="text-base lg:text-xl text-black">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+						</div>
+					</div>
+					<div className="flex justify-between gap-5 my-6 ">
+						<div>
+							<TfiReload className="bg-SecondaryBlue rounded w-10 h-10 p-1 text-white" />
+						</div>
+						<div>
+							<h1 className="text-lg lg:text-4xl text-PrimaryBlue font-bold mb-2.5">More Flexibility</h1>
+							<p className="text-base lg:text-xl text-black">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</Layout>
+	);
 }
 
 export default HomePage;
