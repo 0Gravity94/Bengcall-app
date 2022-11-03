@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "../pages/Auth/Login";
 import Register from "../pages/Auth/Register";
 import DashboardAdmin from "../pages/DashboardAdmin";
-import Detail from "../pages/Detail";
+import DetailCustomer from "../pages/DetailCustomer";
 import History from "../pages/History";
 import HomePage from "../pages/HomePage";
 import MyProfile from "../pages/MyProfile";
@@ -44,7 +44,7 @@ function App() {
 			<Routes>
 				<Route
 					path="/detail/:id"
-					element={<Detail />}
+					element={<DetailCustomer />}
 				/>
 			</Routes>
 			<Routes>

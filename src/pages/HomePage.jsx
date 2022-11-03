@@ -7,10 +7,7 @@ import { TfiReload, TfiMoney, TfiBolt, TfiThumbUp } from "react-icons/tfi";
 function HomePage() {
 	return (
 		<Layout>
-			<div
-				id="hero"
-				className="hero min-h-screen"
-			>
+			<div className="hero min-h-screen">
 				<div className="hero-content text-center">
 					<div className="w-full lg:w-3/4">
 						<img src={Hero} />
@@ -21,49 +18,45 @@ function HomePage() {
 							// onClick={handleSubmit}
 						/>
 						<p className="italic text-xs lg:text-xl text-black">You already book a service on</p>
-						<p className="italic text-xs lg:text-xl text-black">Check at Service Icon</p>
 					</div>
 				</div>
 			</div>
-			<div
-				id="content"
-				className="lg:mx-44 mt-20 mb-12"
-			>
-				<h1 className="font-bold text-lg lg:text-5xl text-left">Benefits service with us</h1>
+			<div className="lg:mx-44 lg:mt-20 mb-12">
+				<h1 className="font-bold text-lg lg:text-5xl text-left p-2">Benefits service with us</h1>
 				<div className="card grid grid-rows-4 lg:grid-rows-2 grid-flow-col my-6 mx-2 gap-5">
 					<div className="flex justify-between gap-5 my-6">
 						<div>
 							<TfiReload className="bg-SecondaryBlue rounded w-10 h-10 p-1 text-white" />
 						</div>
 						<div>
-							<h1 className="text-lg lg:text-4xl text-PrimaryBlue font-bold mb-2.5">More Flexibility</h1>
+							<h1 className="text-lg lg:text-4xl text-PrimaryBlue font-bold mb-2.5">More Flexibile</h1>
 							<p className="text-base lg:text-xl text-black">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
 						</div>
 					</div>
 					<div className="flex justify-between gap-5 my-6 ">
 						<div>
-							<TfiReload className="bg-SecondaryBlue rounded w-10 h-10 p-1 text-white" />
+							<TfiMoney className="bg-SecondaryBlue rounded w-10 h-10 p-1 text-white" />
 						</div>
 						<div>
-							<h1 className="text-lg lg:text-4xl text-PrimaryBlue font-bold mb-2.5">More Flexibility</h1>
+							<h1 className="text-lg lg:text-4xl text-PrimaryBlue font-bold mb-2.5">Many Discounts</h1>
 							<p className="text-base lg:text-xl text-black">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
 						</div>
 					</div>
 					<div className="flex justify-between gap-5 my-6">
 						<div>
-							<TfiReload className="bg-SecondaryBlue rounded w-10 h-10 p-1 text-white" />
+							<TfiBolt className="bg-SecondaryBlue rounded w-10 h-10 p-1 text-white" />
 						</div>
 						<div>
-							<h1 className="text-lg lg:text-4xl text-PrimaryBlue font-bold mb-2.5">More Flexibility</h1>
+							<h1 className="text-lg lg:text-4xl text-PrimaryBlue font-bold mb-2.5">Fast Service</h1>
 							<p className="text-base lg:text-xl text-black">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
 						</div>
 					</div>
 					<div className="flex justify-between gap-5 my-6 ">
 						<div>
-							<TfiReload className="bg-SecondaryBlue rounded w-10 h-10 p-1 text-white" />
+							<TfiThumbUp className="bg-SecondaryBlue rounded w-10 h-10 p-1 text-white" />
 						</div>
 						<div>
-							<h1 className="text-lg lg:text-4xl text-PrimaryBlue font-bold mb-2.5">More Flexibility</h1>
+							<h1 className="text-lg lg:text-4xl text-PrimaryBlue font-bold mb-2.5">Good Mechanics</h1>
 							<p className="text-base lg:text-xl text-black">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
 						</div>
 					</div>

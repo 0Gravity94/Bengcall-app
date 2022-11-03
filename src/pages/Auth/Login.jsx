@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 // import axios from "axios";
 // import { useCookies } from "react-cookie";
 
-import CustomInput from "../../components/CustomInput";
+import { CustomInput } from "../../components/CustomInput";
 import Button from "../../components/CustomButton";
 import LogReg from "../../assets/LogReg.png";
 import useTitle from "../../utils/useTitle";
@@ -16,38 +16,19 @@ function Login() {
 	useTitle("Login");
 
 	return (
-		<div
-			id="layout-login"
-			className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2"
-		>
-			<div
-				id="side-picture"
-				className="hidden md:flex lg:flex w-full h-full"
-			>
+		<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
+			<div className="hidden md:flex lg:flex w-full h-full">
 				<img
 					src={LogReg}
 					alt="Bengcall"
 					className="w-full"
 				/>
 			</div>
-			<div
-				id="SignIn"
-				className="flex flex-wrap justify-center w-full h-screen mt-28 px-2"
-			>
-				<div id="layout-signin">
-					<h1
-						id="title"
-						className="font-bold text-5xl text-center text-PrimaryBlue my-14"
-					>
-						Sign In
-					</h1>
-					<div id="form-singin">
-						<label
-							id="label-email"
-							className="font-semibold text-2xl text-PrimaryBlue"
-						>
-							Email
-						</label>
+			<div className="flex flex-wrap justify-center w-full h-screen mt-28 px-2">
+				<div>
+					<h1 className="font-bold text-5xl text-center text-PrimaryBlue my-14">Sign In</h1>
+					<div>
+						<label className="font-semibold text-2xl text-PrimaryBlue">Email</label>
 						<CustomInput
 							id="email"
 							type="email"
@@ -57,12 +38,7 @@ function Login() {
 							placeholder="Input email"
 						/>
 						<br />
-						<label
-							id="label-password"
-							className="font-semibold text-2xl text-PrimaryBlue"
-						>
-							Password
-						</label>
+						<label className="font-semibold text-2xl text-PrimaryBlue">Password</label>
 						<CustomInput
 							id="password"
 							type="password"
@@ -71,12 +47,10 @@ function Login() {
 							// onChange={(e) => setPassword(e.target.value)}
 							placeholder="Input password"
 						/>
-						<p
-							id="to-register"
-							className="text-base lg:text-xl text-center mt-7 mb-10"
-						>
+						<p className="text-base lg:text-xl text-center mt-7 mb-10">
 							Don’t have an account?{" "}
 							<Link
+								id="register"
 								to="/register"
 								className="text-PrimaryRed font-semibold"
 							>
