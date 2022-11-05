@@ -4,6 +4,7 @@ import { CustomSelect } from "./CustomInput";
 import { default as ReactSelect } from "react-select";
 import { FiSettings } from "react-icons/fi";
 import { HiOutlineTrash } from "react-icons/hi2";
+import { ModalAdminEdit } from "./Modal";
 
 function CardHistory() {
   return (
@@ -94,48 +95,55 @@ function CardListService() {
     <div className="w-full space-x-20 flex justify-center">
       <div className="w-5/6 h-auto flex flex-col p-6 gap-2 box-border">
         <div className="w-full flex gap-20">
-          <p className="w-60 font bold text-xl text-SecondaryBlue">
+          <p className="w-1/4 font bold text-xl text-SecondaryBlue">
             Vehicle type
           </p>
-          <p className="w-60 font bold text-xl text-SecondaryBlue">
+          <p className="w-1/4 font bold text-xl text-SecondaryBlue">
             Service type
           </p>
-          <p className="w-60 font bold text-xl text-SecondaryBlue">Price</p>
-          <span className="w-60"></span>
+          <p className="w-1/4 font bold text-xl text-SecondaryBlue">Price</p>
+          <span className="w-1/4"></span>
         </div>
-        <div className="w-full h-full flex gap-20 border-b-2">
-          <p className="w-60 font-bold text-xl text-PrimaryBlue">
-            125cc - Supra
-          </p>
-          <ul className="w-60">
-            <li className="font-bold text-xl text-PrimaryBlue">
-              Complete Service
-            </li>
-            <li className="font-bold text-xl text-PrimaryBlue">
-              Change Gear Set
-            </li>
-            <li className="font-bold text-xl text-PrimaryBlue">Change Brake</li>
-            <li className="font-bold text-xl text-PrimaryBlue">Tune Up</li>
-          </ul>
-          <ul className="w-60">
-            <li className="font-bold text-xl text-PrimaryRed">Rp 45.000</li>
-            <li className="font-bold text-xl text-PrimaryRed">Rp 15.000</li>
-            <li className="font-bold text-xl text-PrimaryRed">Rp 8.000</li>
-            <li className="font-bold text-xl text-PrimaryRed">Rp 110.000</li>
-          </ul>
+        <div>
+          <div className="w-full h-full flex gap-20 border-b-2">
+            <p className="w-1/4 font-bold text-xl text-PrimaryBlue">
+              125cc - Supra
+            </p>
+            <ul className="w-1/4 list-disc">
+              <li className="font-bold text-xl text-PrimaryBlue">
+                Complete Service
+              </li>
+              <li className="font-bold text-xl text-PrimaryBlue">
+                Change Gear Set
+              </li>
+              <li className="font-bold text-xl text-PrimaryBlue">
+                Change Brake
+              </li>
+              <li className="font-bold text-xl text-PrimaryBlue">Tune Up</li>
+            </ul>
+            <ul className="w-1/4">
+              <li className="font-bold text-xl text-PrimaryRed">Rp 45.000</li>
+              <li className="font-bold text-xl text-PrimaryRed">Rp 15.000</li>
+              <li className="font-bold text-xl text-PrimaryRed">Rp 8.000</li>
+              <li className="font-bold text-xl text-PrimaryRed">Rp 110.000</li>
+            </ul>
 
-          <span className="w-60 h-full flex flex-col items-center justify-center gap-4">
-            <FiSettings
-              id="btn-setting"
-              viewBox="0 0 24 24"
-              className="w-7 h-7 cursor-pointer stroke-PrimaryBlue hover:stroke-SecondaryBlue"
-            />
-            <HiOutlineTrash
-              id="btn-trash"
-              viewBox="0 0 24 24"
-              className="w-8 h-8 cursor-pointer stroke-PrimaryRed hover:stroke-SecondaryRed"
-            />
-          </span>
+            <span className="w-1/4 h-full flex flex-col items-center justify-center gap-4">
+              <a href="#my-modal-3">
+                <FiSettings
+                  id="btn-setting"
+                  viewBox="0 0 24 24"
+                  className="w-7 h-7 cursor-pointer stroke-PrimaryBlue hover:stroke-SecondaryBlue"
+                />
+              </a>
+              <HiOutlineTrash
+                id="btn-trash"
+                viewBox="0 0 24 24"
+                className="w-8 h-8 cursor-pointer stroke-PrimaryRed hover:stroke-SecondaryRed"
+              />
+              <ModalAdminEdit />
+            </span>
+          </div>
         </div>
       </div>
     </div>

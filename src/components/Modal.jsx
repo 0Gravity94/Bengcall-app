@@ -253,7 +253,7 @@ function ModalAdminEdit() {
   ];
   return (
     <div>
-      <div className="modal w-full" id="my-modal-2">
+      <div className="modal w-full" id="my-modal-3">
         <div className="w-10/11 md:w-2/4 h-auto md:h-3/4 p-8 rounded-lg flex flex-col items-center gap-6 bg-white shadow-md  overflow-auto">
           <h3 className="font-extrabold text-2xl text-PrimaryBlue">
             Edit Service
