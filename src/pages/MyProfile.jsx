@@ -1,25 +1,27 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { useDispatch } from "react-redux";
+import Swal from "sweetalert";
 
 import Layout from "../components/Layout";
 import { CustomInput } from "../components/CustomInput";
 import Button from "../components/CustomButton";
-import profile from "../assets/profile.png";
 
 import { apiRequest } from "../utils/apiRequest";
-import { handleAuth } from "../utils/reducers/reducer";
-import { useTitle } from "../utils/hooks/useTitle";
-import { data } from "autoprefixer";
+import { handleAuth } from "../utils/redux/reducers/reducer";
+import useTitle from "../utils/useTitle";
+import { useNavigate } from "react-router-dom";
 
 function MyProfile() {
-  useTitle(`My Profile - ${fullName}`);
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [image, setImage] = useState([]);
   const [password, setPassword] = useState("");
   const [objSubmit, setObjSubmit] = useState({});
   const [loading, setLoading] = useState(true);
+  useTitle(`My Profile - ${fullName}`);
 
   useEffect(() => {
     fetchData();
@@ -58,7 +60,7 @@ function MyProfile() {
       })
       .then((res) => {
         const { message } = res;
-        MySwal.fire({
+        Swal.fire({
           title: "Success",
           text: message,
           showCancelButton: false,
@@ -67,7 +69,7 @@ function MyProfile() {
       })
       .catch((err) => {
         const { data } = err.response;
-        MySwal.fire({
+        Swal.fire({
           title: "Failed",
           text: data.message,
           showCancelButton: false,
@@ -95,86 +97,86 @@ function MyProfile() {
 
   return (
     <Layout>
-      <div key={data.id}>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
-          <div className="flex justify-end grid-cols-1 mt-24 mb-20 mx-12">
-            <div>
-              <img
-                src={image}
-                alt={image}
-                className="flex justify-center w-full"
-              />
-              <Button
-                id="change-photo"
-                className="flex justify-center items-center text-SecondaryBlue text-xl mt-2.5 cursor-pointer"
-                label="Change Photo"
-                onChange={(e) => {
-                  setImage(URL.createObjectURL(e.target.files[0]));
-                  handleChange(e.target.files[0], "image");
-                }}
-              />
+      {/* <div key={data.id}> */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
+        <div className="flex justify-end grid-cols-1 mt-24 mb-20 mx-12">
+          <div>
+            <img
+              src={image}
+              alt={image}
+              className="flex justify-center w-full"
+            />
+            <Button
+              id="change-photo"
+              className="flex justify-center items-center text-SecondaryBlue text-xl mt-2.5 cursor-pointer"
+              label="Change Photo"
+              onChange={(e) => {
+                setImage(URL.createObjectURL(e.target.files[0]));
+                handleChange(e.target.files[0], "image");
+              }}
+            />
 
-              <h1 className="text-center text-4xl text-PrimaryBlue mt-7">
-                {fullName}
-              </h1>
-              <p className="text-center text-2xl text-PrimaryBlue">{email}</p>
-              <Button
-                onClick={() => handleDelete}
-                id="deactivate"
-                className="flex justify-center items-center font-semibold text-PrimaryRed text-xl mt-7 cursor-pointer"
-                label="deactivate"
-              />
-            </div>
+            <h1 className="text-center text-4xl text-PrimaryBlue mt-7">
+              {fullName}
+            </h1>
+            <p className="text-center text-2xl text-PrimaryBlue">{email}</p>
+            <Button
+              onClick={() => handleDelete}
+              id="deactivate"
+              className="flex justify-center items-center font-semibold text-PrimaryRed text-xl mt-7 cursor-pointer"
+              label="deactivate"
+            />
           </div>
-          <div className="flex flex-wrap justify-start w-full h-screen mt-28 mx-12 px-2">
+        </div>
+        <div className="flex flex-wrap justify-start w-full h-screen mt-28 mx-12 px-2">
+          <div>
             <div>
-              <div>
-                <label className="font-semibold text-2xl text-PrimaryBlue">
-                  Full Name
-                </label>
-                <CustomInput
-                  id="fullname"
-                  type="text"
-                  className="border border-Line rounded-md text-20 mx-auto mt-2.5 mb-7 p-4 w-full h-14 max-w-md"
-                  value={fullName}
-                  onChange={(e) => handleChange(e.target.value)}
-                  placeholder="Input New Full Name"
-                />
-                <br />
-                <label className="font-semibold text-2xl text-PrimaryBlue">
-                  Email
-                </label>
-                <CustomInput
-                  id="email"
-                  type="email"
-                  className="border border-Line rounded-md text-20 mx-auto mt-2.5 mb-7 p-4 w-full h-14 max-w-md"
-                  value={email}
-                  onChange={(e) => handleChange(e.target.value)}
-                  placeholder="Input New Email"
-                />
-                <br />
-                <label className="font-semibold text-2xl text-PrimaryBlue">
-                  Password
-                </label>
-                <CustomInput
-                  id="password"
-                  type="password"
-                  className="border border-Line rounded-md text-20 mx-auto mt-2.5 mb-7 p-4 w-full h-14 max-w-md"
-                  value={password}
-                  onChange={(e) => handleChange(e.target.value)}
-                  placeholder="Input New Password"
-                />
-                <Button
-                  id="button-submit"
-                  className="flex justify-center items-center border border-PrimaryRed rounded-lg font-semibold text-2xl text-PrimaryRed m-auto w-52 h-14 max-w-xs cursor-pointer"
-                  label="Submit"
-                  onClick={handleSubmit}
-                />
-              </div>
+              <label className="font-semibold text-2xl text-PrimaryBlue">
+                Full Name
+              </label>
+              <CustomInput
+                id="fullname"
+                type="text"
+                className="border border-Line rounded-md text-20 mx-auto mt-2.5 mb-7 p-4 w-full h-14 max-w-md"
+                value={fullName}
+                onChange={(e) => handleChange(e.target.value)}
+                placeholder="Input New Full Name"
+              />
+              <br />
+              <label className="font-semibold text-2xl text-PrimaryBlue">
+                Email
+              </label>
+              <CustomInput
+                id="email"
+                type="email"
+                className="border border-Line rounded-md text-20 mx-auto mt-2.5 mb-7 p-4 w-full h-14 max-w-md"
+                value={email}
+                onChange={(e) => handleChange(e.target.value)}
+                placeholder="Input New Email"
+              />
+              <br />
+              <label className="font-semibold text-2xl text-PrimaryBlue">
+                Password
+              </label>
+              <CustomInput
+                id="password"
+                type="password"
+                className="border border-Line rounded-md text-20 mx-auto mt-2.5 mb-7 p-4 w-full h-14 max-w-md"
+                value={password}
+                onChange={(e) => handleChange(e.target.value)}
+                placeholder="Input New Password"
+              />
+              <Button
+                id="button-submit"
+                className="flex justify-center items-center border border-PrimaryRed rounded-lg font-semibold text-2xl text-PrimaryRed m-auto w-52 h-14 max-w-xs cursor-pointer"
+                label="Submit"
+                onClick={handleSubmit}
+              />
             </div>
           </div>
         </div>
       </div>
+      {/* </div> */}
     </Layout>
   );
 }

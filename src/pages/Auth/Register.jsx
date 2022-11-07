@@ -54,7 +54,7 @@ function Register() {
       <div className="hidden md:flex lg:flex w-full h-full">
         <img src={LogReg} alt="Bengcall" className="w-full" />
       </div>
-      <div className="flex flex-wrap justify-center w-full h-screen mt-28 px-2">
+      <div className="flex flex-wrap justify-center bg-white w-full h-screen mt-28 px-2">
         <div>
           <h1 className="font-bold text-5xl text-center text-PrimaryBlue my-14">
             Sign Up

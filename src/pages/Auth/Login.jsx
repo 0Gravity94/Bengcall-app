@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { useCookies } from "react-cookie";
+import useAuth from "../../utils/hooks/useAuth";
 
 import { handleAuth } from "../../utils/redux/reducers/reducer";
 import { CustomInput } from "../../components/CustomInput";
@@ -11,7 +12,8 @@ import LogReg from "../../assets/LogReg.png";
 import useTitle from "../../utils/useTitle";
 
 function Login() {
-  const [setCookie] = useCookies(["token"]);
+  const [cookies, setCookie] = useCookies(["token"]);
+  const { setAuth } = useAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
@@ -38,20 +40,22 @@ function Login() {
     axios
       .post("login", body)
       .then((res) => {
-        const { data } = res.data;
+        const { data, message } = res.data;
+        const accessToken = data.token;
+        const roles = data.role;
+        setAuth({ email, password, roles, accessToken });
         setCookie("token", data.token, { path: "/" });
         dispatch(handleAuth(true));
         alert("You're logged in");
-        navigate("/home");
+        if (data?.role === 1) {
+          navigate("/dashboard");
+        } else if (data?.role === 0) {
+          navigate("/home");
+        }
       })
       .catch((err) => {
-        if (err.response?.status === 400) {
-          alert("Bad Request");
-        } else if (err.response?.status === 500) {
-          alert("Internal server error");
-        } else {
-          alert("error");
-        }
+        const { data } = err.response;
+        alert("Error");
       })
       .finally(() => setLoading(false));
   };
@@ -61,7 +65,7 @@ function Login() {
       <div className="hidden md:flex lg:flex w-full h-full">
         <img src={LogReg} alt="Bengcall" className="w-full" />
       </div>
-      <div className="flex flex-wrap justify-center w-full h-screen mt-28 px-2">
+      <div className="flex flex-wrap justify-center bg-white w-full h-screen mt-28 px-2">
         <div>
           <h1 className="font-bold text-5xl text-center text-PrimaryBlue my-14">
             Sign In

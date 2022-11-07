@@ -5,6 +5,7 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 
 import { TokenContext } from "../utils/context";
+import RequireAuth from "../components/RequireAuth";
 import { handleAuth } from "../utils/redux/reducers/reducer";
 
 import Login from "../pages/Auth/Login";
@@ -17,7 +18,11 @@ import MyProfile from "../pages/MyProfile";
 import DetailAdmin from "../pages/DetailAdmin";
 import ServiceTypeAdmin from "../pages/ServiceTypeAdmin";
 
-axios.defaults.baseURL = "http://project-edu.online/";
+axios.defaults.baseURL = "https://project-edu.online/";
+const ROLES = {
+  User: 0,
+  Admin: 1,
+};
 
 function App() {
   const [cookie, removeCookie] = useCookies();
@@ -59,10 +64,21 @@ function App() {
         <Routes>
           <Route index element={<Login />} />
 
-          <Route
-            path="/"
-            element={checkToken ? <Navigate to="/home" /> : <Login />}
-          />
+          <Route element={<RequireAuth allowedRole={[ROLES.User]} />}>
+            <Route
+              path="/"
+              element={checkToken ? <Navigate to="/home" /> : <Login />}
+            />
+          </Route>
+
+          <Route element={<RequireAuth allowedRole={[ROLES.Admin]} />}>
+            <Route
+              path="/"
+              element={
+                checkToken ? <Navigate to="/dashboard" /> : <DashboardAdmin />
+              }
+            />
+          </Route>
 
           <Route path="/register" element={<Register />} />
 

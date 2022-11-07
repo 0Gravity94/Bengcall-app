@@ -7,7 +7,7 @@ function Layout({ children }) {
   return (
     <div>
       <NavbarUser />
-      <div className="w-full h-full">{children}</div>
+      <div className="bg-white w-full h-full">{children}</div>
       <Footer />
     </div>
   );
