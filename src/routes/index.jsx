@@ -19,10 +19,10 @@ import DetailAdmin from "../pages/DetailAdmin";
 import ServiceTypeAdmin from "../pages/ServiceTypeAdmin";
 
 axios.defaults.baseURL = "https://project-edu.online/";
-const ROLES = {
-  User: 0,
-  Admin: 1,
-};
+// const ROLES = {
+//   User: 0,
+//   Admin: 1,
+// };
 
 function App() {
   const [cookie, removeCookie] = useCookies();
@@ -64,21 +64,21 @@ function App() {
         <Routes>
           <Route index element={<Login />} />
 
-          <Route element={<RequireAuth allowedRole={[ROLES.User]} />}>
-            <Route
-              path="/"
-              element={checkToken ? <Navigate to="/home" /> : <Login />}
-            />
-          </Route>
+          {/* <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}> */}
+          <Route
+            path="/"
+            element={checkToken ? <Navigate to="/home" /> : <Login />}
+          />
+          {/* </Route> */}
 
-          <Route element={<RequireAuth allowedRole={[ROLES.Admin]} />}>
-            <Route
-              path="/"
-              element={
-                checkToken ? <Navigate to="/dashboard" /> : <DashboardAdmin />
-              }
-            />
-          </Route>
+          {/* <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}> */}
+          <Route
+            path="/"
+            element={
+              checkToken ? <Navigate to="/dashboard" /> : <DashboardAdmin />
+            }
+          />
+          {/* </Route> */}
 
           <Route path="/register" element={<Register />} />
 
@@ -90,11 +90,17 @@ function App() {
 
           <Route path="/history" element={<History />} />
 
+          {/* <Route element={<RequireAuth allowedRole={[ROLES.Admin]} />}> */}
           <Route path="/detailadmin/:id" element={<DetailAdmin />} />
+          {/* </Route> */}
 
+          {/* <Route element={<RequireAuth allowedRole={[ROLES.Admin]} />}> */}
           <Route path="/dashboard" element={<DashboardAdmin />} />
+          {/* </Route> */}
 
-          <Route path="/servicetype" element={<ServiceTypeAdmin />} />
+          {/* <Route element={<RequireAuth allowedRole={[ROLES.Admin]} />}> */}
+          <Route path="/service-type" element={<ServiceTypeAdmin />} />
+          {/* </Route> */}
         </Routes>
       </BrowserRouter>
     </TokenContext.Provider>

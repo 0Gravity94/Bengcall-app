@@ -145,7 +145,7 @@ function ServiceTypeAdmin() {
             }
             onChangePrice={(e) => handleChange(e.target.value, "price")}
             addService={() => handleAddService()}
-            onDelete={() => handleDelete(id)}
+            // onDelete={() => handleDelete(id)}
           />
         </div>
       </div>
