@@ -196,7 +196,7 @@ function ModalComment() {
   );
 }
 
-function ModalAdminAdd() {
+function ModalAdminAdd({ onChange, addVehicle, value }) {
   return (
     <div>
       <div className="modal w-full" id="my-modal-2">
@@ -210,7 +210,8 @@ function ModalAdminAdd() {
               id="input-vehicle-type"
               type={"text"}
               className="border border-Line rounded-md text-20 text-PrimaryBlue mx-auto p-1.5 w-full bg-transparent"
-              // value={address}
+              onChange={onChange}
+              value={value}
               // onChange={(e) => setEmail(e.target.value)}
               placeholder="Input vehicle type"
             />
@@ -220,7 +221,7 @@ function ModalAdminAdd() {
               id="button-submit"
               className="border-2 border-PrimaryRed rounded-lg font-semibold text-lg text-PrimaryRed m-auto px-5 py-1 max-w-xs hover:bg-PrimaryRed hover:text-white cursor-pointer"
               label="SUBMIT"
-              // onClick={handleSubmit}
+              onClick={addVehicle}
             />
             <a href="#">
               <Button
@@ -237,13 +238,15 @@ function ModalAdminAdd() {
   );
 }
 
-function ModalAdminEdit() {
-  const vehicleOptions = [
-    { value: "revo", label: "125cc - Revo" },
-    { value: "supra", label: "125cc - Supra" },
-    { value: "vario", label: "150cc - Vario" },
-    { value: "beat", label: "150cc - Beat" },
-  ];
+function ModalAdminEdit({
+  vehicleList,
+  serviceList,
+  addService,
+  onChangeService,
+  onChangePrice,
+  valueService,
+  valuePrice,
+}) {
   return (
     <div>
       <div className="modal w-full" id="my-modal-3">
@@ -254,13 +257,15 @@ function ModalAdminEdit() {
           <div className="w-full flex flex-col md:flex-row gap-4">
             <div className="w-full md:w-1/3">
               <p>Vehicle Type</p>
-              <ReactSelect
-                id="vehicle-type"
-                options={vehicleOptions}
-                components={{
-                  CustomSelect,
-                }}
-              />
+              {vehicleList.map((data) => (
+                <ReactSelect
+                  id="vehicle-type"
+                  options={data.name_vehicle}
+                  components={{
+                    CustomSelect,
+                  }}
+                />
+              ))}
             </div>
             <div className="w-full md:w-1/3">
               <p>Service Type</p>
@@ -268,48 +273,26 @@ function ModalAdminEdit() {
                 id="input-service-type"
                 type={"text"}
                 className="border border-Line rounded-md text-20 text-PrimaryBlue mx-auto p-1.5 w-full bg-transparent"
-                // value={address}
-                // onChange={(e) => setEmail(e.target.value)}
+                value={valueService}
+                onChange={onChangeService}
                 placeholder="Input service type"
               />
-              <ul className="mt-3">
-                <li className="flex items-center justify-between">
-                  <p className="text-PrimaryBlue">Complete Service</p>
-                  <TiDelete
-                    id="btn-delete"
-                    viewBox="0 0 24 24"
-                    fill="#B3B3B3"
-                    className="w-6 h-6 cursor-pointer hover:fill-PrimaryRed"
-                  />
-                </li>
-                <li className="flex items-center justify-between">
-                  <p className="text-PrimaryBlue">Change Gear Set</p>
-                  <TiDelete
-                    id="btn-delete"
-                    viewBox="0 0 24 24"
-                    fill="#B3B3B3"
-                    className="w-6 h-6 cursor-pointer hover:fill-PrimaryRed"
-                  />
-                </li>
-                <li className="flex items-center justify-between">
-                  <p className="text-PrimaryBlue">Change Break</p>
-                  <TiDelete
-                    id="btn-delete"
-                    viewBox="0 0 24 24"
-                    fill="#B3B3B3"
-                    className="w-6 h-6 cursor-pointer hover:fill-PrimaryRed"
-                  />
-                </li>
-                <li className="flex items-center justify-between">
-                  <p className="text-PrimaryBlue">Tune Up</p>
-                  <TiDelete
-                    id="btn-delete"
-                    viewBox="0 0 24 24"
-                    fill="#B3B3B3"
-                    className="w-6 h-6 cursor-pointer hover:fill-PrimaryRed"
-                  />
-                </li>
-              </ul>
+              {serviceList.map((data) => (
+                <ul key={data.vehicle_id} className="mt-3">
+                  <li
+                    key={data.id}
+                    className="flex items-center justify-between"
+                  >
+                    <p className="text-PrimaryBlue">{data.service_name}</p>
+                    <TiDelete
+                      id="btn-delete"
+                      viewBox="0 0 24 24"
+                      fill="#B3B3B3"
+                      className="w-6 h-6 cursor-pointer hover:fill-PrimaryRed"
+                    />
+                  </li>
+                </ul>
+              ))}
             </div>
             <div className="w-full md:w-1/3">
               <p>Price</p>
@@ -317,48 +300,26 @@ function ModalAdminEdit() {
                 id="input-price"
                 type={"text"}
                 className="border border-Line rounded-md text-20 text-PrimaryBlue mx-auto p-1.5 w-full bg-transparent"
-                // value={address}
-                // onChange={(e) => setEmail(e.target.value)}
+                value={valuePrice}
+                onChange={onChangePrice}
                 placeholder="Input price"
               />
-              <ul className="mt-3">
-                <li className="flex items-center justify-between">
-                  <p className="text-PrimaryRed">Rp 45.000</p>
-                  <TiDelete
-                    id="btn-delete"
-                    viewBox="0 0 24 24"
-                    fill="#B3B3B3"
-                    className="w-6 h-6 cursor-pointer hover:fill-PrimaryRed"
-                  />
-                </li>
-                <li className="flex items-center justify-between">
-                  <p className="text-PrimaryRed">Rp 15.000</p>
-                  <TiDelete
-                    id="btn-delete"
-                    viewBox="0 0 24 24"
-                    fill="#B3B3B3"
-                    className="w-6 h-6 cursor-pointer hover:fill-PrimaryRed"
-                  />
-                </li>
-                <li className="flex items-center justify-between">
-                  <p className="text-PrimaryRed">Rp 8.000</p>
-                  <TiDelete
-                    id="btn-delete"
-                    viewBox="0 0 24 24"
-                    fill="#B3B3B3"
-                    className="w-6 h-6 cursor-pointer hover:fill-PrimaryRed"
-                  />
-                </li>
-                <li className="flex items-center justify-between">
-                  <p className="text-PrimaryRed">Rp 110.000</p>
-                  <TiDelete
-                    id="btn-delete"
-                    viewBox="0 0 24 24"
-                    fill="#B3B3B3"
-                    className="w-6 h-6 cursor-pointer hover:fill-PrimaryRed"
-                  />
-                </li>
-              </ul>
+              {serviceList.map((data) => (
+                <ul key={data.vehicle_id} className="mt-3">
+                  <li
+                    key={data.id}
+                    className="flex items-center justify-between"
+                  >
+                    <p className="text-PrimaryRed">{data.price}</p>
+                    <TiDelete
+                      id="btn-delete"
+                      viewBox="0 0 24 24"
+                      fill="#B3B3B3"
+                      className="w-6 h-6 cursor-pointer hover:fill-PrimaryRed"
+                    />
+                  </li>
+                </ul>
+              ))}
             </div>
           </div>
 
@@ -367,14 +328,13 @@ function ModalAdminEdit() {
               id="btn-submit"
               className="border-2 border-PrimaryRed rounded-lg font-semibold text-lg text-PrimaryRed px-5 py-1  hover:bg-PrimaryRed hover:text-white cursor-pointer"
               label="SUBMIT"
-              // onClick={handleSubmit}
+              onClick={addService}
             />
             <a href="#">
               <Button
                 id="btn-cancel"
                 className="border-2 border-PrimaryBlue rounded-lg font-semibold text-lg text-PrimaryBlue px-5 py-1  hover:bg-PrimaryBlue hover:text-white cursor-pointer"
                 label="CANCEL"
-                // onClick={handleSubmit}
               />
             </a>
           </div>
