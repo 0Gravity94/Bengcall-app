@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Swal from "sweetalert";
 
 import { NavbarAdmin } from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -10,12 +11,11 @@ import useTitle from "../utils/useTitle";
 import { apiRequest } from "../utils/apiRequest";
 
 function ServiceTypeAdmin() {
-  useTitle("Service List");
-
   const [vehicles, setVehicles] = useState([]);
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(false);
   const [objSubmit, setObjSubmit] = useState("");
+  useTitle("Service List");
 
   useEffect(() => {
     fetchVehicle();
