@@ -13,7 +13,7 @@ import useTitle from "../../utils/useTitle";
 
 function Login() {
   const [cookies, setCookie] = useCookies(["token"]);
-  const { setAuth } = useAuth();
+  // const { setAuth } = useAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
@@ -41,9 +41,9 @@ function Login() {
       .post("login", body)
       .then((res) => {
         const { data, message } = res.data;
-        const accessToken = data.token;
-        const roles = data.role;
-        setAuth({ email, password, roles, accessToken });
+        // const accessToken = data.token;
+        // const roles = data.role;
+        // setAuth({ email, password, roles, accessToken });
         setCookie("token", data.token, { path: "/" });
         dispatch(handleAuth(true));
         alert("You're logged in");

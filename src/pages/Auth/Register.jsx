@@ -41,7 +41,7 @@ function Register() {
         alert(message);
       })
       .catch((err) => {
-        const { message } = err.response.data;
+        const { message } = err.response;
         alert(message);
       })
       .finally(() => {
