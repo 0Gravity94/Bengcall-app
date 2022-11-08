@@ -4,43 +4,47 @@ import { CustomSelect } from "./CustomInput";
 import { default as ReactSelect } from "react-select";
 import { FiSettings } from "react-icons/fi";
 import { HiOutlineTrash } from "react-icons/hi2";
-import { ModalAdminEdit } from "./Modal";
+import { ModalAdminEdit, ModalComment } from "./Modal";
 
-function CardHistory() {
+function CardHistory({ invoice, date, price }) {
   return (
-    <div className="w-full space-x-20 flex justify-center">
-      <div className="w-3/4 p-6 border-2 border-SecondaryBlue rounded-lg bg-white shadow-lg">
-        <div className="w-full flex flex-col items-center md:flex-row md:justify-center md:items-center gap-2 md:gap-8">
-          <p className="font-bold text-PrimaryBlue">1</p>
-          <span className="md:w-1/4 flex flex-col items-center">
-            <p className="text-SecondaryBlue">Service ID</p>
-            <p className="font-bold text-2xl text-PrimaryBlue">#00001</p>
-          </span>
-          <span className="md:w-1/4 flex flex-col items-center">
-            <p className="text-SecondaryBlue">Service Date</p>
-            <p className="font-bold text-2xl text-PrimaryBlue">01/11/2022</p>
-          </span>
-          <span className="md:w-1/4 flex flex-col items-center">
-            <p className="text-SecondaryBlue">Total Price</p>
-            <p className="font-bold text-2xl text-PrimaryBlue">Rp 150.000</p>
-          </span>
-          <div className="lg:w-1/4 flex flex-col lg:flex-row gap-6">
-            <Button
-              id="btn-detail"
-              className="border-2 border-PrimaryRed rounded-lg font-semibold text-lg  px-5 py-1  bg-PrimaryRed text-white hover:bg-white hover:text-PrimaryRed cursor-pointer"
-              label="Detail"
-              // onClick={handleSubmit}
-            />
-            <Button
-              id="btn-review"
-              className="border-2 border-SecondaryBlue rounded-lg font-semibold text-lg bg-SecondaryBlue text-white px-5 py-1  hover:bg-white hover:text-SecondaryBlue cursor-pointer"
-              label="Review"
-              // onClick={handleSubmit}
-            />
+    <>
+      <div className="w-full space-x-20 flex justify-center">
+        <div className="w-3/4 p-6 border-2 border-SecondaryBlue rounded-lg bg-white shadow-lg">
+          <div className="w-full flex flex-col items-center md:flex-row md:justify-center md:items-center gap-2 md:gap-8">
+            <p className="font-bold text-PrimaryBlue">1</p>
+            <span className="md:w-1/4 flex flex-col items-center">
+              <p className="text-SecondaryBlue">Service ID</p>
+              <p className="font-bold text-2xl text-PrimaryBlue">{invoice}</p>
+            </span>
+            <span className="md:w-1/4 flex flex-col items-center">
+              <p className="text-SecondaryBlue">Service Date</p>
+              <p className="font-bold text-2xl text-PrimaryBlue">{date}</p>
+            </span>
+            <span className="md:w-1/4 flex flex-col items-center">
+              <p className="text-SecondaryBlue">Total Price</p>
+              <p className="font-bold text-2xl text-PrimaryBlue">{price}</p>
+            </span>
+            <div className="lg:w-1/4 flex flex-col lg:flex-row gap-6">
+              <Button
+                id="btn-detail"
+                className="border-2 border-PrimaryRed rounded-lg font-semibold text-lg  px-5 py-1  bg-PrimaryRed text-white hover:bg-white hover:text-PrimaryRed cursor-pointer"
+                label="Detail"
+                // onClick={handleSubmit}
+              />
+              <a href="#my-modal-2">
+                <Button
+                  id="btn-review"
+                  className="border-2 border-SecondaryBlue rounded-lg font-semibold text-lg bg-SecondaryBlue text-white px-5 py-1  hover:bg-white hover:text-SecondaryBlue cursor-pointer"
+                  label="Review"
+                />
+              </a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <ModalComment invoice={invoice} />
+    </>
   );
 }
 

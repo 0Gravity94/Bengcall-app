@@ -156,7 +156,40 @@ function ModalBookingService() {
   );
 }
 
-function ModalComment() {
+function ModalComment({ invoice }) {
+  // const handleAddComment = async (e) => {
+  //   setLoading(true);
+  //   e.preventDefault();
+  //   const formData = new FormData();
+  //   for (const key in objSubmit) {
+  //     formData.append(key, objSubmit[key]);
+  //   }
+  //   axios
+  //     .put(`comment/${id}`, objSubmit, {
+  //       headers: {
+  //         header1: { "Content-Type": "multipart/form-data" },
+  //       },
+  //     })
+  //     .then((res) => {
+  //       const { message } = res;
+  //       Swal.fire({
+  //         title: "Success",
+  //         text: message,
+  //         showCancelButton: false,
+  //       });
+  //       setObjSubmit({});
+  //     })
+  //     .catch((err) => {
+  //       const { data } = err.response;
+  //       Swal.fire({
+  //         title: "Failed",
+  //         text: data.message,
+  //         showCancelButton: false,
+  //       });
+  //     })
+  //     .finally(() => fetchData());
+  // };
+
   return (
     <div>
       <div className="modal w-full" id="my-modal-2">
@@ -164,7 +197,7 @@ function ModalComment() {
           <h3 className="font-extrabold text-2xl text-PrimaryBlue">Comments</h3>
           <div className="w-full space-y-2">
             <p className="text-PrimaryBlue font-bold">Invoice</p>
-            <p>lwlkejio1u398123y4u1h49182719dsasde313d</p>
+            <p>{invoice}</p>
           </div>
           <div className="w-full space-y-2">
             <p className="text-PrimaryBlue font-bold">Leave Comments</p>
@@ -176,17 +209,16 @@ function ModalComment() {
           </div>
           <div className="flex gap-4">
             <Button
-              id="button-submit"
+              id="btn-submit"
               className="flex justify-center items-center border-2 border-PrimaryRed rounded-lg font-semibold text-lg text-PrimaryRed m-auto px-5 py-1 max-w-xs hover:bg-PrimaryRed hover:text-white cursor-pointer"
               label="SUBMIT"
-              // onClick={handleSubmit}
+              // onClick={() => handleAddComment()}
             />
             <a href="#">
               <Button
-                id="button-submit"
+                id="btn-cancel"
                 className="flex justify-center items-center border-2 border-PrimaryBlue rounded-lg font-semibold text-lg text-PrimaryBlue m-auto px-5 py-1 max-w-xs hover:bg-PrimaryBlue hover:text-white cursor-pointer"
                 label="CANCEL"
-                // onClick={handleSubmit}
               />
             </a>
           </div>
