@@ -90,7 +90,7 @@ function CardListAdmin() {
   );
 }
 
-function CardListService() {
+function CardListService({ vehicle, service, onDelete }) {
   return (
     <div className="w-full space-x-20 flex justify-center">
       <div className="w-5/6 h-auto flex flex-col p-6 gap-2 box-border">
@@ -104,47 +104,54 @@ function CardListService() {
           <p className="w-1/4 font bold text-xl text-SecondaryBlue">Price</p>
           <span className="w-1/4"></span>
         </div>
-        <div>
-          <div className="w-full h-full flex gap-20 border-b-2">
-            <p className="w-1/4 font-bold text-xl text-PrimaryBlue">
-              125cc - Supra
-            </p>
-            <ul className="w-1/4 list-disc">
-              <li className="font-bold text-xl text-PrimaryBlue">
-                Complete Service
-              </li>
-              <li className="font-bold text-xl text-PrimaryBlue">
-                Change Gear Set
-              </li>
-              <li className="font-bold text-xl text-PrimaryBlue">
-                Change Brake
-              </li>
-              <li className="font-bold text-xl text-PrimaryBlue">Tune Up</li>
-            </ul>
-            <ul className="w-1/4">
-              <li className="font-bold text-xl text-PrimaryRed">Rp 45.000</li>
-              <li className="font-bold text-xl text-PrimaryRed">Rp 15.000</li>
-              <li className="font-bold text-xl text-PrimaryRed">Rp 8.000</li>
-              <li className="font-bold text-xl text-PrimaryRed">Rp 110.000</li>
-            </ul>
+        {vehicle.map((data) => (
+          <div key={data.id}>
+            <div className="w-full h-full flex gap-20 border-b-2">
+              <p className="w-1/4 font-bold text-xl text-PrimaryBlue">
+                {data.name_vehicle}
+              </p>
+              {service.map((data) => (
+                <>
+                  <ul key={data.vehicle_id} className="w-1/4 list-disc">
+                    <li
+                      key={data.id}
+                      className="font-bold text-xl text-PrimaryBlue"
+                    >
+                      {data.service_name}
+                    </li>
+                  </ul>
+                  <ul key={data.vehicle_id} className="w-1/4">
+                    <li
+                      key={data.id}
+                      className="font-bold text-xl text-PrimaryRed"
+                    >
+                      {data.price}
+                    </li>
+                  </ul>
+                </>
+              ))}
 
-            <span className="w-1/4 h-full flex flex-col items-center justify-center gap-4">
-              <a href="#my-modal-3">
-                <FiSettings
-                  id="btn-setting"
+              <span className="w-1/4 h-full flex flex-col items-center justify-center gap-4">
+                <a href="#my-modal-3">
+                  <FiSettings
+                    id="btn-setting"
+                    viewBox="0 0 24 24"
+                    className="w-7 h-7 cursor-pointer stroke-PrimaryBlue hover:stroke-SecondaryBlue"
+                    vehicleList={vehicle}
+                    serviceList={service}
+                  />
+                </a>
+                <HiOutlineTrash
+                  id="btn-trash"
                   viewBox="0 0 24 24"
-                  className="w-7 h-7 cursor-pointer stroke-PrimaryBlue hover:stroke-SecondaryBlue"
+                  className="w-8 h-8 cursor-pointer stroke-PrimaryRed hover:stroke-SecondaryRed"
+                  onClick={onDelete}
                 />
-              </a>
-              <HiOutlineTrash
-                id="btn-trash"
-                viewBox="0 0 24 24"
-                className="w-8 h-8 cursor-pointer stroke-PrimaryRed hover:stroke-SecondaryRed"
-              />
-              <ModalAdminEdit />
-            </span>
+                <ModalAdminEdit />
+              </span>
+            </div>
           </div>
-        </div>
+        ))}
       </div>
     </div>
   );
