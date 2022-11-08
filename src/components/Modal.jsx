@@ -1,8 +1,13 @@
-import React, { useState } from "react";
-import { CustomInput, CustomOption, CustomSelect } from "./CustomInput";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { default as ReactSelect } from "react-select";
-import Button from "./CustomButton";
 import { TiDelete } from "react-icons/ti";
+
+import Swal from "sweetalert";
+
+import { CustomInput, CustomOption, CustomSelect } from "./CustomInput";
+import Button from "./CustomButton";
+import { apiRequest } from "../utils/apiRequest";
 
 function ModalBookingService() {
   const locationOptions = [
@@ -157,38 +162,71 @@ function ModalBookingService() {
 }
 
 function ModalComment({ invoice }) {
-  // const handleAddComment = async (e) => {
-  //   setLoading(true);
-  //   e.preventDefault();
-  //   const formData = new FormData();
-  //   for (const key in objSubmit) {
-  //     formData.append(key, objSubmit[key]);
-  //   }
-  //   axios
-  //     .put(`comment/${id}`, objSubmit, {
-  //       headers: {
-  //         header1: { "Content-Type": "multipart/form-data" },
-  //       },
-  //     })
-  //     .then((res) => {
-  //       const { message } = res;
-  //       Swal.fire({
-  //         title: "Success",
-  //         text: message,
-  //         showCancelButton: false,
-  //       });
-  //       setObjSubmit({});
-  //     })
-  //     .catch((err) => {
-  //       const { data } = err.response;
-  //       Swal.fire({
-  //         title: "Failed",
-  //         text: data.message,
-  //         showCancelButton: false,
-  //       });
-  //     })
-  //     .finally(() => fetchData());
-  // };
+  const [datas, setDatas] = useState([]);
+  const [objSubmit, setObjSubmit] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = () => {
+    apiRequest("history", "get", {})
+      .then((res) => {
+        const results = res.data;
+        setDatas(results);
+      })
+      .catch((err) => {
+        const { data } = err.response;
+        alert(data.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const handleChange = (value, key) => {
+    let temp = { ...objSubmit };
+    temp[key] = value;
+    setObjSubmit(temp);
+  };
+
+  const handleAddComment = async (e) => {
+    setLoading(true);
+    e.preventDefault();
+    const formData = new FormData();
+    for (const key in objSubmit) {
+      formData.append(key, objSubmit[key]);
+    }
+    axios
+      .put(`comment/${datas.id}`, objSubmit, {
+        headers: {
+          header1: { "Content-Type": "multipart/form-data" },
+        },
+      })
+      .then((res) => {
+        const { message } = res;
+        Swal.fire({
+          title: "Success",
+          text: message,
+          showCancelButton: false,
+        });
+        setObjSubmit({});
+      })
+      .catch((err) => {
+        const { data } = err.response;
+        Swal.fire({
+          title: "Failed",
+          text: data.message,
+          showCancelButton: false,
+        });
+      })
+      .finally(() => fetchData());
+  };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
@@ -205,6 +243,7 @@ function ModalComment({ invoice }) {
               name=""
               id="input-comments"
               className="w-full h-60 bg-transparent border-2 rounded-lg p-3 text-PrimaryBlue"
+              onChange={(e) => handleChange(e.target.value)}
             ></textarea>
           </div>
           <div className="flex gap-4">
@@ -212,7 +251,7 @@ function ModalComment({ invoice }) {
               id="btn-submit"
               className="flex justify-center items-center border-2 border-PrimaryRed rounded-lg font-semibold text-lg text-PrimaryRed m-auto px-5 py-1 max-w-xs hover:bg-PrimaryRed hover:text-white cursor-pointer"
               label="SUBMIT"
-              // onClick={() => handleAddComment()}
+              onClick={() => handleAddComment()}
             />
             <a href="#">
               <Button

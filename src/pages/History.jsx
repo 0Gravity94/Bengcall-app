@@ -16,7 +16,7 @@ function History() {
   }, []);
 
   const fetchData = () => {
-    apiRequest("users", "get", {})
+    apiRequest("history", "get", {})
       .then((res) => {
         const results = res.data;
         setDatas(results);
