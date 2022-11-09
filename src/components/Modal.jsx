@@ -10,30 +10,90 @@ import Button from "./CustomButton";
 import { apiRequest } from "../utils/apiRequest";
 
 function ModalBookingService() {
-  const locationOptions = [
-    { value: "home", label: "Home Service" },
-    { value: "workshop", label: "Workshop Service" },
-  ];
-  const serviceOptions = [
-    { value: "complete-service", label: "Complete Service" },
-    { value: "gear-set", label: "Change Gear Set" },
-    { value: "brake", label: "Change Brake" },
-    { value: "tune-up", label: "Tune Up" },
-  ];
-  const vehicleOptions = [
-    { value: "revo", label: "125cc - Revo" },
-    { value: "supra", label: "125cc - Supra" },
-    { value: "vario", label: "150cc - Vario" },
-    { value: "beat", label: "150cc - Beat" },
-  ];
+  // const [datas, setDatas] = useState([]);
+  const [vehicles, setVehicles] = useState([]);
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [objSubmit, setObjSubmit] = useState("");
 
-  // const [state, setState] = useState(null);
+  // const locationOptions = [
+  //   { value: "home", label: "Home Service" },
+  //   { value: "workshop", label: "Workshop Service" },
+  // ];
 
-  // const handleChange = (selected) => {
-  //   setState({
-  //     optionSelected: selected,
-  //   });
-  // };
+  const handleBookService = async () => {
+    setLoading(true);
+    const formData = new FormData();
+    for (const key in objSubmit) {
+      formData.append(key, objSubmit[key]);
+    }
+    apiRequest("transaction", "post", objSubmit, "multipart/form-data")
+      .then((res) => {
+        alert("Service Booked");
+        setObjSubmit({});
+      })
+      .catch((err) => {
+        alert(err);
+      })
+      .finally(() => setLoading(false));
+  };
+
+  const handleChange = (value, key) => {
+    let temp = { ...objSubmit };
+    temp[key] = value;
+    setObjSubmit(temp);
+    console.log(temp);
+  };
+
+  useEffect(() => {
+    fetchVehicles();
+    fetchService();
+  }, []);
+
+  function fetchVehicles() {
+    axios
+      .get(`https://project-edu.online/vehicle`)
+      .then((res) => {
+        const { data } = res.data;
+        const temp = [...vehicles];
+        temp.push(...data);
+        setVehicles(temp);
+        console.log(vehicles);
+      })
+      .catch((err) => {
+        alert(err.toString());
+      });
+  }
+
+  function fetchService() {
+    axios
+      .get(`https://project-edu.online/service/41`)
+      .then((res) => {
+        const { data } = res.data;
+        const temp = [...services];
+        temp.push(...data);
+        setServices(temp);
+        console.log(services);
+      })
+      .catch((err) => {
+        alert(err.toString());
+      });
+  }
+
+  // function fetchData() {
+  //   axios
+  //     .get(`https://project-edu.online/trans`)
+  //     .then((res) => {
+  //       const { data } = res.data;
+  //       const temp = [...vehicles];
+  //       temp.push(...data);
+  //       setVehicles(temp);
+  //       console.log(vehicles);
+  //     })
+  //     .catch((err) => {
+  //       alert(err.toString());
+  //     });
+  // }
 
   return (
     <div>
@@ -55,8 +115,8 @@ function ModalBookingService() {
                   id="input-phone"
                   type={"tel"}
                   className="border border-Line rounded-md text-20 mx-auto p-1.5 w-full bg-transparent"
-                  // value={phonenumber}
-                  // onChange={(e) => setEmail(e.target.value)}
+                  value={objSubmit.phone}
+                  onChange={(e) => handleChange(e.target.value, "phone")}
                   placeholder="Input phonenumber"
                 />
                 <p className="text-xs italic">Minimum 10 characters with "0"</p>
@@ -67,8 +127,8 @@ function ModalBookingService() {
                   id="input-address"
                   type={"text"}
                   className="border border-Line rounded-md text-20 mx-auto p-1.5 w-full bg-transparent"
-                  // value={address}
-                  // onChange={(e) => setEmail(e.target.value)}
+                  value={objSubmit.address}
+                  onChange={(e) => handleChange(e.target.value, "address")}
                   placeholder="Input address"
                 />
               </div>
@@ -78,8 +138,8 @@ function ModalBookingService() {
                   id="input-date"
                   type={"date"}
                   className="border border-Line rounded-md text-20 mx-auto p-1.5 w-full bg-transparent"
-                  // value={email}
-                  // onChange={(e) => setEmail(e.target.value)}
+                  value={objSubmit.date}
+                  onChange={(e) => handleChange(e.target.value, "date")}
                   placeholder="Input date"
                 />
               </div>
@@ -87,23 +147,45 @@ function ModalBookingService() {
             <div className="w-full md:w-1/2 flex flex-col gap-1">
               <div className="p-1 h-20">
                 <p className="text-PrimaryBlue">Service Location</p>
-                <ReactSelect
+                <select
+                  placeholder="Select Vehicle"
+                  className="w-full h-10 border border-Line rounded-md"
+                  onChange={(e) => handleChange(e.target.value, "location")}
+                  value={objSubmit.location}
+                >
+                  <option>1</option>
+                  <option>2</option>
+                </select>
+                {/* <ReactSelect
                   id="service-location"
                   options={locationOptions}
                   components={{
                     CustomSelect,
                   }}
-                />
+                  value={objSubmit.location}
+                  onChange={(e) => handleChange(e.target.value)}
+                /> */}
               </div>
               <div className="p-1 h-20">
                 <p className="text-PrimaryBlue">Vehicle Type</p>
-                <ReactSelect
+                <select
+                  placeholder="Select Vehicle"
+                  className="w-full h-10 border border-Line rounded-md"
+                  onChange={(e) => handleChange(e.target.value, "vehicle")}
+                  value={objSubmit.detail}
+                >
+                  {vehicles.map((detail) => (
+                    <option id={detail.id}>{detail.name_vehicle}</option>
+                  ))}
+                </select>
+
+                {/* <ReactSelect
                   id="vehicle-type"
                   options={vehicleOptions}
                   components={{
                     CustomSelect,
                   }}
-                />
+                /> */}
               </div>
               <div className="p-1 h-20">
                 <p className="text-PrimaryBlue">Service Type</p>
@@ -113,9 +195,19 @@ function ModalBookingService() {
                   data-trigger="focus"
                   data-content="Please selecet account(s)"
                 >
-                  <ReactSelect
+                  <select
+                    placeholder="Select Vehicle"
+                    className="w-full h-10 border border-Line rounded-md"
+                    value={objSubmit.detail}
+                    onChange={(e) => handleChange(e.target.value, "service")}
+                  >
+                    {services.map((detail) => (
+                      <option id={detail.id}>{detail.name_service}</option>
+                    ))}
+                  </select>
+                  {/* <ReactSelect
                     id="service-type"
-                    options={serviceOptions}
+                    // options={serviceOptions}
                     isMulti
                     closeMenuOnSelect={false}
                     hideSelectedOptions={false}
@@ -125,7 +217,7 @@ function ModalBookingService() {
                     // onChange={handleChange}
                     allowSelectAll={true}
                     // value={state.optionSelected}
-                  />
+                  /> */}
                 </span>
               </div>
               <div className="p-1 h-20">
@@ -135,6 +227,8 @@ function ModalBookingService() {
                   type={"text"}
                   className="border border-Line rounded-md text-20 mx-auto p-1.5 w-full bg-transparent"
                   placeholder="Input request"
+                  value={objSubmit.other}
+                  onChange={(e) => handleChange(e.target.value, "other")}
                 />
               </div>
             </div>
@@ -144,14 +238,13 @@ function ModalBookingService() {
               id="button-submit"
               className="flex justify-center items-center border border-PrimaryRed rounded-lg font-semibold text-lg text-PrimaryRed m-auto px-5 py-1 max-w-xs hover:bg-PrimaryRed hover:text-white cursor-pointer"
               label="SUBMIT"
-              // onClick={handleSubmit}
+              onClick={handleBookService}
             />
             <a href="#">
               <Button
                 id="button-cancel"
                 className="flex justify-center items-center border border-PrimaryBlue rounded-lg font-semibold text-lg text-PrimaryBlue m-auto px-5 py-1 max-w-xs hover:bg-PrimaryBlue hover:text-white cursor-pointer"
                 label="CANCEL"
-                // onClick={handleSubmit}
               />
             </a>
           </div>
