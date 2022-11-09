@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import swal from "sweetalert";
 import { useDispatch } from "react-redux";
 import { useCookies } from "react-cookie";
-import useAuth from "../../utils/hooks/useAuth";
 
 import { handleAuth } from "../../utils/redux/reducers/reducer";
 import { CustomInput } from "../../components/CustomInput";
@@ -13,13 +13,13 @@ import useTitle from "../../utils/useTitle";
 
 function Login() {
   const [cookies, setCookie] = useCookies(["token"]);
-  // const { setAuth } = useAuth();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
+
   useTitle("Login");
 
   useEffect(() => {
@@ -41,10 +41,8 @@ function Login() {
       .post("login", body)
       .then((res) => {
         const { data, message } = res.data;
-        // const accessToken = data.token;
-        // const roles = data.role;
-        // setAuth({ email, password, roles, accessToken });
         setCookie("token", data.token, { path: "/" });
+        setCookie("role", data.role, { path: "/" });
         dispatch(handleAuth(true));
         alert("You're logged in");
         if (data?.role === 1) {
@@ -54,18 +52,24 @@ function Login() {
         }
       })
       .catch((err) => {
-        const { data } = err.response;
-        alert("Error");
+        // const { data } = err.response;
+        // if (err.response?.status === 400) {
+        //   swal("Email or Password Should Not Be Empty");
+        // } else if (err.response?.status === 404) {
+        //   swal("Wrong Email or Password");
+        // } else {
+        //   swal("Internal Server Error");
+        // }
       })
       .finally(() => setLoading(false));
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 bg-white">
       <div className="hidden md:flex lg:flex w-full h-full">
         <img src={LogReg} alt="Bengcall" className="w-full" />
       </div>
-      <div className="flex flex-wrap justify-center bg-white w-full h-screen mt-28 px-2">
+      <div className="flex flex-wrap justify-center w-full h-screen mt-28 px-2">
         <div>
           <h1 className="font-bold text-5xl text-center text-PrimaryBlue my-14">
             Sign In
@@ -75,12 +79,14 @@ function Login() {
               Email
             </label>
             <CustomInput
+              name="email"
               id="email"
               type="email"
               className="border border-Line rounded-md text-20 mx-auto mt-2.5 mb-7 p-4 w-full h-14 max-w-md"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Input email"
+              required
             />
             <br />
             <label className="font-semibold text-2xl text-PrimaryBlue">
@@ -93,6 +99,7 @@ function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Input password"
+              required
             />
             <p className="text-base lg:text-xl text-center mt-7 mb-10">
               Don’t have an account?{" "}
