@@ -169,9 +169,8 @@ function NavbarAdmin() {
           </a>
         </div>
         <div className="mr-6">
-          <button className="btn btn-square btn-ghost">
+          <button id="btn-logout" className="btn btn-square btn-ghost">
             <HiArrowLeftOnRectangle
-              id="btn-logout"
               strokeWidth={2}
               stroke="#C1121F"
               viewBox="0 0 24 24"
