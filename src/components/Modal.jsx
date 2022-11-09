@@ -332,10 +332,6 @@ function ModalComment({ invoice }) {
       .finally(() => fetchData());
   };
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <div>
       <div className="modal w-full" id="my-modal-2">
@@ -417,15 +413,83 @@ function ModalAdminAdd({ onChange, addVehicle, value }) {
   );
 }
 
-function ModalAdminEdit({
-  vehicleList,
-  serviceList,
-  addService,
-  onChangeService,
-  onChangePrice,
-  valueService,
-  valuePrice,
-}) {
+function ModalAdminEdit() {
+  // {
+  // vehicleList,
+  // serviceList,
+  // addService,
+  // onChangeService,
+  // onChangePrice,
+  // valueService,
+  // valuePrice,
+  // }
+
+  const [vehicles, setVehicles] = useState([]);
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [objSubmit, setObjSubmit] = useState("");
+
+  useEffect(() => {
+    fetchVehicle();
+    fetchService();
+  }, []);
+
+  const fetchVehicle = () => {
+    apiRequest("vehicle", "get", {})
+      .then((res) => {
+        const results = res.data;
+        setVehicles(results);
+      })
+      .catch((err) => {
+        const { data } = err.response;
+        alert(data.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const fetchService = () => {
+    apiRequest("service/:id", "get", {})
+      .then((res) => {
+        const results = res.data;
+        setServices(results);
+      })
+      .catch((err) => {
+        const { data } = err.response;
+        alert(data.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const handleAddService = async () => {
+    setLoading(true);
+    const formData = new FormData();
+    for (const key in objSubmit) {
+      formData.append(key, objSubmit[key]);
+    }
+    apiRequest("admin/service", "post", objSubmit, "multipart/form-data")
+      .then((res) => {
+        alert("New Service Added");
+        setObjSubmit({});
+      })
+      .catch((err) => {
+        alert(err);
+      })
+      .finally(() => {
+        fetchService();
+        setLoading(false);
+      });
+  };
+
+  const handleChange = (value, key) => {
+    let temp = { ...objSubmit };
+    temp[key] = value;
+    setObjSubmit(temp);
+  };
+
   return (
     <div>
       <div className="modal w-full" id="my-modal-3">
@@ -436,8 +500,9 @@ function ModalAdminEdit({
           <div className="w-full flex flex-col md:flex-row gap-4">
             <div className="w-full md:w-1/3">
               <p>Vehicle Type</p>
-              {vehicleList.map((data) => (
+              {vehicles.map((data) => (
                 <ReactSelect
+                  key={data.id}
                   id="vehicle-type"
                   options={data.name_vehicle}
                   components={{
@@ -452,11 +517,11 @@ function ModalAdminEdit({
                 id="input-service-type"
                 type={"text"}
                 className="border border-Line rounded-md text-20 text-PrimaryBlue mx-auto p-1.5 w-full bg-transparent"
-                value={valueService}
-                onChange={onChangeService}
+                value={objSubmit.service_name}
+                onChange={(e) => handleChange(e.target.value, "service_name")}
                 placeholder="Input service type"
               />
-              {serviceList.map((data) => (
+              {services.map((data) => (
                 <ul key={data.vehicle_id} className="mt-3">
                   <li
                     key={data.id}
@@ -479,11 +544,11 @@ function ModalAdminEdit({
                 id="input-price"
                 type={"text"}
                 className="border border-Line rounded-md text-20 text-PrimaryBlue mx-auto p-1.5 w-full bg-transparent"
-                value={valuePrice}
-                onChange={onChangePrice}
+                value={objSubmit.price}
+                onChange={(e) => handleChange(e.target.value, "price")}
                 placeholder="Input price"
               />
-              {serviceList.map((data) => (
+              {services.map((data) => (
                 <ul key={data.vehicle_id} className="mt-3">
                   <li
                     key={data.id}
@@ -507,7 +572,7 @@ function ModalAdminEdit({
               id="btn-submit"
               className="border-2 border-PrimaryRed rounded-lg font-semibold text-lg text-PrimaryRed px-5 py-1  hover:bg-PrimaryRed hover:text-white cursor-pointer"
               label="SUBMIT"
-              onClick={addService}
+              onClick={() => handleAddService()}
             />
             <a href="#">
               <Button

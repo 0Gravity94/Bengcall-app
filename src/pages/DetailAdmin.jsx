@@ -1,20 +1,93 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import { CustomInput } from "../components/CustomInput";
 import Button from "../components/CustomButton";
 import Layout from "../components/Layout";
 
-function DetailAdmin() {
+import { apiRequest } from "../utils/apiRequest";
+import useTitle from "../utils/useTitle";
+import { WithRouter } from "../utils/Navigation";
+
+function DetailAdmin(props) {
+  useTitle("Order Detail");
+
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [objSubmit, setObjSubmit] = useState("");
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = () => {
+    const { id } = props.params;
+    apiRequest(`transaction/${id}`, "get", {})
+      .then((res) => {
+        const results = res.data;
+        setData(results);
+      })
+      .catch((err) => {
+        const { data } = err.response;
+        alert(data.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  // const handleSubmit = async (e) => {
+  //   setLoading(true);
+  //   e.preventDefault();
+  //   const formData = new FormData();
+  //   for (const key in objSubmit) {
+  //     formData.append(key, objSubmit[key]);
+  //   }
+  //   axios
+  //     .put(`admin/transaction/${id}`, objSubmit, {
+  //       headers: {
+  //         header1: { "Content-Type": "multipart/form-data" },
+  //       },
+  //     })
+  //     .then((res) => {
+  //       const { message } = res;
+  //       MySwal.fire({
+  //         title: "Success",
+  //         text: message,
+  //         showCancelButton: false,
+  //       });
+  //       setObjSubmit({});
+  //     })
+  //     .catch((err) => {
+  //       const { data } = err.response;
+  //       MySwal.fire({
+  //         title: "Failed",
+  //         text: data.message,
+  //         showCancelButton: false,
+  //       });
+  //     })
+  //     .finally(() => fetchData());
+  // };
+
+  // const handleChange = (value, key) => {
+  //   let temp = { ...objSubmit };
+  //   temp[key] = value;
+  //   setObjSubmit(temp);
+  // };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <Layout>
+    <Layout key={data.id}>
       <div>
         <div className="p-2 lg:px-12 lg:pt-10 lg:pb-16 mx-2 lg:mx-10 my-10 lg:mt-24 border border-SecondaryBlue drop-shadow-md shadow-SecondaryBlue rounded-lg max-w-max min-h-fit">
           <div className="flex justify-between">
             <p className="text-base lg:text-2xl text-SecondaryBlue">
-              #00001: Handoko
+              {data.id}: {data.fullname}
             </p>
             <p className="text-base lg:text-2xl text-SecondaryBlue">
-              01/11/2022
+              {data.date}
             </p>
           </div>
           <div className="grid grid-flow-row lg:grid-rows-4 lg:grid-flow-col justify-evenly my-10 gap-x-10">
@@ -23,7 +96,7 @@ function DetailAdmin() {
                 Address
               </p>
               <p className="w-40 lg:w-80 text-base lg:text-3xl text-PrimaryBlue font-bold">
-                : Jl. Pahlawan No. 32 Surabaya
+                : {data.address}
               </p>
             </div>
             <div className="flex flex-wrap my-2 lg:my-5">
@@ -31,7 +104,7 @@ function DetailAdmin() {
                 Service Type
               </p>
               <p className="text-base lg:text-3xl text-PrimaryBlue font-bold">
-                : Ganti Oli
+                : {data.service}
               </p>
             </div>
             <div className="flex flex-wrap my-2 lg:my-5">
@@ -71,7 +144,7 @@ function DetailAdmin() {
                 Estimate Price
               </p>
               <p className="text-base lg:text-3xl text-PrimaryBlue font-bold">
-                Rp 123.000
+                {/* Rp 123.000 */}
               </p>
             </div>
             <div className="flex flex-wrap justify-between border border-x-white border-t-white border-b-SecondaryBlue my-2 lg:my-5">
@@ -79,7 +152,7 @@ function DetailAdmin() {
                 Add. Price
               </p>
               <p className=" text-base lg:text-3xl text-PrimaryBlue font-bold">
-                Rp 27.000
+                {/* Rp 27.000 */}
               </p>
             </div>
             <div className="flex flex-wrap justify-between my-2 lg:my-5">
@@ -87,12 +160,12 @@ function DetailAdmin() {
                 Total Price
               </p>
               <p className="text-base lg:text-3xl text-PrimaryBlue font-bold">
-                Rp 150.000
+                {data.total}
               </p>
             </div>
             <div className="flex flex-wrap my-2 lg:my-5">
               <p className="text-base lg:text-2xl text-SecondaryBlue italic">
-                Note: Addition price for changing the oil and front lamp
+                {/* Note: Addition price for changing the oil and front lamp */}
               </p>
             </div>
           </div>
@@ -108,4 +181,4 @@ function DetailAdmin() {
   );
 }
 
-export default DetailAdmin;
+export default WithRouter(DetailAdmin);

@@ -9,17 +9,18 @@ import { ModalAdminAdd } from "../components/Modal";
 
 import useTitle from "../utils/useTitle";
 import { apiRequest } from "../utils/apiRequest";
+import { WithRouter } from "../utils/Navigation";
 
-function ServiceTypeAdmin() {
+function ServiceTypeAdmin(props) {
   const [vehicles, setVehicles] = useState([]);
   const [services, setServices] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [objSubmit, setObjSubmit] = useState("");
   useTitle("Service List");
 
   useEffect(() => {
     fetchVehicle();
-    fetchService();
+    // fetchService();
   }, []);
 
   const fetchVehicle = () => {
@@ -37,20 +38,22 @@ function ServiceTypeAdmin() {
       });
   };
 
-  const fetchService = () => {
-    apiRequest("service/:id", "get", {})
-      .then((res) => {
-        const results = res.data;
-        setServices(results);
-      })
-      .catch((err) => {
-        const { data } = err.response;
-        alert(data.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
+  // const fetchService = () => {
+  //   const { id } = props.params;
+  //   apiRequest(`service/${id}`, "get", {})
+  //     .then((res) => {
+  //       const results = res.data;
+  //       console.log(res);
+  //       setServices(results);
+  //     })
+  //     .catch((err) => {
+  //       const { data } = err.response;
+  //       alert(data.message);
+  //     })
+  //     .finally(() => {
+  //       setLoading(false);
+  //     });
+  // };
 
   const handleAddVehicle = async () => {
     setLoading(true);
@@ -66,24 +69,10 @@ function ServiceTypeAdmin() {
       .catch((err) => {
         alert(err);
       })
-      .finally(() => setLoading(false));
-  };
-
-  const handleAddService = async () => {
-    setLoading(true);
-    const formData = new FormData();
-    for (const key in objSubmit) {
-      formData.append(key, objSubmit[key]);
-    }
-    apiRequest("admin/service", "post", objSubmit, "multipart/form-data")
-      .then((res) => {
-        alert("New Service Added");
-        setObjSubmit({});
-      })
-      .catch((err) => {
-        alert(err);
-      })
-      .finally(() => setLoading(false));
+      .finally(() => {
+        fetchVehicle();
+        setLoading(false);
+      });
   };
 
   const handleChange = (value, key) => {
@@ -93,27 +82,22 @@ function ServiceTypeAdmin() {
   };
 
   const handleDelete = async (id) => {
-    apiRequest(`admin/service/${id}`, "delete")
+    apiRequest(`admin/vehicle/${id}`, "delete")
       .then((res) => {
-        if (res.isConfirmed)
-          Swal.fire({
-            text: "Class Succesfully Deleted",
-            icon: "success",
-            showCancelButton: false,
-            confirmButtonColor: "#3085d6",
-          });
+        alert(res.message);
       })
       .catch((err) => {
-        Swal.fire({
-          icon: "error",
-          text: "There is problem on server.",
-        });
+        alert(err.message);
       })
       .finally(() => {
         fetchVehicle();
-        fetchService();
+        setLoading(false);
       });
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <>
@@ -129,6 +113,7 @@ function ServiceTypeAdmin() {
                 // onClick={handleSubmit}
               />
             </a>
+
             <ModalAdminAdd
               value={objSubmit.name_vehicle}
               onChange={(e) => handleChange(e.target.value, "name_vehicle")}
@@ -137,15 +122,8 @@ function ServiceTypeAdmin() {
           </div>
           <CardListService
             vehicle={vehicles}
-            service={services}
-            valueService={objSubmit.service_name}
-            valuePrice={objSubmit.price}
-            onChangeService={(e) =>
-              handleChange(e.target.value, "service_name")
-            }
-            onChangePrice={(e) => handleChange(e.target.value, "price")}
-            addService={() => handleAddService()}
-            // onDelete={() => handleDelete(id)}
+            // service={services}
+            onDelete={(id) => handleDelete(id)}
           />
         </div>
       </div>
@@ -154,4 +132,4 @@ function ServiceTypeAdmin() {
   );
 }
 
-export default ServiceTypeAdmin;
+export default WithRouter(ServiceTypeAdmin);
