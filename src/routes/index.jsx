@@ -5,7 +5,6 @@ import axios from "axios";
 import { useCookies } from "react-cookie";
 
 import { TokenContext } from "../utils/context";
-import RequireAuth from "../components/RequireAuth";
 import { handleAuth } from "../utils/redux/reducers/reducer";
 
 import Login from "../pages/Auth/Login";
@@ -19,10 +18,6 @@ import DetailAdmin from "../pages/DetailAdmin";
 import ServiceTypeAdmin from "../pages/ServiceTypeAdmin";
 
 axios.defaults.baseURL = "https://project-edu.online/";
-// const ROLES = {
-//   User: 0,
-//   Admin: 1,
-// };
 
 function App() {
   const [cookie, removeCookie] = useCookies();
@@ -30,6 +25,7 @@ function App() {
   const [token, setToken] = useState(null);
   const jwtToken = useMemo(() => ({ token, setToken }), [token]);
   const checkToken = cookie.token;
+  const role = cookie.role;
 
   axios.interceptors.response.use(
     function (response) {
@@ -64,43 +60,126 @@ function App() {
         <Routes>
           <Route index element={<Login />} />
 
-          {/* <Route element={<RequireAuth allowedRoles={[ROLES.User]} />}> */}
-          <Route
-            path="/"
-            element={checkToken ? <Navigate to="/home" /> : <Login />}
-          />
-          {/* </Route> */}
-
-          {/* <Route element={<RequireAuth allowedRoles={[ROLES.Admin]} />}> */}
           <Route
             path="/"
             element={
-              checkToken ? <Navigate to="/dashboard" /> : <DashboardAdmin />
+              checkToken ? (
+                role === "1" ? (
+                  <Navigate to="/dashboard" />
+                ) : (
+                  <Navigate to="/home" />
+                )
+              ) : (
+                <Login />
+              )
             }
           />
-          {/* </Route> */}
-
           <Route path="/register" element={<Register />} />
 
-          <Route path="/home" element={<HomePage />} />
+          <Route
+            path="/home"
+            element={
+              checkToken ? (
+                role === "0" ? (
+                  <HomePage />
+                ) : (
+                  <DashboardAdmin />
+                )
+              ) : (
+                <Login />
+              )
+            }
+          />
 
-          <Route path="/myprofile" element={<MyProfile />} />
+          <Route
+            path="/myprofile"
+            element={
+              checkToken ? (
+                role === "0" ? (
+                  <MyProfile />
+                ) : (
+                  <DashboardAdmin />
+                )
+              ) : (
+                <Login />
+              )
+            }
+          />
 
-          <Route path="/detail/:id" element={<DetailCustomer />} />
+          <Route
+            path="/detail/:id"
+            element={
+              checkToken ? (
+                role === "0" ? (
+                  <DetailCustomer />
+                ) : (
+                  <DashboardAdmin />
+                )
+              ) : (
+                <Login />
+              )
+            }
+          />
 
-          <Route path="/history" element={<History />} />
+          <Route
+            path="/history"
+            element={
+              checkToken ? (
+                role === "0" ? (
+                  <History />
+                ) : (
+                  <DashboardAdmin />
+                )
+              ) : (
+                <Login />
+              )
+            }
+          />
 
-          {/* <Route element={<RequireAuth allowedRole={[ROLES.Admin]} />}> */}
-          <Route path="/detailadmin/:id" element={<DetailAdmin />} />
-          {/* </Route> */}
+          <Route
+            path="/dashboard"
+            element={
+              checkToken ? (
+                role === "1" ? (
+                  <DashboardAdmin />
+                ) : (
+                  <HomePage />
+                )
+              ) : (
+                <Login />
+              )
+            }
+          />
 
-          {/* <Route element={<RequireAuth allowedRole={[ROLES.Admin]} />}> */}
-          <Route path="/dashboard" element={<DashboardAdmin />} />
-          {/* </Route> */}
+          <Route
+            path="/detailadmin/:id"
+            element={
+              checkToken ? (
+                role === "1" ? (
+                  <DetailAdmin />
+                ) : (
+                  <HomePage />
+                )
+              ) : (
+                <Login />
+              )
+            }
+          />
 
-          {/* <Route element={<RequireAuth allowedRole={[ROLES.Admin]} />}> */}
-          <Route path="/service-type" element={<ServiceTypeAdmin />} />
-          {/* </Route> */}
+          <Route
+            path="/service-type"
+            element={
+              checkToken ? (
+                role === "1" ? (
+                  <ServiceTypeAdmin />
+                ) : (
+                  <HomePage />
+                )
+              ) : (
+                <Login />
+              )
+            }
+          />
         </Routes>
       </BrowserRouter>
     </TokenContext.Provider>

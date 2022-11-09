@@ -10,45 +10,67 @@ import Button from "./CustomButton";
 import { apiRequest } from "../utils/apiRequest";
 
 function ModalBookingService() {
-  // const [datas, setDatas] = useState([]);
+  const [fullName, setFullName] = useState("");
   const [vehicles, setVehicles] = useState([]);
   const [services, setServices] = useState([]);
+  const [phone, setPhone] = useState("");
+  const [date, setDate] = useState("");
+  const [address, setAddress] = useState("");
+  const [location, setLocation] = useState("");
+  const [detail, setDetail] = useState([]);
+  const [vehicle_id, setVehicle_id] = useState("");
+  const [service_id, setService_id] = useState("");
+  const [other, setOther] = useState("");
   const [loading, setLoading] = useState(true);
-  const [objSubmit, setObjSubmit] = useState("");
-
-  // const locationOptions = [
-  //   { value: "home", label: "Home Service" },
-  //   { value: "workshop", label: "Workshop Service" },
-  // ];
-
-  const handleBookService = async () => {
-    setLoading(true);
-    const formData = new FormData();
-    for (const key in objSubmit) {
-      formData.append(key, objSubmit[key]);
-    }
-    apiRequest("transaction", "post", objSubmit, "multipart/form-data")
-      .then((res) => {
-        alert("Service Booked");
-        setObjSubmit({});
-      })
-      .catch((err) => {
-        alert(err);
-      })
-      .finally(() => setLoading(false));
-  };
-
-  const handleChange = (value, key) => {
-    let temp = { ...objSubmit };
-    temp[key] = value;
-    setObjSubmit(temp);
-    console.log(temp);
-  };
 
   useEffect(() => {
     fetchVehicles();
     fetchService();
+    fetchData();
   }, []);
+
+  const handleBookService = async (e) => {
+    setLoading(true);
+    e.preventDefault();
+    const body = {
+      phone: phone,
+      date: date,
+      address: address,
+      location: location,
+      detail: [
+        {
+          vehicle_id,
+          service_id,
+        },
+      ],
+    };
+    apiRequest("transaction", "post", body, "application/json")
+      .then((res) => {
+        const { data } = res.data;
+        console.log(data);
+        alert("Service Booked");
+      })
+      .catch((err) => {
+        const { data } = err.response;
+        alert("Error");
+      })
+      .finally(() => setLoading(false));
+  };
+
+  const fetchData = () => {
+    apiRequest("users", "get", {})
+      .then((res) => {
+        const { fullname } = res.data;
+        setFullName(fullname);
+      })
+      .catch((err) => {
+        const { data } = err.response;
+        alert(data.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
 
   function fetchVehicles() {
     axios
@@ -80,21 +102,6 @@ function ModalBookingService() {
       });
   }
 
-  // function fetchData() {
-  //   axios
-  //     .get(`https://project-edu.online/trans`)
-  //     .then((res) => {
-  //       const { data } = res.data;
-  //       const temp = [...vehicles];
-  //       temp.push(...data);
-  //       setVehicles(temp);
-  //       console.log(vehicles);
-  //     })
-  //     .catch((err) => {
-  //       alert(err.toString());
-  //     });
-  // }
-
   return (
     <div>
       <div className="modal w-full" id="modal-booking">
@@ -107,7 +114,7 @@ function ModalBookingService() {
             <div className="w-full md:w-1/2 flex flex-col gap-1">
               <div className="p-1 h-20">
                 <p className="text-PrimaryBlue">Fullname</p>
-                <p className="text-xl font-bold text-PrimaryBlue">Handoko</p>
+                <p className="text-xl font-bold text-PrimaryBlue">{fullName}</p>
               </div>
               <div className="p-1 h-20">
                 <p className="text-PrimaryBlue">Phone</p>
@@ -115,8 +122,10 @@ function ModalBookingService() {
                   id="input-phone"
                   type={"tel"}
                   className="border border-Line rounded-md text-20 mx-auto p-1.5 w-full bg-transparent"
-                  value={objSubmit.phone}
-                  onChange={(e) => handleChange(e.target.value, "phone")}
+                  // value={objSubmit.phone}
+                  // onChange={(e) => handleChange(e.target.value, "phone")}
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
                   placeholder="Input phonenumber"
                 />
                 <p className="text-xs italic">Minimum 10 characters with "0"</p>
@@ -127,8 +136,10 @@ function ModalBookingService() {
                   id="input-address"
                   type={"text"}
                   className="border border-Line rounded-md text-20 mx-auto p-1.5 w-full bg-transparent"
-                  value={objSubmit.address}
-                  onChange={(e) => handleChange(e.target.value, "address")}
+                  // value={objSubmit.address}
+                  // onChange={(e) => handleChange(e.target.value, "address")}
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
                   placeholder="Input address"
                 />
               </div>
@@ -138,8 +149,10 @@ function ModalBookingService() {
                   id="input-date"
                   type={"date"}
                   className="border border-Line rounded-md text-20 mx-auto p-1.5 w-full bg-transparent"
-                  value={objSubmit.date}
-                  onChange={(e) => handleChange(e.target.value, "date")}
+                  // value={objSubmit.date}
+                  // onChange={(e) => handleChange(e.target.value, "date")}
+                  value={date}
+                  onChange={(e) => setDate(e.target.value)}
                   placeholder="Input date"
                 />
               </div>
@@ -148,20 +161,17 @@ function ModalBookingService() {
               <div className="p-1 h-20">
                 <p className="text-PrimaryBlue">Service Location</p>
                 <select
-                  placeholder="Select Vehicle"
+                  placeholder="Select Location"
                   className="w-full h-10 border border-Line rounded-md"
-                  onChange={(e) => handleChange(e.target.value, "location")}
-                  value={objSubmit.location}
+                  // onChange={(e) => handleChange(e.target.value, "location")}
+                  // value={objSubmit.location}
+                  value={location}
+                  onChange={(e) => setLocation(e.target.value)}
                 >
                   <option>1</option>
                   <option>2</option>
                 </select>
-                {/* <ReactSelect
-                  id="service-location"
-                  options={locationOptions}
-                  components={{
-                    CustomSelect,
-                  }}
+                {/* 
                   value={objSubmit.location}
                   onChange={(e) => handleChange(e.target.value)}
                 /> */}
@@ -169,23 +179,22 @@ function ModalBookingService() {
               <div className="p-1 h-20">
                 <p className="text-PrimaryBlue">Vehicle Type</p>
                 <select
+                  id="select-vehicle"
                   placeholder="Select Vehicle"
                   className="w-full h-10 border border-Line rounded-md"
-                  onChange={(e) => handleChange(e.target.value, "vehicle")}
-                  value={objSubmit.detail}
+                  // onChange={(e) =>
+                  //   handleChange(e.target.value, objSubmit.detail["vehicle_id"])
+                  // }
+                  // value={objSubmit.detail}
+                  value={detail[vehicle_id]}
+                  onChange={(e) => setDetail(e.target.value)}
                 >
                   {vehicles.map((detail) => (
-                    <option id={detail.id}>{detail.name_vehicle}</option>
+                    <option id={detail.id} value={detail.id}>
+                      {detail.name_vehicle}
+                    </option>
                   ))}
                 </select>
-
-                {/* <ReactSelect
-                  id="vehicle-type"
-                  options={vehicleOptions}
-                  components={{
-                    CustomSelect,
-                  }}
-                /> */}
               </div>
               <div className="p-1 h-20">
                 <p className="text-PrimaryBlue">Service Type</p>
@@ -198,14 +207,18 @@ function ModalBookingService() {
                   <select
                     placeholder="Select Vehicle"
                     className="w-full h-10 border border-Line rounded-md"
-                    value={objSubmit.detail}
-                    onChange={(e) => handleChange(e.target.value, "service")}
+                    // value={objSubmit["detail"]}
+                    // onChange={(e) => handleChange(e.target.value, "service")}
+                    value={detail[service_id]}
+                    onChange={(e) => setDetail(e.target.value)}
                   >
                     {services.map((detail) => (
-                      <option id={detail.id}>{detail.name_service}</option>
+                      <option id={detail.id} value={detail.service_name}>
+                        {detail.service_name}
+                      </option>
                     ))}
                   </select>
-                  {/* <ReactSelect
+                  {/* <ReactSelect 
                     id="service-type"
                     // options={serviceOptions}
                     isMulti
@@ -227,8 +240,10 @@ function ModalBookingService() {
                   type={"text"}
                   className="border border-Line rounded-md text-20 mx-auto p-1.5 w-full bg-transparent"
                   placeholder="Input request"
-                  value={objSubmit.other}
-                  onChange={(e) => handleChange(e.target.value, "other")}
+                  // value={objSubmit.other}
+                  // onChange={(e) => handleChange(e.target.value, "other")}
+                  value={other}
+                  onChange={(e) => setOther(e.target.value)}
                 />
               </div>
             </div>
