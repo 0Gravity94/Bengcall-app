@@ -60,9 +60,9 @@ function CardListAdmin({
   onNavigate,
 }) {
   const statusOptions = [
-    { value: "on-the-way", label: "On The Way" },
-    { value: "service-on-progress", label: "Service On Progress" },
-    { value: "service-complete", label: "Service Has Completed" },
+    { value: "1", label: "On The Way" },
+    { value: "2", label: "Service On Progress" },
+    { value: "3", label: "Service Has Completed" },
   ];
 
   return (
@@ -105,7 +105,7 @@ function CardListAdmin({
   );
 }
 
-function CardListService({ vehicle, service, onDelete }) {
+function CardListService({ vehicle, service, onDelete, onNavigate }) {
   return (
     <div className="w-full space-x-20 flex justify-center">
       <div className="w-5/6 h-auto flex flex-col p-6 gap-2 box-border">
@@ -121,31 +121,13 @@ function CardListService({ vehicle, service, onDelete }) {
               <p className="w-1/4 font-bold text-xl text-PrimaryBlue">
                 {data.name_vehicle}
               </p>
-              {/* <ul className="w-1/4 ">
-                {service.map((data) => (
-                  <li
-                    key={data.vehicle_id}
-                    className="font-bold text-xl text-PrimaryBlue"
-                  >
-                    {data.service_name}
-                  </li>
-                ))}
-              </ul>
-              <ul className="w-1/4">
-                {service.map((data) => (
-                  <li
-                    key={data.vehicle_id}
-                    className="font-bold text-xl text-PrimaryRed"
-                  >
-                    {data.price}
-                  </li>
-                ))}
-              </ul> */}
-
               <span className="w-1/4 h-full flex flex-col items-end justify-center gap-4">
-                <a href="#my-modal-3">
+                <a
+                  id="btn-setting"
+                  onClick={() => onNavigate(data.id)}
+                  // href="#my-modal-3"
+                >
                   <FiSettings
-                    id="btn-setting"
                     viewBox="0 0 24 24"
                     className="w-7 h-7 cursor-pointer stroke-PrimaryBlue hover:stroke-SecondaryBlue"
                   />

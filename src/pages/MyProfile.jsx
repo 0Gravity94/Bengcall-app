@@ -11,17 +11,20 @@ import { apiRequest } from "../utils/apiRequest";
 import { handleAuth } from "../utils/redux/reducers/reducer";
 import useTitle from "../utils/useTitle";
 import { useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
 
 function MyProfile() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [datas, setDatas] = useState([]);
+  const [cookies, , removeCookie] = useCookies(["token"]);
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
-  const [image, setImage] = useState([]);
+  const [image, setImage] = useState("");
   const [password, setPassword] = useState("");
   const [objSubmit, setObjSubmit] = useState({});
   const [loading, setLoading] = useState(true);
-  useTitle(`My Profile - ${fullName}`);
+  useTitle(`My Profile - ${datas.fullname}`);
 
   useEffect(() => {
     fetchData();
@@ -30,7 +33,8 @@ function MyProfile() {
   const fetchData = () => {
     apiRequest("users", "get", {})
       .then((res) => {
-        const { fullname, email, images, password } = res.data;
+        const { fullname, email, password, images } = res.data;
+        // setDatas(results);
         setFullName(fullname);
         setEmail(email);
         setImage(images);
@@ -85,10 +89,18 @@ function MyProfile() {
   };
 
   const handleDelete = async () => {
-    localStorage.removeItem("token");
-    dispatch(handleAuth(true));
-    navigate("/");
-    alert("Are you sure you want to delete the account? ");
+    axios
+      .delete(`https://project-edu.online/users`)
+      .then((res) => {
+        const { data } = res.data;
+        setDatas(data);
+        removeCookie("token");
+        alert("Account Deleted");
+        navigate("/");
+      })
+      .catch((err) => {
+        alert(err.toString());
+      });
   };
 
   if (loading) {
@@ -106,13 +118,15 @@ function MyProfile() {
               alt={image}
               className="flex justify-center w-full"
             />
-            <Button
+            <CustomInput
               id="change-photo"
+              type="file"
               className="flex justify-center items-center text-SecondaryBlue text-xl mt-2.5 cursor-pointer"
               label="Change Photo"
+              value={objSubmit.images}
               onChange={(e) => {
-                setImage(URL.createObjectURL(e.target.files[0]));
-                handleChange(e.target.files[0], "image");
+                // setImage(URL.createObjectURL(e.target.files[0]));
+                handleChange(e.target.value, "images");
               }}
             />
 
@@ -121,7 +135,7 @@ function MyProfile() {
             </h1>
             <p className="text-center text-2xl text-PrimaryBlue">{email}</p>
             <Button
-              onClick={() => handleDelete}
+              onClick={() => (cookies ? handleDelete() : navigate("/"))}
               id="deactivate"
               className="flex justify-center items-center font-semibold text-PrimaryRed text-xl mt-7 cursor-pointer"
               label="deactivate"
@@ -138,8 +152,8 @@ function MyProfile() {
                 id="fullname"
                 type="text"
                 className="border border-Line rounded-md text-20 mx-auto mt-2.5 mb-7 p-4 w-full h-14 max-w-md"
-                value={fullName}
-                onChange={(e) => handleChange(e.target.value)}
+                value={objSubmit.fullname}
+                onChange={(e) => handleChange(e.target.value, "fullname")}
                 placeholder="Input New Full Name"
               />
               <br />
@@ -150,8 +164,8 @@ function MyProfile() {
                 id="email"
                 type="email"
                 className="border border-Line rounded-md text-20 mx-auto mt-2.5 mb-7 p-4 w-full h-14 max-w-md"
-                value={email}
-                onChange={(e) => handleChange(e.target.value)}
+                value={objSubmit.email}
+                onChange={(e) => handleChange(e.target.value, "email")}
                 placeholder="Input New Email"
               />
               <br />
@@ -162,8 +176,8 @@ function MyProfile() {
                 id="password"
                 type="password"
                 className="border border-Line rounded-md text-20 mx-auto mt-2.5 mb-7 p-4 w-full h-14 max-w-md"
-                value={password}
-                onChange={(e) => handleChange(e.target.value)}
+                value={objSubmit.password}
+                onChange={(e) => handleChange(e.target.value, "password")}
                 placeholder="Input New Password"
               />
               <Button

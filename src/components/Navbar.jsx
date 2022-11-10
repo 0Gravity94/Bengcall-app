@@ -3,6 +3,7 @@ import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { handleAuth } from "../utils/redux/reducers/reducer";
+import { useCookies } from "react-cookie";
 
 import {
   HiWrenchScrewdriver,
@@ -14,12 +15,13 @@ import { GiHamburgerMenu } from "react-icons/gi";
 function NavbarUser() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [cookies, , removeCookie] = useCookies(["token"]);
 
   const handleLogOut = async () => {
-    localStorage.removeItem("token");
+    removeCookie("token");
     dispatch(handleAuth(false));
     navigate("/");
-    alert("You've been log out ");
+    alert("You have been logged out");
   };
   return (
     <div id="navbar-user" className="w-full shadow-md shadow-SecondaryBlue">
@@ -75,7 +77,7 @@ function NavbarUser() {
                 <li className="text-PrimaryBlue">
                   <a
                     id="btn-logout"
-                    onClick={() => handleLogOut()}
+                    onClick={() => (cookies ? handleLogOut() : navigate("/"))}
                     className="w-full flex justify-center btn-ghost"
                   >
                     Logout
@@ -135,7 +137,7 @@ function NavbarUser() {
                 <a
                   id="btn-logout"
                   className="w-full flex justify-center"
-                  onClick={() => handleLogOut()}
+                  onClick={() => (cookies ? handleLogOut() : navigate("/"))}
                 >
                   Logout
                 </a>
@@ -151,12 +153,13 @@ function NavbarUser() {
 function NavbarAdmin() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [cookies, , removeCookie] = useCookies(["token"]);
 
   const handleLogOut = async () => {
-    localStorage.removeItem("token");
+    removeCookie("token");
     dispatch(handleAuth(false));
     navigate("/");
-    alert("You've been log out ");
+    alert("You have been logged out");
   };
 
   return (
@@ -175,7 +178,7 @@ function NavbarAdmin() {
               stroke="#C1121F"
               viewBox="0 0 24 24"
               className="w-8 h-8"
-              onClick={() => handleLogOut()}
+              onClick={() => (cookies ? handleLogOut() : navigate("/"))}
             />
           </button>
         </div>
