@@ -50,7 +50,7 @@ function Register() {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
+    <div className="bg-white grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
       <div className="hidden md:flex lg:flex w-full h-full">
         <img src={LogReg} alt="Bengcall" className="w-full" />
       </div>

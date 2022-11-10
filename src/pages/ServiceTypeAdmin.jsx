@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert";
 
 import { NavbarAdmin } from "../components/Navbar";
@@ -16,7 +17,8 @@ function ServiceTypeAdmin(props) {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [objSubmit, setObjSubmit] = useState("");
-  useTitle("Service List");
+  const navigate = useNavigate();
+  useTitle("Vehicle List");
 
   useEffect(() => {
     fetchVehicle();
@@ -124,6 +126,7 @@ function ServiceTypeAdmin(props) {
             vehicle={vehicles}
             // service={services}
             onDelete={(id) => handleDelete(id)}
+            onNavigate={(id) => navigate(`/service-type/${id}`)}
           />
         </div>
       </div>
