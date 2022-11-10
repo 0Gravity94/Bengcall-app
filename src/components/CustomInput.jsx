@@ -8,6 +8,8 @@ function CustomInput(props) {
       id={props.id}
       name={props.name}
       maxLength={props.maxLength}
+      min={props.min}
+      max={props.max}
       minLength={props.minLength}
       className={props.className}
       value={props.value}
