@@ -1,12 +1,46 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
+import { WithRouter } from "../utils/Navigation";
 import Layout from "../components/Layout";
 import Button from "../components/CustomButton";
+import { CardListAdmin } from "../components/CardDetail";
 import { ModalBookingService } from "../components/Modal";
 import Hero from "../assets/Hero.png";
 import { TfiReload, TfiMoney, TfiBolt, TfiThumbUp } from "react-icons/tfi";
 
 function HomePage() {
+  const [datas, setDatas] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  function fetchData() {
+    axios
+      .get(`https://project-edu.online/transaction/me`)
+      .then((res) => {
+        const { data } = res.data;
+        const temp = [...datas];
+        temp.push(data);
+        setDatas(temp);
+        console.log(datas);
+      })
+      .catch((err) => {
+        alert(err.toString());
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <Layout>
       <div className="hero min-h-screen">
@@ -23,9 +57,45 @@ function HomePage() {
               </a>
               <ModalBookingService />
             </div>
-            <p className="italic text-xs lg:text-xl text-black">
-              You already book a service on
-            </p>
+            <p className="p-4">Current Service(s)</p>
+            <div className="flex justify-center">
+              {datas.length > 0 ? (
+                datas &&
+                datas.map((data) => (
+                  <div className="w-3/4 p-6 border-2 border-SecondaryBlue rounded-lg bg-white shadow-lg">
+                    <div className="w-full flex flex-col items-center md:flex-row md:justify-center md:items-center gap-2 md:gap-8">
+                      <p className="font-bold text-PrimaryBlue">{data.id}</p>
+                      <span className="lg:w-1/4 flex flex-col items-center">
+                        <p className="text-SecondaryBlue">Invoice</p>
+                        <p className="font-bold text-2xl text-PrimaryBlue">
+                          {data.invoice}
+                        </p>
+                      </span>
+
+                      <span className="lg:w-1/4 flex flex-col items-center">
+                        <p className="text-SecondaryBlue">Service Date</p>
+                        <p className="font-bold text-2xl text-PrimaryBlue">
+                          {data.date}
+                        </p>
+                      </span>
+
+                      <Button
+                        id="btn-detail"
+                        className="border-2 border-PrimaryRed rounded-lg font-semibold text-lg  px-5 py-1  bg-PrimaryRed text-white hover:bg-white hover:text-PrimaryRed cursor-pointer"
+                        label="Detail"
+                        onClick={() => navigate(`/detail/${data.id}`)}
+                      />
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className="w-full h-screen flex justify-center items-center text-center ">
+                  <p className="text-4xl font-extrabold  text-PrimaryBlue">
+                    "There's nothing to do in here"
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -92,4 +162,4 @@ function HomePage() {
   );
 }
 
-export default HomePage;
+export default WithRouter(HomePage);
