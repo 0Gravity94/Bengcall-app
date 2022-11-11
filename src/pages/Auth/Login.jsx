@@ -52,14 +52,16 @@ function Login() {
         }
       })
       .catch((err) => {
-        // const { data } = err.response;
-        // if (err.response?.status === 400) {
-        //   swal("Email or Password Should Not Be Empty");
-        // } else if (err.response?.status === 404) {
-        //   swal("Wrong Email or Password");
-        // } else {
-        //   swal("Internal Server Error");
-        // }
+        const { data } = err.response;
+        if (email === "") {
+          swal("Email should not be empty");
+        } else if (password === "") {
+          swal("Password should not be empty");
+        } else if (err.response?.status === 500) {
+          swal("Server error");
+        } else if (err.response?.status === 400) {
+          swal("Wrong Email or Password");
+        }
       })
       .finally(() => setLoading(false));
   };

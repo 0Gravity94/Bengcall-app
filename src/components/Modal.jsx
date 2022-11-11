@@ -9,6 +9,7 @@ import Swal from "sweetalert";
 import { CustomInput, CustomOption, CustomSelect } from "./CustomInput";
 import Button from "./CustomButton";
 import { apiRequest } from "../utils/apiRequest";
+import { handleService } from "../utils/redux/reducers/reducer";
 
 function ModalBookingService() {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ function ModalBookingService() {
     fetchVehicles();
     fetchService();
     fetchData();
+    // handleChange();
   }, []);
 
   // {vehicles.map((detail) => (
@@ -38,13 +40,12 @@ function ModalBookingService() {
   //   </option>
   // ))}
 
-  const handleChange = (e) => {
-    const detailService = services;
-    const parsedServices = JSON.parse(detailService);
-    const price = parsedServices.find(
-      (checkPrice) => checkPrice.id === service_id
+  const handleChange = (idPrice) => {
+    const pickService = JSON.stringify(services);
+    localStorage.setItem("service", pickService);
+    const detailService = pickService.find(
+      (checked) => checked.id === idPrice.id
     );
-    console.log(price);
   };
 
   const handleBookService = async (e) => {
@@ -230,7 +231,7 @@ function ModalBookingService() {
                     onChange={(e) => handleChange(e.target.value)}
                   >
                     {services.map((srv) => (
-                      <option id={srv.id} value={[srv.id, srv.price]}>
+                      <option id={srv.id} value={srv.id}>
                         {srv.service_name}
                         {"-"}
                         <option value={srv.price} disabled>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+import { WithRouter } from "../utils/Navigation";
 import Layout from "../components/Layout";
 import { CustomInput } from "../components/CustomInput";
 import { ModalBookingService } from "../components/Modal";
@@ -14,6 +15,7 @@ import "../styles/index.css";
 
 function DetailCustomer(props) {
   const [datas, setDatas] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchData();
@@ -21,15 +23,19 @@ function DetailCustomer(props) {
 
   function fetchData() {
     axios
-      .get(`https://project-edu.online/transaction/me`)
+      .get(`https://project-edu.online/transaction/${props.params.id}`)
       .then((res) => {
         const { data } = res.data;
         const temp = [...datas];
-        temp.push(...data);
+        temp.push(data);
         setDatas(temp);
+        console.log(datas);
       })
       .catch((err) => {
         alert(err.toString());
+      })
+      .finally(() => {
+        setLoading(false);
       });
   }
 
@@ -37,7 +43,8 @@ function DetailCustomer(props) {
     <Layout>
       <>
         {datas.length !== 0 ? (
-          datas.map((detail) => (
+          datas &&
+          datas.map((data) => (
             <>
               <div>
                 <div class="relative flex mx-2 mt-10 lg:mt-24 lg:mx-64 items-center justify-center">
@@ -78,26 +85,26 @@ function DetailCustomer(props) {
               <div>
                 <div className="mx-2 lg:mx-44 my-5 lg:mt-12 border border-SecondaryBlue drop-shadow-md shadow-SecondaryBlue rounded-lg min-w-max">
                   <h1 className="font-semibold text-SecondaryBlue text-xs lg:text-4xl text-center mt-5 lg:mt-16 ">
-                    Your Booking is on {detail.date}
+                    Your Booking is on {data.Schedule}
                   </h1>
                   <div className="flex grid-rows-1 grid-flow-col justify-evenly my-2 lg:mt-12">
                     <div className="flex flex-wrap place-items-center text-xs lg:text-4xl text-PrimaryBlue gap-2 lg:mb-12">
                       <p>Service Type:</p>
-                      <h1 className="font-bold"> {detail.service}</h1>
+                      <h1 className="font-bold"> {data.service}</h1>
                     </div>
                     <div className="flex flex-wrap place-items-center text-xs lg:text-4xl text-PrimaryBlue gap-2 lg:mb-12">
                       <p>Vehicle Type:</p>
-                      <h1 className="font-bold "> {detail.vehicle}</h1>
+                      <h1 className="font-bold "> {data.vehicle}</h1>
                     </div>
                   </div>
                   <div className="flex grid-rows-1 grid-flow-col justify-evenly my-2 lg:mt-12 lg:mb-12">
                     <div className="flex flex-wrap place-items-center text-left text-xs lg:text-4xl text-PrimaryBlue gap-2 mr-8 lg:mr-24">
                       <p>Invoice:</p>
-                      <h1 className="font-bold"> {detail.invoice}</h1>
+                      <h1 className="font-bold"> {data.Invoice}</h1>
                     </div>
                     <div className="flex flex-wrap place-items-center text-xs lg:text-4xl text-PrimaryBlue gap-2 mr-3 lg:mr-10">
                       <p>Total Price:</p>
-                      <h1 className="font-bold ">{detail.total}</h1>
+                      <h1 className="font-bold ">{data.Total}</h1>
                     </div>
                   </div>
                   <p className="text-base lg:text-2xl text-PrimaryBlue text-center mb:1 lg:mb-5">
@@ -153,4 +160,4 @@ function DetailCustomer(props) {
   );
 }
 
-export default DetailCustomer;
+export default WithRouter(DetailCustomer);

@@ -6,6 +6,7 @@ import Button from "../../components/CustomButton";
 import LogReg from "../../assets/LogReg.png";
 import useTitle from "../../utils/useTitle";
 import { apiRequest } from "../../utils/apiRequest";
+import swal from "sweetalert";
 
 function Register() {
   const navigate = useNavigate();
@@ -14,6 +15,8 @@ function Register() {
   const [password, setPassword] = useState("");
   const [disabled, setDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
+  const passwordRegex = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/);
+
   useTitle("Register");
 
   useEffect(() => {
@@ -29,8 +32,8 @@ function Register() {
     e.preventDefault();
     const body = {
       fullname: fullname,
-      email,
-      password,
+      email: email,
+      password: password,
     };
     apiRequest("register", "post", body)
       .then((res) => {
@@ -42,7 +45,23 @@ function Register() {
       })
       .catch((err) => {
         const { message } = err.response;
-        alert(message);
+        if (fullname === "") {
+          swal("Field(s) should not be empty");
+        } else if (fullname.length < 3) {
+          swal("Full Name should atleast be 3 letters");
+        } else if (email === "") {
+          swal("Field(s) should not be empty");
+        } else if (password === "") {
+          swal("Field(s) should not be empty");
+        } else if (password.length < 8) {
+          swal("Password should be atleast 8 characters");
+        } else if (password !== passwordRegex) {
+          swal(
+            "Password should contain atleast 8 characters & containing letters and atleast 1 number"
+          );
+        } else {
+          swal(message);
+        }
       })
       .finally(() => {
         setLoading(false);
