@@ -11,6 +11,7 @@ import {
   HiArrowLeftOnRectangle,
 } from "react-icons/hi2";
 import { GiHamburgerMenu } from "react-icons/gi";
+import swal from "sweetalert";
 
 function NavbarUser() {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ function NavbarUser() {
     removeCookie("token");
     dispatch(handleAuth(false));
     navigate("/");
-    alert("You have been logged out");
+    swal("You have been logged out");
   };
   return (
     <div id="navbar-user" className="w-full shadow-md shadow-SecondaryBlue">

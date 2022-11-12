@@ -10,6 +10,8 @@ import { CustomInput, CustomOption, CustomSelect } from "./CustomInput";
 import Button from "./CustomButton";
 import { apiRequest } from "../utils/apiRequest";
 import { handleService } from "../utils/redux/reducers/reducer";
+import swal from "sweetalert";
+import { parse } from "postcss";
 
 function ModalBookingService() {
   const dispatch = useDispatch();
@@ -31,22 +33,29 @@ function ModalBookingService() {
     fetchVehicles();
     fetchService();
     fetchData();
-    // handleChange();
   }, []);
 
-  // {vehicles.map((detail) => (
-  //   <option id={detail.id} value={detail.id}>
-  //     {detail.name_vehicle}
-  //   </option>
-  // ))}
-
-  const handleChange = (idPrice) => {
-    const pickService = JSON.stringify(services);
-    localStorage.setItem("service", pickService);
-    const detailService = pickService.find(
-      (checked) => checked.id === idPrice.id
-    );
-  };
+  function handleChange(e) {
+    const allServices = JSON.stringify(services);
+    localStorage.setItem("services", allServices);
+    const getService = localStorage.getItem("services");
+    if (getService) {
+      const parsedService = JSON.parse(getService);
+      const pickService = parsedService.find((chosen) => chosen.id === e.id);
+      console.log(parsedService);
+      if (pickService) {
+        //   alert("No service");
+        // } else {
+        parsedService.push(e);
+        const temp = JSON.stringify(pickService);
+        localStorage.setItem("services", temp);
+      }
+    } else {
+      // const temp = JSON.stringify([e]);
+      // dispatch(handleService([e]));
+      // localStorage.setItem("services", temp);
+    }
+  }
 
   const handleBookService = async (e) => {
     setLoading(true);
@@ -68,11 +77,11 @@ function ModalBookingService() {
     apiRequest("transaction", "post", body, "application/json")
       .then((res) => {
         console.log(res.data);
-        alert("Service Booked");
+        swal("Service Booked");
       })
       .catch((err) => {
         const { data } = err.response;
-        alert("Error");
+        swal("failed to book");
       })
       .finally(() => setLoading(false));
   };
@@ -228,16 +237,16 @@ function ModalBookingService() {
                     placeholder="Select Vehicle"
                     className="w-full h-10 border border-Line rounded-md"
                     value={detail[service_id]}
-                    onChange={(e) => handleChange(e.target.value)}
+                    onChange={(e) => handleChange(e)}
                   >
                     {services.map((srv) => (
-                      <option id={srv.id} value={srv.id}>
-                        {srv.service_name}
-                        {"-"}
-                        <option value={srv.price} disabled>
+                      <>
+                        <option id={srv.id} value={srv.id}>
+                          {srv.service_name}
+                          {"-"}
                           {srv.price}
                         </option>
-                      </option>
+                      </>
                     ))}
                   </select>
                   {/* <ReactSelect 
