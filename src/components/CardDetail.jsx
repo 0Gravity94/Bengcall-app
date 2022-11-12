@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Button from "./CustomButton";
 import { CustomSelect } from "./CustomInput";
 import { default as ReactSelect } from "react-select";
 import { FiSettings } from "react-icons/fi";
 import { HiOutlineTrash } from "react-icons/hi2";
 import { ModalAdminEdit, ModalComment } from "./Modal";
+
+import { apiRequest } from "../utils/apiRequest";
 
 import { Link } from "react-router-dom";
 
@@ -58,11 +60,14 @@ function CardListAdmin({
   price,
   status,
   onNavigate,
+  onDelete,
 }) {
   const statusOptions = [
-    { value: "1", label: "On The Way" },
-    { value: "2", label: "Service On Progress" },
-    { value: "3", label: "Service Has Completed" },
+    { value: "1", label: "Order Confirmed" },
+    { value: "2", label: "On The Way" },
+    { value: "3", label: "Service On Progress" },
+    { value: "4", label: "Service Has Completed" },
+    { value: "5", label: "Please Complete The Payment" },
   ];
 
   return (
@@ -72,17 +77,17 @@ function CardListAdmin({
           <p className="font-bold text-PrimaryBlue">{number}</p>
           <span className="lg:w-1/4 flex flex-col items-center">
             <p className="text-SecondaryBlue">Service ID</p>
-            <p className="font-bold text-2xl text-PrimaryBlue">{invoice}</p>
+            <p className="font-bold text-xl text-PrimaryBlue">{invoice}</p>
           </span>
           <span className="lg:w-1/4 flex flex-col items-center">
             <p className="text-SecondaryBlue">Customer Name</p>
-            <p className="font-bold text-2xl text-PrimaryBlue">{fullname}</p>
+            <p className="font-bold text-xl text-PrimaryBlue">{fullname}</p>
           </span>
           <span className="lg:w-1/4 flex flex-col items-center">
             <p className="text-SecondaryBlue">Service Date</p>
-            <p className="font-bold text-2xl text-PrimaryBlue">{date}</p>
+            <p className="font-bold text-xl text-PrimaryBlue">{date}</p>
           </span>
-          <div className="lg:w-2/4 flex flex-col lg:flex-row lg:items-center gap-6">
+          <div className="lg:w-2/4 flex flex-col items-center lg:flex-row lg:items-center gap-6">
             <ReactSelect
               id="vehicle-type"
               className="lg:w-full"
@@ -98,6 +103,12 @@ function CardListAdmin({
               label="Detail"
               onClick={onNavigate}
             />
+            <HiOutlineTrash
+              id="btn-trash"
+              viewBox="0 0 24 24"
+              className="w-12 h-12 cursor-pointer stroke-PrimaryRed hover:stroke-SecondaryRed"
+              onClick={onDelete}
+            />
           </div>
         </div>
       </div>
@@ -106,6 +117,23 @@ function CardListAdmin({
 }
 
 function CardListService({ vehicle, service, onDelete, onNavigate }) {
+  // const [datas, setDatas] = useState([]);
+
+  // const fetchData = () => {
+  //   apiRequest("admin/vehicleservice", "get", {})
+  //     .then((res) => {
+  //       const results = res.data;
+  //       setDatas(results);
+  //     })
+  //     .catch((err) => {
+  //       const { data } = err.response;
+  //       alert(data.message);
+  //     })
+  //     .finally(() => {
+  //       setLoading(false);
+  //     });
+  // };
+
   return (
     <div className="w-full space-x-20 flex justify-center">
       <div className="w-5/6 h-auto flex flex-col p-6 gap-2 box-border">
@@ -113,6 +141,10 @@ function CardListService({ vehicle, service, onDelete, onNavigate }) {
           <p className="w-1/4 font bold text-xl text-SecondaryBlue">
             Vehicle type
           </p>
+          <p className="w-1/4 font bold text-xl text-SecondaryBlue">
+            Service type
+          </p>
+          <p className="w-1/4 font bold text-xl text-SecondaryBlue">Price</p>
           <span className="w-1/4"></span>
         </div>
         {vehicle.map((data) => (
@@ -121,10 +153,28 @@ function CardListService({ vehicle, service, onDelete, onNavigate }) {
               <p className="w-1/4 font-bold text-xl text-PrimaryBlue">
                 {data.name_vehicle}
               </p>
+              <ul className="w-1/4 font-bold text-xl text-PrimaryBlue">
+                {service !== null ? (
+                  service &&
+                  service.map((item) => (
+                    <li key={item.id}>{item.service_name}</li>
+                  ))
+                ) : (
+                  <li>Tidak ada layanan</li>
+                )}
+              </ul>
+              <ul className="w-1/4 font-bold text-xl text-PrimaryRed">
+                {service !== null ? (
+                  service &&
+                  service.map((item) => <li key={item.id}>{item.price}</li>)
+                ) : (
+                  <li>Tidak ada layanan</li>
+                )}
+              </ul>
               <span className="w-1/4 h-full flex flex-col items-end justify-center gap-4">
                 <a
                   id="btn-setting"
-                  onClick={() => onNavigate(data.id)}
+                  // onClick={() => onNavigate(data.id)}
                   // href="#my-modal-3"
                 >
                   <FiSettings

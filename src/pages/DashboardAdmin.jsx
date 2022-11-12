@@ -21,6 +21,7 @@ function DashboardAdmin() {
     apiRequest("admin/transaction", "get", {})
       .then((res) => {
         const results = res.data;
+        console.log(results);
         setDatas(results);
       })
       .catch((err) => {
@@ -28,6 +29,20 @@ function DashboardAdmin() {
         alert(data.message);
       })
       .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const handleDelete = async (id) => {
+    apiRequest(`admin/transaction/${id}`, "delete")
+      .then((res) => {
+        alert(res.message);
+      })
+      .catch((err) => {
+        alert(err.message);
+      })
+      .finally(() => {
+        fetchData();
         setLoading(false);
       });
   };
@@ -62,6 +77,7 @@ function DashboardAdmin() {
                 date={data.date}
                 price={data.total}
                 status={data.status}
+                onDelete={() => handleDelete(data.id)}
                 onNavigate={() => navigate(`/detailadmin/${data.id}`)}
               />
             ))
