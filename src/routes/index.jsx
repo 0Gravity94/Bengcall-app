@@ -61,7 +61,7 @@ function App() {
           <Route index element={<Login />} />
 
           <Route
-            path="/"
+            path="/login"
             element={
               checkToken ? (
                 role === "1" ? (

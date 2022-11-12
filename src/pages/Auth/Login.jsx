@@ -44,7 +44,7 @@ function Login() {
         setCookie("token", data.token, { path: "/" });
         setCookie("role", data.role, { path: "/" });
         dispatch(handleAuth(true));
-        alert("You're logged in");
+        swal("You're logged in");
         if (data?.role === 1) {
           navigate("/dashboard");
         } else if (data?.role === 0) {

@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   isLoggedin: false,
   loading: true,
+  service: [],
 };
 
 const sliceState = createSlice({
@@ -15,6 +16,9 @@ const sliceState = createSlice({
     setLoading: (state, action) => {
       state.loading = action.payload;
     },
+    handleService: (state, action) => {
+      state.service = action.payload;
+    },
   },
 });
 
@@ -22,5 +26,5 @@ const reducer = {
   state: sliceState.reducer,
 };
 
-export const { handleAuth } = sliceState.actions;
+export const { handleAuth, handleService } = sliceState.actions;
 export default reducer;

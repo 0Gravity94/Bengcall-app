@@ -5,7 +5,7 @@ import axios from "axios";
 import { WithRouter } from "../utils/Navigation";
 import Layout from "../components/Layout";
 import Button from "../components/CustomButton";
-import { CardListAdmin } from "../components/CardDetail";
+import { CardListCostumer } from "../components/CardDetail";
 import { ModalBookingService } from "../components/Modal";
 import Hero from "../assets/Hero.png";
 import { TfiReload, TfiMoney, TfiBolt, TfiThumbUp } from "react-icons/tfi";
@@ -62,36 +62,17 @@ function HomePage() {
               {datas.length > 0 ? (
                 datas &&
                 datas.map((data) => (
-                  <div className="w-3/4 p-6 border-2 border-SecondaryBlue rounded-lg bg-white shadow-lg">
-                    <div className="w-full flex flex-col items-center md:flex-row md:justify-center md:items-center gap-2 md:gap-8">
-                      <p className="font-bold text-PrimaryBlue">{data.id}</p>
-                      <span className="lg:w-1/4 flex flex-col items-center">
-                        <p className="text-SecondaryBlue">Invoice</p>
-                        <p className="font-bold text-2xl text-PrimaryBlue">
-                          {data.invoice}
-                        </p>
-                      </span>
-
-                      <span className="lg:w-1/4 flex flex-col items-center">
-                        <p className="text-SecondaryBlue">Service Date</p>
-                        <p className="font-bold text-2xl text-PrimaryBlue">
-                          {data.date}
-                        </p>
-                      </span>
-
-                      <Button
-                        id="btn-detail"
-                        className="border-2 border-PrimaryRed rounded-lg font-semibold text-lg  px-5 py-1  bg-PrimaryRed text-white hover:bg-white hover:text-PrimaryRed cursor-pointer"
-                        label="Detail"
-                        onClick={() => navigate(`/detail/${data.id}`)}
-                      />
-                    </div>
-                  </div>
+                  <CardListCostumer
+                    id={data.id}
+                    invoice={data.invoice}
+                    date={data.date}
+                    onClick={() => navigate(`/detail/${data.id}`)}
+                  />
                 ))
               ) : (
                 <div className="w-full h-screen flex justify-center items-center text-center ">
                   <p className="text-4xl font-extrabold  text-PrimaryBlue">
-                    "There's nothing to do in here"
+                    "You have no reservation"
                   </p>
                 </div>
               )}
