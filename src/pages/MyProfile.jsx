@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useDispatch } from "react-redux";
-import Swal from "sweetalert";
+import swal from "sweetalert";
 
 import Layout from "../components/Layout";
 import { CustomInput } from "../components/CustomInput";
@@ -34,7 +34,6 @@ function MyProfile() {
     apiRequest("users", "get", {})
       .then((res) => {
         const { fullname, email, password, images } = res.data;
-        // setDatas(results);
         setFullName(fullname);
         setEmail(email);
         setImage(images);
@@ -63,21 +62,11 @@ function MyProfile() {
         },
       })
       .then((res) => {
-        const { message } = res;
-        Swal.fire({
-          title: "Success",
-          text: message,
-          showCancelButton: false,
-        });
+        swal("Success Change Profile");
         setObjSubmit({});
       })
       .catch((err) => {
-        const { data } = err.response;
-        Swal.fire({
-          title: "Failed",
-          text: data.message,
-          showCancelButton: false,
-        });
+        swal("Change Profile Error");
       })
       .finally(() => fetchData());
   };
@@ -95,7 +84,7 @@ function MyProfile() {
         const { data } = res.data;
         setDatas(data);
         removeCookie("token");
-        alert("Account Deleted");
+        alert("Account has been deleted");
         navigate("/");
       })
       .catch((err) => {
@@ -111,8 +100,8 @@ function MyProfile() {
     <Layout>
       {/* <div key={data.id}> */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
-        <div className="flex justify-end grid-cols-1 mt-24 mb-20 mx-12">
-          <div>
+        <div className="flex justify-center md:justify-end grid-cols-1 mt-24 mb-20 mx-12">
+          <div className="flex flex-col items-center">
             <img
               src={image}
               alt={image}
@@ -121,12 +110,12 @@ function MyProfile() {
             <CustomInput
               id="change-photo"
               type="file"
-              className="flex justify-center items-center text-SecondaryBlue text-xl mt-2.5 cursor-pointer"
+              className="w-32 text-center flex justify-center items-center text-SecondaryBlue text-xl mt-2.5 cursor-pointer"
               label="Change Photo"
-              value={objSubmit.images}
+              // value={objSubmit.images}
               onChange={(e) => {
-                // setImage(URL.createObjectURL(e.target.files[0]));
-                handleChange(e.target.value, "images");
+                setImage(URL.createObjectURL(e.target.files[0]));
+                handleChange(e.target.files[0], "images");
               }}
             />
 
@@ -142,7 +131,7 @@ function MyProfile() {
             />
           </div>
         </div>
-        <div className="flex flex-wrap justify-start w-full h-screen mt-28 mx-12 px-2">
+        <div className="flex flex-wrap justify-center md:justify-start w-full h-screen mt-28 px-2">
           <div>
             <div>
               <label className="font-semibold text-2xl text-PrimaryBlue">
@@ -151,7 +140,7 @@ function MyProfile() {
               <CustomInput
                 id="fullname"
                 type="text"
-                className="border border-Line rounded-md text-20 mx-auto mt-2.5 mb-7 p-4 w-full h-14 max-w-md"
+                className="border border-Line bg-transparent rounded-md text-20 mx-auto mt-2.5 mb-7 p-4 w-full h-14 max-w-md"
                 value={objSubmit.fullname}
                 onChange={(e) => handleChange(e.target.value, "fullname")}
                 placeholder="Input New Full Name"
@@ -163,7 +152,7 @@ function MyProfile() {
               <CustomInput
                 id="email"
                 type="email"
-                className="border border-Line rounded-md text-20 mx-auto mt-2.5 mb-7 p-4 w-full h-14 max-w-md"
+                className="border border-Line bg-transparent rounded-md text-20 mx-auto mt-2.5 mb-7 p-4 w-full h-14 max-w-md"
                 value={objSubmit.email}
                 onChange={(e) => handleChange(e.target.value, "email")}
                 placeholder="Input New Email"
@@ -175,14 +164,14 @@ function MyProfile() {
               <CustomInput
                 id="password"
                 type="password"
-                className="border border-Line rounded-md text-20 mx-auto mt-2.5 mb-7 p-4 w-full h-14 max-w-md"
+                className="border border-Line bg-transparent rounded-md text-20 mx-auto mt-2.5 mb-7 p-4 w-full h-14 max-w-md"
                 value={objSubmit.password}
                 onChange={(e) => handleChange(e.target.value, "password")}
                 placeholder="Input New Password"
               />
               <Button
                 id="button-submit"
-                className="flex justify-center items-center border border-PrimaryRed rounded-lg font-semibold text-2xl text-PrimaryRed m-auto w-52 h-14 max-w-xs cursor-pointer"
+                className="flex justify-center items-center border border-PrimaryRed rounded-lg font-semibold text-2xl text-PrimaryRed m-auto w-52 h-14 max-w-xs cursor-pointer hover:bg-PrimaryRed hover:text-white"
                 label="Submit"
                 onClick={handleSubmit}
               />
