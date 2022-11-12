@@ -39,7 +39,7 @@ function History() {
       <div className="bg-white">
         <Layout>
           <div className="w-full h-full flex flex-col items-center">
-            {datas.length > 0 ? (
+            {datas !== null ? (
               datas &&
               datas.map((data) => (
                 <CardHistory

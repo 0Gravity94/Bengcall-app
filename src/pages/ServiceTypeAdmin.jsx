@@ -22,7 +22,7 @@ function ServiceTypeAdmin(props) {
 
   useEffect(() => {
     fetchVehicle();
-    // fetchService();
+    fetchService();
   }, []);
 
   const fetchVehicle = () => {
@@ -30,6 +30,21 @@ function ServiceTypeAdmin(props) {
       .then((res) => {
         const results = res.data;
         setVehicles(results);
+      })
+      .catch((err) => {
+        const { data } = err.response;
+        alert(data.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const fetchService = () => {
+    apiRequest("admin/vehicleservice", "get", {})
+      .then((res) => {
+        const results = res.data;
+        setServices(results);
       })
       .catch((err) => {
         const { data } = err.response;
@@ -124,9 +139,9 @@ function ServiceTypeAdmin(props) {
           </div>
           <CardListService
             vehicle={vehicles}
-            // service={services}
+            service={services.services}
             onDelete={(id) => handleDelete(id)}
-            onNavigate={(id) => navigate(`/service-type/${id}`)}
+            // onNavigate={(id) => navigate(`/service-detail/${id}`)}
           />
         </div>
       </div>
