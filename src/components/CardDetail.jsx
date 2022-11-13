@@ -142,7 +142,7 @@ function CardListCostumer({ id, invoice, date, onClick }) {
   );
 }
 
-function CardListService({ vehicle, service, onDelete, onNavigate }) {
+function CardListService({ vehicle, service, onDelete }) {
   // const [datas, setDatas] = useState([]);
 
   // const fetchData = () => {
@@ -201,7 +201,7 @@ function CardListService({ vehicle, service, onDelete, onNavigate }) {
                 <a
                   id="btn-setting"
                   // onClick={() => onNavigate(data.id)}
-                  // href="#my-modal-3"
+                  href="#my-modal-3"
                 >
                   <FiSettings
                     viewBox="0 0 24 24"
@@ -214,7 +214,7 @@ function CardListService({ vehicle, service, onDelete, onNavigate }) {
                   className="w-8 h-8 cursor-pointer stroke-PrimaryRed hover:stroke-SecondaryRed"
                   onClick={() => onDelete(data.id)}
                 />
-                {/* <ModalAdminEdit /> */}
+                <ModalAdminEdit />
               </span>
             </div>
           </div>

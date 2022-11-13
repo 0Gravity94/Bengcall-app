@@ -84,7 +84,7 @@ function Login() {
               name="email"
               id="email"
               type="email"
-              className="border border-Line rounded-md text-20 mx-auto mt-2.5 mb-7 p-4 w-full h-14 max-w-md"
+              className="border border-Line bg-transparent rounded-md text-20 mx-auto mt-2.5 mb-7 p-4 w-full h-14 max-w-md"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Input email"
@@ -97,7 +97,7 @@ function Login() {
             <CustomInput
               id="password"
               type="password"
-              className="border border-Line rounded-md text-20 mx-auto mt-2.5 p-4 w-full h-14 max-w-md"
+              className="border border-Line bg-transparent rounded-md text-20 mx-auto mt-2.5 p-4 w-full h-14 max-w-md"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Input password"
