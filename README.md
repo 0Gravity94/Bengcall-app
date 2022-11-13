@@ -2,7 +2,7 @@
     <br>
         <img src="https://drive.google.com/uc?export=view&id=1-uuN2Th6V0PVBIxiaS_n8WWPmPFcVcQF" alt="altafashion" width="200px"/>
 
-# altafashion
+# Bengcall
 
 <strong>This project is an online booking system for Vehicle Services .<strong>
 
