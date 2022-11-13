@@ -12,9 +12,11 @@ import { apiRequest } from "../utils/apiRequest";
 import { handleService } from "../utils/redux/reducers/reducer";
 import swal from "sweetalert";
 import { parse } from "postcss";
+import { json } from "react-router-dom";
 
 function ModalBookingService() {
   const dispatch = useDispatch();
+  const [idServices, setIdServices] = useState("");
   const [fullName, setFullName] = useState("");
   const [vehicles, setVehicles] = useState([]);
   const [services, setServices] = useState([]);
@@ -25,7 +27,7 @@ function ModalBookingService() {
   const [detail, setDetail] = useState([]);
   const [vehicle_id, setVehicle_id] = useState("");
   const [service_id, setService_id] = useState("");
-  const [subTotal, setSubTotal] = useState("");
+  const [sub_total, setSub_total] = useState("");
   const [other, setOther] = useState("");
   const [loading, setLoading] = useState(true);
 
@@ -36,25 +38,14 @@ function ModalBookingService() {
   }, []);
 
   function handleChange(e) {
-    const allServices = JSON.stringify(services);
-    localStorage.setItem("services", allServices);
-    const getService = localStorage.getItem("services");
-    if (getService) {
-      const parsedService = JSON.parse(getService);
-      const pickService = parsedService.find((chosen) => chosen.id === e.id);
-      console.log(parsedService);
-      if (pickService) {
-        //   alert("No service");
-        // } else {
-        parsedService.push(e);
-        const temp = JSON.stringify(pickService);
-        localStorage.setItem("services", temp);
-      }
-    } else {
-      // const temp = JSON.stringify([e]);
-      // dispatch(handleService([e]));
-      // localStorage.setItem("services", temp);
-    }
+    const findService = services.find((service) => service.id == e);
+    console.log(findService);
+    const objValues = Object.values(findService);
+    setService_id(objValues[0]);
+    setSub_total(objValues[2]);
+    console.log(objValues);
+    console.log(service_id);
+    console.log(setSub_total);
   }
 
   const handleBookService = async (e) => {
@@ -65,14 +56,14 @@ function ModalBookingService() {
       date: new Date(date),
       address: address,
       location: parseInt(location),
+      other: other,
       detail: [
         {
           vehicle_id: parseInt(vehicle_id),
           service_id: parseInt(service_id),
-          subTotal: parseInt(subTotal),
+          sub_total: parseInt(sub_total),
         },
       ],
-      other: other,
     };
     apiRequest("transaction", "post", body, "application/json")
       .then((res) => {
@@ -117,7 +108,7 @@ function ModalBookingService() {
 
   function fetchService() {
     axios
-      .get(`https://project-edu.online/service/41`)
+      .get(`https://project-edu.online/service/1`)
       .then((res) => {
         const { data } = res.data;
         const temp = [...services];
@@ -151,6 +142,8 @@ function ModalBookingService() {
                   className="border border-Line rounded-md text-20 mx-auto p-1.5 w-full bg-transparent"
                   // value={objSubmit.phone}
                   // onChange={(e) => handleChange(e.target.value, "phone")}
+                  minLength="10"
+                  maxLength="14"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   placeholder="Input phonenumber"
@@ -162,6 +155,7 @@ function ModalBookingService() {
                 <CustomInput
                   id="input-address"
                   type={"text"}
+                  maxLength="255"
                   className="border border-Line rounded-md text-20 mx-auto p-1.5 w-full bg-transparent"
                   // value={objSubmit.address}
                   // onChange={(e) => handleChange(e.target.value, "address")}
@@ -197,8 +191,13 @@ function ModalBookingService() {
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                 >
-                  <option value={1}>Home Service</option>
-                  <option value={2}>Workshop Service</option>
+                  <option id="option-location">Select Location</option>
+                  <option id="option-location" value={1}>
+                    Home Service
+                  </option>
+                  <option id="option-location" value={2}>
+                    Workshop Service
+                  </option>
                 </select>
                 {/* 
                   value={objSubmit.location}
@@ -216,12 +215,17 @@ function ModalBookingService() {
                   // }
                   // value={objSubmit.detail}
                   value={detail[vehicle_id]}
-                  onChange={(e) => setVehicle_id(e.target.value)}
+                  onChange={(e) => {
+                    setVehicle_id(e.target.value);
+                  }}
                 >
                   {vehicles.map((detail) => (
-                    <option id={detail.id} value={detail.id}>
-                      {detail.name_vehicle}
-                    </option>
+                    <>
+                      <option id="option-vehicle">Select vehicle</option>
+                      <option id="option-vehicle" value={detail.id}>
+                        {detail.name_vehicle}
+                      </option>
+                    </>
                   ))}
                 </select>
               </div>
@@ -237,11 +241,12 @@ function ModalBookingService() {
                     placeholder="Select Vehicle"
                     className="w-full h-10 border border-Line rounded-md"
                     value={detail[service_id]}
-                    onChange={(e) => handleChange(e)}
+                    onChange={(e) => handleChange(e.target.value)}
                   >
                     {services.map((srv) => (
                       <>
-                        <option id={srv.id} value={srv.id}>
+                        <option id="option-service">Select service</option>
+                        <option id="option-service" value={srv.id}>
                           {srv.service_name}
                           {"-"}
                           {srv.price}
@@ -249,19 +254,6 @@ function ModalBookingService() {
                       </>
                     ))}
                   </select>
-                  {/* <ReactSelect 
-                    id="service-type"
-                    // options={serviceOptions}
-                    isMulti
-                    closeMenuOnSelect={false}
-                    hideSelectedOptions={false}
-                    components={{
-                      CustomOption,
-                    }}
-                    // onChange={handleChange}
-                    allowSelectAll={true}
-                    // value={state.optionSelected}
-                  /> */}
                 </span>
               </div>
               <div className="p-1 h-20">
@@ -270,7 +262,7 @@ function ModalBookingService() {
                   id="input-request"
                   type={"text"}
                   className="border border-Line rounded-md text-20 mx-auto p-1.5 w-full bg-transparent"
-                  placeholder="Input request"
+                  placeholder="Other request(s)"
                   // value={objSubmit.other}
                   // onChange={(e) => handleChange(e.target.value, "other")}
                   value={other}

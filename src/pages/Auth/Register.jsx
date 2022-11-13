@@ -45,7 +45,9 @@ function Register() {
       })
       .catch((err) => {
         const { message } = err.response;
-        if (fullname === "") {
+        if (err.response?.status === 400) {
+          swal("Account already exist");
+        } else if (fullname === "") {
           swal("Field(s) should not be empty");
         } else if (fullname.length < 3) {
           swal("Full Name should atleast be 3 letters");

@@ -58,7 +58,7 @@ function App() {
     <TokenContext.Provider value={jwtToken}>
       <BrowserRouter>
         <Routes>
-          <Route index element={<Login />} />
+          <Route exact path="/" element={<Login />} />
 
           <Route
             path="/login"
