@@ -1,6 +1,6 @@
 <div align="center">
     <br>
-        <img src="https://drive.google.com/uc?export=view&id=1-uuN2Th6V0PVBIxiaS_n8WWPmPFcVcQF" alt="altafashion" width="200px"/>
+        <img src="https://drive.google.com/file/d/16r4lFxq4SRx12gD7Hp5m92dNutLBzuMG/view?usp=sharing" alt="BengcCall" width="200px"/>
 
 # Bengcall
 
