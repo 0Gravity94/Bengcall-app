@@ -101,8 +101,8 @@ function DetailAdmin(props) {
                 <p className="text-base lg:text-3xl text-PrimaryBlue font-bold">
                   :
                   {data.other == null
-                    ? data.service
-                    : ` ${data.service} , ${data.other}`}
+                    ? data.detail[0].service_name
+                    : ` ${data.detail[0].service_name} , ${data.other}`}
                 </p>
               </div>
               <div className="flex flex-wrap my-2 lg:my-5">

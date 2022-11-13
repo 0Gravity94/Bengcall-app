@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 
 import { CustomInput } from "../../components/CustomInput";
 import Button from "../../components/CustomButton";
-import LogReg from "../../assets/LogReg.png";
+import LogReg from "../../assets/LogReg.jpg";
 import useTitle from "../../utils/useTitle";
 import { apiRequest } from "../../utils/apiRequest";
 import swal from "sweetalert";
