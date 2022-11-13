@@ -31,6 +31,12 @@ function ModalBookingService() {
   const [other, setOther] = useState("");
   const [loading, setLoading] = useState(true);
 
+  const today = new Date();
+  let tomorrow = new Date();
+  tomorrow.setDate(today.getDate() + 1);
+  let lastDayOfMonth = new Date();
+  lastDayOfMonth.setDate(today.getDate() + 30);
+
   useEffect(() => {
     fetchVehicles();
     fetchService();
@@ -39,13 +45,9 @@ function ModalBookingService() {
 
   function handleChange(e) {
     const findService = services.find((service) => service.id == e);
-    console.log(findService);
     const objValues = Object.values(findService);
     setService_id(objValues[0]);
     setSub_total(objValues[2]);
-    console.log(objValues);
-    console.log(service_id);
-    console.log(setSub_total);
   }
 
   const handleBookService = async (e) => {
@@ -140,8 +142,6 @@ function ModalBookingService() {
                   id="input-phone"
                   type={"tel"}
                   className="border border-Line rounded-md text-20 mx-auto p-1.5 w-full bg-transparent"
-                  // value={objSubmit.phone}
-                  // onChange={(e) => handleChange(e.target.value, "phone")}
                   minLength="10"
                   maxLength="14"
                   value={phone}
@@ -157,8 +157,6 @@ function ModalBookingService() {
                   type={"text"}
                   maxLength="255"
                   className="border border-Line rounded-md text-20 mx-auto p-1.5 w-full bg-transparent"
-                  // value={objSubmit.address}
-                  // onChange={(e) => handleChange(e.target.value, "address")}
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
                   placeholder="Input address"
@@ -169,11 +167,9 @@ function ModalBookingService() {
                 <CustomInput
                   id="input-date"
                   type={"datetime-local"}
+                  min={tomorrow.toISOString().slice(0, -8)}
+                  max={lastDayOfMonth.toISOString().slice(0, -8)}
                   className="border border-Line rounded-md text-20 mx-auto p-1.5 w-full bg-transparent"
-                  min="2022-11-01T12:00"
-                  max="2022-11-30T12:00"
-                  // value={objSubmit.date}
-                  // onChange={(e) => handleChange(e.target.value, "date")}
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
                   placeholder="Input date"
@@ -186,8 +182,6 @@ function ModalBookingService() {
                 <select
                   placeholder="Select Location"
                   className="w-full h-10 border border-Line rounded-md"
-                  // onChange={(e) => handleChange(e.target.value, "location")}
-                  // value={objSubmit.location}
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                 >
@@ -199,10 +193,6 @@ function ModalBookingService() {
                     Workshop Service
                   </option>
                 </select>
-                {/* 
-                  value={objSubmit.location}
-                  onChange={(e) => handleChange(e.target.value)}
-                /> */}
               </div>
               <div className="p-1 h-20">
                 <p className="text-PrimaryBlue">Vehicle Type</p>
@@ -210,18 +200,14 @@ function ModalBookingService() {
                   id="select-vehicle"
                   placeholder="Select Vehicle"
                   className="w-full h-10 border border-Line rounded-md"
-                  // onChange={(e) =>
-                  //   handleChange(e.target.value, objSubmit.detail["vehicle_id"])
-                  // }
-                  // value={objSubmit.detail}
                   value={detail[vehicle_id]}
                   onChange={(e) => {
                     setVehicle_id(e.target.value);
                   }}
                 >
+                  <option id="option-vehicle">Select vehicle</option>
                   {vehicles.map((detail) => (
                     <>
-                      <option id="option-vehicle">Select vehicle</option>
                       <option id="option-vehicle" value={detail.id}>
                         {detail.name_vehicle}
                       </option>
@@ -243,9 +229,9 @@ function ModalBookingService() {
                     value={detail[service_id]}
                     onChange={(e) => handleChange(e.target.value)}
                   >
+                    <option id="option-service">Select service</option>
                     {services.map((srv) => (
                       <>
-                        <option id="option-service">Select service</option>
                         <option id="option-service" value={srv.id}>
                           {srv.service_name}
                           {"-"}
@@ -263,8 +249,6 @@ function ModalBookingService() {
                   type={"text"}
                   className="border border-Line rounded-md text-20 mx-auto p-1.5 w-full bg-transparent"
                   placeholder="Other request(s)"
-                  // value={objSubmit.other}
-                  // onChange={(e) => handleChange(e.target.value, "other")}
                   value={other}
                   onChange={(e) => setOther(e.target.value)}
                 />

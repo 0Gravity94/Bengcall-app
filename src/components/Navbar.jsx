@@ -167,10 +167,12 @@ function NavbarAdmin() {
     <div id="navbar-admin" className="w-full shadow-md shadow-SecondaryBlue">
       <div className="navbar bg-white">
         <div className="flex-1 ml-6">
-          <a className="btn btn-ghost normal-case text-3xl font-extrabold">
-            <span className="text-PrimaryBlue">Beng</span>
-            <span className="text-PrimaryRed">Call</span>
-          </a>
+          <Link to="/dashboard">
+            <a className="btn btn-ghost normal-case text-3xl font-extrabold">
+              <span className="text-PrimaryBlue">Beng</span>
+              <span className="text-PrimaryRed">Call</span>
+            </a>
+          </Link>
         </div>
         <div className="mr-6">
           <button id="btn-logout" className="btn btn-square btn-ghost">

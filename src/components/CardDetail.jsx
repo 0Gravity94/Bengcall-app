@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
+
 import Button from "./CustomButton";
 import { CustomSelect } from "./CustomInput";
 import { default as ReactSelect } from "react-select";
 import { FiSettings } from "react-icons/fi";
-import { HiOutlineTrash } from "react-icons/hi2";
+import { HiOutlineTrash, HiCheckCircle } from "react-icons/hi2";
 import { ModalAdminEdit, ModalComment } from "./Modal";
 
 import { apiRequest } from "../utils/apiRequest";
 
 import { Link } from "react-router-dom";
+import swal from "sweetalert";
 
 function CardHistory({ invoice, date, price }) {
   return (
@@ -58,17 +61,41 @@ function CardListAdmin({
   fullname,
   date,
   price,
-  status,
+  statuses,
   onNavigate,
   onDelete,
 }) {
-  const statusOptions = [
-    { value: "1", label: "Order Confirmed" },
-    { value: "2", label: "On The Way" },
-    { value: "3", label: "Service On Progress" },
-    { value: "4", label: "Service Has Completed" },
-    { value: "5", label: "Please Complete The Payment" },
-  ];
+  const [objSubmit, setObjSubmit] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  const handleSubmit = async () => {
+    setLoading(true);
+    const formData = new FormData();
+    for (const key in objSubmit) {
+      formData.append(key, objSubmit[key]);
+    }
+    apiRequest(
+      `admin/transaction/${number}`,
+      "put",
+      objSubmit,
+      "multipart/form-data"
+    )
+      .then((res) => {
+        swal("Status change");
+        setObjSubmit({});
+      })
+      .catch((err) => {
+        swal("Failed");
+      })
+      .finally(() => setLoading(false));
+  };
+
+  const handleChange = (value, key) => {
+    let temp = { ...objSubmit };
+    temp[key] = value;
+    setObjSubmit(temp);
+    console.log(temp);
+  };
 
   return (
     <div className="w-full space-x-20 flex justify-center mb-10">
@@ -76,7 +103,7 @@ function CardListAdmin({
         <div className="w-full flex flex-col items-center md:flex-row md:justify-center md:items-center gap-2 md:gap-8">
           <p className="font-bold text-PrimaryBlue">{number}</p>
           <span className="lg:w-1/4 flex flex-col items-center">
-            <p className="text-SecondaryBlue">Service ID</p>
+            <p className="text-SecondaryBlue">Invoice</p>
             <p className="font-bold text-xl text-PrimaryBlue">{invoice}</p>
           </span>
           <span className="lg:w-1/4 flex flex-col items-center">
@@ -88,13 +115,39 @@ function CardListAdmin({
             <p className="font-bold text-xl text-PrimaryBlue">{date}</p>
           </span>
           <div className="lg:w-2/4 flex flex-col items-center lg:flex-row lg:items-center gap-6">
-            <ReactSelect
-              id="vehicle-type"
-              className="lg:w-full"
-              options={statusOptions}
-              components={{
-                CustomSelect,
-              }}
+            <select
+              placeholder="Select status"
+              className="w-full h-10 border border-Line rounded-md"
+              onChange={(e) =>
+                handleChange(e.target.value.replace(/\D/g, ""), "status")
+              }
+            >
+              <option id="option-status" value={1}>
+                Order Confirmed
+              </option>
+              <option id="option-status" value={2}>
+                Mechanic on the way
+              </option>
+              <option id="option-status" value={3}>
+                Service in progress
+              </option>
+              <option id="option-status" value={4}>
+                Service done
+              </option>
+              <option id="option-status" value={5}>
+                Waiting for payment confirmation
+              </option>
+
+              <option id="option-status" value={6}>
+                Payment done
+              </option>
+            </select>
+
+            <HiCheckCircle
+              id="btn-changeStatus"
+              viewBox="0 0 24 24"
+              className="w-12 h-12 cursor-pointer stroke-green-600 hover:stroke-green-900"
+              onClick={() => handleSubmit()}
             />
 
             <Button

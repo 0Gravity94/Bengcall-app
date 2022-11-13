@@ -8,7 +8,7 @@ import { useCookies } from "react-cookie";
 import { handleAuth } from "../../utils/redux/reducers/reducer";
 import { CustomInput } from "../../components/CustomInput";
 import Button from "../../components/CustomButton";
-import LogReg from "../../assets/LogReg.png";
+import LogReg from "../../assets/LogReg.jpg";
 import useTitle from "../../utils/useTitle";
 
 function Login() {
