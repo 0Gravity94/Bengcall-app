@@ -414,6 +414,7 @@ function ModalAdminAdd({ onChange, addVehicle, value }) {
             <p className="text-PrimaryBlue font-bold">Vehicle Type</p>
             <CustomInput
               id="input-vehicle-type"
+              maxLength={20}
               type={"text"}
               className="border border-Line rounded-md text-20 text-PrimaryBlue mx-auto p-1.5 w-full bg-transparent"
               onChange={onChange}
@@ -443,39 +444,22 @@ function ModalAdminAdd({ onChange, addVehicle, value }) {
   );
 }
 
-function ModalAdminEdit() {
-  const [vehicles, setVehicles] = useState([]);
+function ModalAdminEdit({ onClick, service, price }) {
+  // const [vehicles, setVehicles] = useState([]);
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [objSubmit, setObjSubmit] = useState("");
 
   useEffect(() => {
-    fetchVehicle();
-    // fetchService();
+    // fetchVehicle();
+    fetchService();
   }, []);
 
-  const fetchVehicle = () => {
-    apiRequest("vehicle", "get", {})
-      .then((res) => {
-        const results = res.data;
-        setVehicles(results);
-      })
-      .catch((err) => {
-        const { data } = err.response;
-        alert(data.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-
-  // const fetchService = (id) => {
-  //   // const { id } = vehicles.id;
-  //   apiRequest(`service/${id}`, "get", {})
+  // const fetchVehicle = () => {
+  //   apiRequest("vehicle", "get", {})
   //     .then((res) => {
   //       const results = res.data;
-  //       console.log(results);
-  //       setServices(results);
+  //       setVehicles(results);
   //     })
   //     .catch((err) => {
   //       const { data } = err.response;
@@ -486,25 +470,40 @@ function ModalAdminEdit() {
   //     });
   // };
 
-  // const handleAddService = async () => {
-  //   setLoading(true);
-  //   const formData = new FormData();
-  //   for (const key in objSubmit) {
-  //     formData.append(key, objSubmit[key]);
-  //   }
-  //   apiRequest("admin/service", "post", objSubmit, "multipart/form-data")
-  //     .then((res) => {
-  //       alert("New Service Added");
-  //       setObjSubmit({});
-  //     })
-  //     .catch((err) => {
-  //       alert(err);
-  //     })
-  //     .finally(() => {
-  //       fetchService();
-  //       setLoading(false);
-  //     });
-  // };
+  const fetchService = () => {
+    apiRequest("admin/vehicleservice", "get", {})
+      .then((res) => {
+        const results = res.data;
+        setServices(results);
+      })
+      .catch((err) => {
+        const { data } = err.response;
+        alert(data.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const handleAddService = async () => {
+    setLoading(true);
+    const formData = new FormData();
+    for (const key in objSubmit) {
+      formData.append(key, objSubmit[key]);
+    }
+    apiRequest("admin/service", "post", objSubmit, "multipart/form-data")
+      .then((res) => {
+        alert("New Service Added");
+        setObjSubmit({});
+      })
+      .catch((err) => {
+        alert(err);
+      })
+      .finally(() => {
+        fetchService();
+        setLoading(false);
+      });
+  };
 
   // const handleDelete = async (id) => {
   //   apiRequest(`admin/service/${id}`, "delete")
@@ -603,7 +602,7 @@ function ModalAdminEdit() {
               id="btn-submit"
               className="border-2 border-PrimaryRed rounded-lg font-semibold text-lg text-PrimaryRed px-5 py-1  hover:bg-PrimaryRed hover:text-white cursor-pointer"
               label="SUBMIT"
-              // onClick={() => handleAddService()}
+              onClick={() => handleAddService()}
             />
             <a href="#">
               <Button

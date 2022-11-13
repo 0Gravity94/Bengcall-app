@@ -55,23 +55,6 @@ function ServiceTypeAdmin(props) {
       });
   };
 
-  // const fetchService = () => {
-  //   const { id } = props.params;
-  //   apiRequest(`service/${id}`, "get", {})
-  //     .then((res) => {
-  //       const results = res.data;
-  //       console.log(res);
-  //       setServices(results);
-  //     })
-  //     .catch((err) => {
-  //       const { data } = err.response;
-  //       alert(data.message);
-  //     })
-  //     .finally(() => {
-  //       setLoading(false);
-  //     });
-  // };
-
   const handleAddVehicle = async () => {
     setLoading(true);
     const formData = new FormData();
@@ -88,6 +71,26 @@ function ServiceTypeAdmin(props) {
       })
       .finally(() => {
         fetchVehicle();
+        setLoading(false);
+      });
+  };
+
+  const handleAddService = async () => {
+    setLoading(true);
+    const formData = new FormData();
+    for (const key in objSubmit) {
+      formData.append(key, objSubmit[key]);
+    }
+    apiRequest("admin/service", "post", objSubmit, "multipart/form-data")
+      .then((res) => {
+        alert("New Service Added");
+        setObjSubmit({});
+      })
+      .catch((err) => {
+        alert(err);
+      })
+      .finally(() => {
+        fetchService();
         setLoading(false);
       });
   };
