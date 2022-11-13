@@ -332,7 +332,7 @@ function ModalComment({ invoice }) {
     axios
       .put(`comment/${datas.id}`, objSubmit, {
         headers: {
-          header1: { "Content-Type": "multipart/form-data" },
+          "Content-Type": "multipart/form-data",
         },
       })
       .then((res) => {
@@ -370,7 +370,7 @@ function ModalComment({ invoice }) {
               name=""
               id="input-comments"
               className="w-full h-60 bg-transparent border-2 rounded-lg p-3 text-PrimaryBlue"
-              onChange={(e) => handleChange(e.target.value)}
+              onChange={(e) => handleChange(e.target.value, "comment")}
             ></textarea>
           </div>
           <div className="flex gap-4">

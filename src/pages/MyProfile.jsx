@@ -24,7 +24,7 @@ function MyProfile() {
   const [password, setPassword] = useState("");
   const [objSubmit, setObjSubmit] = useState({});
   const [loading, setLoading] = useState(true);
-  useTitle(`My Profile - ${datas.fullname}`);
+  useTitle(`My Profile - ${fullName}`);
 
   useEffect(() => {
     fetchData();
@@ -58,7 +58,7 @@ function MyProfile() {
     axios
       .put("users", objSubmit, {
         headers: {
-          header1: { "Content-Type": "multipart/form-data" },
+          "Content-Type": "multipart/form-data",
         },
       })
       .then((res) => {
@@ -127,7 +127,7 @@ function MyProfile() {
               onClick={() => (cookies ? handleDelete() : navigate("/"))}
               id="deactivate"
               className="flex justify-center items-center font-semibold text-PrimaryRed text-xl mt-7 cursor-pointer"
-              label="deactivate"
+              label="Deactivate"
             />
           </div>
         </div>
