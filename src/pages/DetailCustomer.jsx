@@ -25,7 +25,10 @@ function DetailCustomer(props) {
 
   function fetchData() {
     axios
-      .get(`https://project-edu.online/transaction/${props.params.id}`)
+      .get(
+        `https://project-edu.online/transaction/${props.params.id}
+      `
+      )
       .then((res) => {
         const { data } = res.data;
         const temp = [...datas];
@@ -135,39 +138,24 @@ function DetailCustomer(props) {
                   <p className="text-base lg:text-2xl text-PrimaryBlue text-center mb:1 lg:mb-5">
                     Payment Method:
                   </p>
-                  <script
-                    type="text"
-                    src="https://app.sandbox.midtrans.com/snap/snap.js"
-                    data-client-key="SB-Mid-client-eYT_BqiDlM2vR3i3"
-                  ></script>
-                  <div className="flex flex-wrap justify-center items-center text-PrimaryBlue text-base lg:text-3xl font-bold mb-2 lg:mb-16">
-                    <CustomInput
-                      id="transfer"
-                      name="payment-method"
-                      type="radio"
-                      value={data.payment_token}
-                      className="mr-2.5 lg:w-6 lg:h-6"
+                  <div className="flex flex-wrap justify-center items-center text-PrimaryBlue text-base lg:text-3xl font-bold mb-2 lg:mb-10">
+                    <Button
+                      id="pay-button"
+                      className="flex justify-center items-center border border-PrimaryRed rounded-lg font-semibold text-lg text-PrimaryRed m-auto w-28 h-8 lg:w-52 lg:h-14 max-w-xs mt-4 lg:mt-10 mb-4 lg:mb-20 cursor-pointer"
+                      label="Transfer"
+                      onClick={() =>
+                        window.open(`${data.payment_link}`, "_blank")
+                      }
                     />
-                    <label htmlFor="transfer" className="mr-5">
-                      Transfer
-                    </label>
-                    <CustomInput
-                      id="cash"
-                      name="payment-method"
-                      type="radio"
-                      value="Cash"
-                      className="ml-5 mr-2.5 lg:w-6 lg:h-6"
+                    <Button
+                      id="pay-button"
+                      className="flex justify-center items-center border border-PrimaryRed rounded-lg font-semibold text-lg text-PrimaryRed m-auto w-28 h-8 lg:w-52 lg:h-14 max-w-xs mt-4 lg:mt-10 mb-4 lg:mb-20 cursor-pointer"
+                      label="Cash"
+                      onClick={() => navigate("/home")}
                     />
-                    <label htmlFor="cash">Cash</label>
                   </div>
                 </div>
               </div>
-              <Button
-                id="transfer"
-                className="flex justify-center items-center border border-PrimaryRed rounded-lg font-semibold text-2xl text-PrimaryRed m-auto w-28 h-8 lg:w-52 lg:h-14 max-w-xs mt-4 lg:mt-10 mb-4 lg:mb-20 cursor-pointer"
-                label="Submit"
-                onClick={() => navigate(`${data.payment_link}`)}
-              />
             </>
           ))
         ) : (
