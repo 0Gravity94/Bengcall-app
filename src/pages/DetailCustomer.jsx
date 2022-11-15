@@ -48,7 +48,6 @@ function DetailCustomer(props) {
     <Layout>
       <>
         {datas.length !== 0 ? (
-          datas &&
           datas.map((data) => (
             <>
               <div>
@@ -106,9 +105,20 @@ function DetailCustomer(props) {
               </div>
               <div>
                 <div className="mx-2 lg:mx-44 my-5 lg:mt-12 border border-SecondaryBlue drop-shadow-md shadow-SecondaryBlue rounded-lg min-w-max">
-                  <h1 className="font-semibold text-SecondaryBlue text-xs lg:text-4xl text-center mt-5 lg:mt-16 ">
-                    Your Booking is on {data.date}
-                  </h1>
+                  {data.status === 1 ? (
+                    <h1 className="font-semibold text-SecondaryBlue text-xs lg:text-4xl text-center mt-5 lg:mt-16 ">
+                      Your Booking is on {data.date}
+                    </h1>
+                  ) : (
+                    ""
+                  )}
+                  {data.status === 5 ? (
+                    <h1 className="font-semibold text-SecondaryBlue text-xs lg:text-4xl text-center mt-5 lg:mt-16 ">
+                      Waiting for payment
+                    </h1>
+                  ) : (
+                    ""
+                  )}
                   <div className="flex grid-rows-1 grid-flow-col justify-evenly my-2 lg:mt-12">
                     <div className="flex flex-wrap place-items-center text-xs lg:text-4xl text-PrimaryBlue gap-2 lg:mb-12">
                       <p>Service Type:</p>
