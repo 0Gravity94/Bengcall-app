@@ -57,9 +57,13 @@ function HomePage() {
               </a>
               <ModalBookingService />
             </div>
-            <p className="p-4">Current Service(s)</p>
+            {datas.length === 1 ? (
+              <p className="p-4">Current Service(s)</p>
+            ) : (
+              <p> </p>
+            )}
             <div className="flex justify-center">
-              {datas.length > 0 ? (
+              {datas.length === 1 ? (
                 datas &&
                 datas.map((data) => (
                   <CardListCostumer

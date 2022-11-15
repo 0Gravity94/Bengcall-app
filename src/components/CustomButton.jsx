@@ -1,15 +1,16 @@
 import React from "react";
 
 function Button(props) {
-	return (
-		<div
-			id={props.id}
-			className={props.className}
-			onClick={props.onClick}
-		>
-			{props.label}
-		</div>
-	);
+  return (
+    <button
+      id={props.id}
+      className={props.className}
+      onClick={props.onClick}
+      type={props.type}
+    >
+      {props.label}
+    </button>
+  );
 }
 
 export default Button;

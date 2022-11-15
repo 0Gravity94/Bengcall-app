@@ -15,6 +15,7 @@ function CustomInput(props) {
       value={props.value}
       onChange={props.onChange}
       placeholder={props.placeholder}
+      required={props.required}
     />
   );
 }

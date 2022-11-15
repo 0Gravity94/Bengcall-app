@@ -31,12 +31,6 @@ function ModalBookingService() {
   const [other, setOther] = useState("");
   const [loading, setLoading] = useState(true);
 
-  const today = new Date();
-  let tomorrow = new Date();
-  tomorrow.setDate(today.getDate() + 1);
-  let lastDayOfMonth = new Date();
-  lastDayOfMonth.setDate(today.getDate() + 30);
-
   useEffect(() => {
     fetchVehicles();
     fetchService();
@@ -55,7 +49,7 @@ function ModalBookingService() {
     e.preventDefault();
     const body = {
       phone: phone,
-      date: new Date(date),
+      date: date,
       address: address,
       location: parseInt(location),
       other: other,
@@ -146,7 +140,7 @@ function ModalBookingService() {
                   maxLength="14"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  placeholder="Input phonenumber"
+                  placeholder="08123456789"
                 />
                 <p className="text-xs italic">Minimum 10 characters with "0"</p>
               </div>
@@ -159,16 +153,14 @@ function ModalBookingService() {
                   className="border border-Line rounded-md text-20 mx-auto p-1.5 w-full bg-transparent"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  placeholder="Input address"
+                  placeholder="Jalan Pahlawan No. 3, Surabaya"
                 />
               </div>
               <div className="p-1 h-20">
                 <p className="text-PrimaryBlue">Booking Date</p>
                 <CustomInput
                   id="input-date"
-                  type={"datetime-local"}
-                  min={tomorrow.toISOString().slice(0, -8)}
-                  max={lastDayOfMonth.toISOString().slice(0, -8)}
+                  type={"date"}
                   className="border border-Line rounded-md text-20 mx-auto p-1.5 w-full bg-transparent"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
@@ -258,8 +250,8 @@ function ModalBookingService() {
           <div className="flex gap-4">
             <Button
               id="button-submit"
-              className="flex justify-center items-center border border-PrimaryRed rounded-lg font-semibold text-lg text-PrimaryRed m-auto px-5 py-1 max-w-xs hover:bg-PrimaryRed hover:text-white cursor-pointer"
               label="SUBMIT"
+              className="flex justify-center items-center border border-PrimaryBlue rounded-lg font-semibold text-lg text-PrimaryRed m-auto px-5 py-1 max-w-xs hover:bg-pritext-PrimaryRed hover:text-white cursor-pointer"
               onClick={handleBookService}
             />
             <a href="#">
