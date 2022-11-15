@@ -6,7 +6,7 @@ import { NavbarAdmin } from "../components/Navbar";
 import Footer from "../components/Footer";
 import Button from "../components/CustomButton";
 import { CardListService } from "../components/CardDetail";
-import { ModalAdminAdd } from "../components/Modal";
+import { ModalAdminAdd, ModalAdminEdit } from "../components/Modal";
 
 import useTitle from "../utils/useTitle";
 import { apiRequest } from "../utils/apiRequest";
@@ -125,7 +125,7 @@ function ServiceTypeAdmin(props) {
       <div className="w-full min-h-screen bg-white">
         <NavbarAdmin />
         <div className="w-full h-full flex flex-col items-center  ">
-          <div className="w-3/4 flex justify-end ">
+          <div className="w-3/4 flex justify-end gap-4 ">
             <a href="#my-modal-2">
               <Button
                 id="btn-add-vehicle"
@@ -134,11 +134,26 @@ function ServiceTypeAdmin(props) {
                 // onClick={handleSubmit}
               />
             </a>
+            <a href="#my-modal-3">
+              <Button
+                id="btn-add-vehicle"
+                className="border-2 border-PrimaryRed rounded-lg font-semibold text-md  px-5 py-1  bg-PrimaryRed text-white hover:bg-white hover:text-PrimaryRed cursor-pointer mt-12 mb-6"
+                label="Edit Service"
+                // onClick={handleSubmit}
+              />
+            </a>
 
             <ModalAdminAdd
               value={objSubmit.name_vehicle}
               onChange={(e) => handleChange(e.target.value, "name_vehicle")}
               addVehicle={() => handleAddVehicle()}
+            />
+            <ModalAdminEdit
+            // handleAdd={addService}
+            // serviceInput={serviceChange}
+            // priceInput={priceChange}
+            // service={serviceVal}
+            // price={priceVal}
             />
           </div>
           <CardListService

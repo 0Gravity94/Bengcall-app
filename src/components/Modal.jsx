@@ -418,42 +418,67 @@ function ModalAdminAdd({ onChange, addVehicle, value }) {
 
 function ModalAdminEdit({
   onClick,
-  service,
-  price,
+  //service,
+  // price,
   handleAdd,
   serviceInput,
   priceInput,
 }) {
-  // const [vehicles, setVehicles] = useState([]);
-  // const [services, setServices] = useState([]);
-  // const [loading, setLoading] = useState(true);
+  const [vehicles, setVehicles] = useState([]);
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [objSubmit, setObjSubmit] = useState("");
+  const [vehicle_id, setVehicle_id] = useState("");
+  const [service_name, setService_name] = useState("");
+  const [price, setPrice] = useState("");
 
-  // useEffect(() => {
-  //   fetchVehicle();
-  //   fetchService();
-  // }, []);
+  useEffect(() => {
+    fetchVehicles();
+    //fetchService();
+  }, []);
 
-  // const fetchVehicle = () => {
-  //   apiRequest("vehicle", "get", {})
-  //     .then((res) => {
-  //       const results = res.data;
-  //       setVehicles(results);
-  //     })
-  //     .catch((err) => {
-  //       const { data } = err.response;
-  //       alert(data.message);
-  //     })
-  //     .finally(() => {
-  //       setLoading(false);
-  //     });
-  // };
+  function fetchVehicles() {
+    axios
+      .get(`https://project-edu.online/vehicle`)
+      .then((res) => {
+        const { data } = res.data;
+        const temp = [...vehicles];
+        temp.push(...data);
+        console.log(temp);
+        setVehicles(temp);
+      })
+      .catch((err) => {
+        alert(err.toString());
+      });
+  }
+
+  const handleAddService = async (e) => {
+    setLoading(true);
+    e.preventDefault();
+    const body = {
+      vehicle_id: parseInt(vehicle_id),
+      service_name: service_name,
+      price: parseInt(price),
+    };
+    apiRequest("admin/service", "post", body, "application/json")
+      .then((res) => {
+        console.log(res.data);
+        swal("Service Added");
+      })
+      .catch((err) => {
+        const { data } = err.response;
+        swal("failed to add service");
+      })
+      .finally(() => setLoading(false));
+  };
 
   // const fetchService = () => {
-  //   apiRequest("admin/vehicleservice", "get", {})
+  //   apiRequest(`service/${vehicles.services.service_name}`, "get", {})
   //     .then((res) => {
-  //       const results = res.data;
-  //       setServices(results);
+  //       const { data } = res.data;
+  //       const temp = [...services];
+  //       temp.push(...data);
+  //       setServices(temp);
   //     })
   //     .catch((err) => {
   //       const { data } = err.response;
@@ -498,11 +523,11 @@ function ModalAdminEdit({
   //     });
   // };
 
-  const handleChange = (value, key) => {
-    let temp = { ...objSubmit };
-    temp[key] = value;
-    setObjSubmit(temp);
-  };
+  // const handleChange = (value, key) => {
+  //   let temp = { ...objSubmit };
+  //   temp[key] = value;
+  //   setObjSubmit(temp);
+  // };
 
   return (
     <div>
@@ -511,32 +536,41 @@ function ModalAdminEdit({
           <h3 className="font-extrabold text-2xl text-PrimaryBlue">
             Edit Service
           </h3>
-          <div className="w-full flex flex-col items-center md:flex-row gap-4">
-            {/* <div className="w-full md:w-1/3">
-              <p>Vehicle Type</p>
-
-              <ReactSelect
-                key={datas.id}
-                id="vehicle-type"
-                options={datas.name_vehicle}
-                components={{
-                  CustomSelect,
+          <div className="w-full flex grid-cols-1 items-center flex-col gap-4">
+            <div className="w-1/2">
+              <p className="text-PrimaryBlue">Vehicle Type</p>
+              <select
+                id="select-vehicle"
+                placeholder="Select Vehicle"
+                className="w-full h-10 border border-Line bg-white rounded-md"
+                value={vehicle_id}
+                onChange={(e) => {
+                  setVehicle_id(e.target.value);
                 }}
-              />
-            </div> */}
-            <div className="w-full md:w-1/2">
+              >
+                <option id="option-vehicle">Select vehicle</option>
+                {vehicles.map((detail) => (
+                  <>
+                    <option id="option-vehicle" value={detail.id}>
+                      {detail.name_vehicle}
+                    </option>
+                  </>
+                ))}
+              </select>
+            </div>
+            <div className="w-1/2 ">
               <p>Service Type</p>
               <CustomInput
                 id="input-service-type"
                 maxLength={20}
                 type={"text"}
                 className="border border-Line rounded-md text-20 text-PrimaryBlue mx-auto p-1.5 w-full bg-transparent"
-                value={service}
-                onChange={serviceInput}
+                value={service_name}
+                onChange={(e) => setService_name(e.target.value)}
                 placeholder="Input service type"
               />
-              <ul className="mt-3">
-                {/* {services.map((data) => (
+              {/* <ul className="mt-3">
+                {vehicles.map((data) => (
                   <li
                     key={vehicles.id}
                     className="flex items-center justify-between"
@@ -549,10 +583,10 @@ function ModalAdminEdit({
                       className="w-6 h-6 cursor-pointer hover:fill-PrimaryRed"
                     />
                   </li>
-                ))} */}
-              </ul>
+                ))}
+              </ul> */}
             </div>
-            <div className="w-full md:w-1/2">
+            <div className="w-1/2">
               <p>Price</p>
               <CustomInput
                 id="input-price"
@@ -560,21 +594,9 @@ function ModalAdminEdit({
                 type={"text"}
                 className="border border-Line rounded-md text-20 text-PrimaryBlue mx-auto p-1.5 w-full bg-transparent"
                 value={price}
-                onChange={priceInput}
+                onChange={(e) => setPrice(e.target.value)}
                 placeholder="Input price"
               />
-
-              <ul className="mt-3">
-                {/* <li className="flex items-center justify-between">
-                  <p className="text-PrimaryRed">asdad</p>
-                  <TiDelete
-                    id="btn-delete"
-                    viewBox="0 0 24 24"
-                    fill="#B3B3B3"
-                    className="w-6 h-6 cursor-pointer hover:fill-PrimaryRed"
-                  />
-                </li> */}
-              </ul>
             </div>
           </div>
 
@@ -583,7 +605,7 @@ function ModalAdminEdit({
               id="btn-submit"
               className="border-2 border-PrimaryRed rounded-lg font-semibold text-lg text-PrimaryRed px-5 py-1  hover:bg-PrimaryRed hover:text-white cursor-pointer"
               label="SUBMIT"
-              onClick={handleAdd}
+              onClick={handleAddService}
             />
             <a href="#">
               <Button
