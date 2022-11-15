@@ -47,7 +47,7 @@ function DetailCustomer(props) {
   return (
     <Layout>
       <>
-        {datas.length !== 0 ? (
+        {datas !== null ? (
           datas.map((data) => (
             <>
               <div>
@@ -123,8 +123,9 @@ function DetailCustomer(props) {
                     <div className="flex flex-wrap place-items-center text-xs lg:text-4xl text-PrimaryBlue gap-2 lg:mb-12">
                       <p>Service Type:</p>
                       <h1 className="font-bold">
-                        {" "}
-                        {data.detail[0].service_name}
+                        {data.other == null
+                          ? data.detail[0].service_name
+                          : ` ${data.detail[0].service_name} , ${data.other}`}
                       </h1>
                     </div>
                     <div className="flex flex-wrap place-items-center text-xs lg:text-4xl text-PrimaryBlue gap-2 lg:mb-12">

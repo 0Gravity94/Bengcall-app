@@ -13,15 +13,18 @@ import { apiRequest } from "../utils/apiRequest";
 import { Link } from "react-router-dom";
 import swal from "sweetalert";
 
-function CardHistory({ invoice, date, price }) {
+function CardHistory({ id, invoice, date, price }) {
   return (
     <>
-      <div className="w-full space-x-20 flex justify-center">
+      <div className="w-full space-x-20 my-2 flex justify-center">
         <div className="w-3/4 p-6 border-2 border-SecondaryBlue rounded-lg bg-white shadow-lg">
           <div className="w-full flex flex-col items-center md:flex-row md:justify-center md:items-center gap-2 md:gap-8">
-            <p className="font-bold text-PrimaryBlue">1</p>
             <span className="md:w-1/4 flex flex-col items-center">
-              <p className="text-SecondaryBlue">Service ID</p>
+              <p className="text-SecondaryBlue">ID</p>
+              <p className="font-bold text-2xl text-PrimaryBlue">{id}</p>
+            </span>
+            <span className="md:w-1/4 flex flex-col items-center">
+              <p className="text-SecondaryBlue">Invoice No.</p>
               <p className="font-bold text-2xl text-PrimaryBlue">{invoice}</p>
             </span>
             <span className="md:w-1/4 flex flex-col items-center">
@@ -33,12 +36,6 @@ function CardHistory({ invoice, date, price }) {
               <p className="font-bold text-2xl text-PrimaryBlue">{price}</p>
             </span>
             <div className="lg:w-1/4 flex flex-col lg:flex-row gap-6">
-              <Button
-                id="btn-detail"
-                className="border-2 border-PrimaryRed rounded-lg font-semibold text-lg  px-5 py-1  bg-PrimaryRed text-white hover:bg-white hover:text-PrimaryRed cursor-pointer"
-                label="Detail"
-                // onClick={handleSubmit}
-              />
               <a href="#my-modal-2">
                 <Button
                   id="btn-review"
@@ -48,6 +45,9 @@ function CardHistory({ invoice, date, price }) {
               </a>
             </div>
           </div>
+          <h1 className="text-center text-PrimaryRed text-lg font-bold p-2">
+            Invoice had been sent to your email
+          </h1>
         </div>
       </div>
       <ModalComment invoice={invoice} />

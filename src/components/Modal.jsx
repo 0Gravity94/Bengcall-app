@@ -116,6 +116,10 @@ function ModalBookingService() {
       });
   }
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div>
       <div className="modal w-full" id="modal-booking">

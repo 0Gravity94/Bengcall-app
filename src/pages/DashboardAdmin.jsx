@@ -84,28 +84,30 @@ function DashboardAdmin() {
               />
             </Link>
           </div>
-          {datas.length > 0 ? (
-            datas &&
-            datas.map((data) => (
-              <CardListAdmin
-                key={data.id}
-                number={data.id}
-                invoice={data.invoice}
-                fullname={data.fullname}
-                date={data.date}
-                price={data.total}
-                status={data.status}
-                onDelete={() => handleDelete(data.id)}
-                onNavigate={() => navigate(`/detailadmin/${data.id}`)}
-              />
-            ))
-          ) : (
-            <div className="w-full h-screen flex justify-center items-center text-center ">
-              <p className="text-4xl font-extrabold  text-PrimaryBlue">
-                "There's nothing to do in here"
-              </p>
-            </div>
-          )}
+          <div className="w-full h-full flex flex-col items-center my-5">
+            {datas !== null ? (
+              datas &&
+              datas.map((data) => (
+                <CardListAdmin
+                  key={data.id}
+                  number={data.id}
+                  invoice={data.invoice}
+                  fullname={data.fullname}
+                  date={data.date}
+                  price={data.total}
+                  status={data.status}
+                  onDelete={() => handleDelete(data.id)}
+                  onNavigate={() => navigate(`/detailadmin/${data.id}`)}
+                />
+              ))
+            ) : (
+              <div className="w-full h-screen flex justify-center items-center text-center ">
+                <p className="text-4xl font-extrabold  text-PrimaryBlue">
+                  "There's nothing to do in here"
+                </p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
       <Footer />

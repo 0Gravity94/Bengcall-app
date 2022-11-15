@@ -56,13 +56,9 @@ function HomePage() {
                 />
               </a>
             </div>
-            {datas.length === 1 ? (
-              <p className="p-4">Current Service(s)</p>
-            ) : (
-              <p> </p>
-            )}
+            {datas !== 0 ? <p className="p-4">Current Service(s)</p> : <p> </p>}
             <div className="flex justify-center">
-              {datas.length === 1 ? (
+              {datas !== 0 ? (
                 datas &&
                 datas.map((data) => (
                   <CardListCostumer

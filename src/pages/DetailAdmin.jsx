@@ -15,6 +15,8 @@ function DetailAdmin(props) {
   useTitle("Order Detail");
 
   const [data, setData] = useState([]);
+  const [other, setOther] = useState("");
+  const [additional, setAdditional] = useState("");
   const [loading, setLoading] = useState(true);
   const [objSubmit, setObjSubmit] = useState("");
 
@@ -38,33 +40,57 @@ function DetailAdmin(props) {
       });
   };
 
-  const handleSubmit = async (e, id) => {
+  // const handleSubmit = async (e, id) => {
+  //   setLoading(true);
+  //   e.preventDefault();
+  //   const formData = new FormData();
+  //   for (const key in objSubmit) {
+  //     formData.append(key, objSubmit[key]);
+  //   }
+  //   axios
+  //     .put(`admin/transaction/${id}`, objSubmit, {
+  //       headers: {
+  //         header1: { "Content-Type": "multipart/form-data" },
+  //       },
+  //     })
+  //     .then((res) => {
+  //       alert("Success");
+  //       setObjSubmit({});
+  //     })
+  //     .catch((err) => {
+  //       alert("Failed");
+  //     })
+  //     .finally(() => fetchData());
+  // };
+
+  // const handleChange = (value, key) => {
+  //   let temp = { ...objSubmit };
+  //   temp[key] = value;
+  //   setObjSubmit(temp);
+  // };
+
+  const handleUpdate = async (e, id) => {
     setLoading(true);
     e.preventDefault();
-    const formData = new FormData();
-    for (const key in objSubmit) {
-      formData.append(key, objSubmit[key]);
-    }
-    axios
-      .put(`admin/transaction/${id}`, objSubmit, {
-        headers: {
-          header1: { "Content-Type": "multipart/form-data" },
-        },
-      })
+    const body = {
+      other: other,
+      additional: parseInt(additional),
+    };
+    apiRequest(
+      `admin/transaction/${props.params.id}`,
+      "put",
+      body,
+      "multipart/form-data"
+    )
       .then((res) => {
-        alert("Success");
-        setObjSubmit({});
+        console.log(res.data);
+        alert("Detail booked updated");
       })
       .catch((err) => {
-        alert("Failed");
+        const { data } = err.response;
+        alert("failed to update");
       })
-      .finally(() => fetchData());
-  };
-
-  const handleChange = (value, key) => {
-    let temp = { ...objSubmit };
-    temp[key] = value;
-    setObjSubmit(temp);
+      .finally(() => setLoading(false));
   };
 
   if (loading) {
@@ -118,8 +144,8 @@ function DetailAdmin(props) {
                   type="text"
                   className="border border-Line bg-transparent rounded-md p-2 h-10"
                   placeholder="Input text"
-                  value={objSubmit.other}
-                  onChange={(e) => handleChange(e.target.value, "other")}
+                  value={other}
+                  onChange={(e) => setOther(e.target.value)}
                 />
               </div>
               <div className="flex flex-wrap my-2 lg:my-5">
@@ -133,16 +159,10 @@ function DetailAdmin(props) {
                   id="add-price"
                   maxLength={8}
                   type="type"
-                  pattern="^[0-9]*[.,]?[0-9]*$"
                   className="border border-Line bg-transparent rounded-md p-2 h-10"
                   placeholder="Input price"
-                  value={objSubmit.additional}
-                  onChange={(e) =>
-                    handleChange(
-                      e.target.value.replace(/\D/g, ""),
-                      "additional"
-                    )
-                  }
+                  value={additional}
+                  onChange={(e) => setAdditional(e.target.value)}
                 />
               </div>
               <div className="flex flex-wrap justify-between my-2 lg:my-5">
@@ -150,7 +170,7 @@ function DetailAdmin(props) {
                   Estimate Price
                 </p>
                 <p className="text-base lg:text-3xl text-PrimaryBlue font-bold">
-                  {/* Rp 123.000 */}
+                  {/* Rp {data.detail[0].service_name} */}
                 </p>
               </div>
               <div className="flex flex-wrap justify-between border border-x-white border-t-white border-b-SecondaryBlue my-2 lg:my-5">
@@ -158,7 +178,7 @@ function DetailAdmin(props) {
                   Add. Price
                 </p>
                 <p className=" text-base lg:text-3xl text-PrimaryBlue font-bold">
-                  {data.additional}
+                  {/* Rp {data.additional} */}
                 </p>
               </div>
               <div className="flex flex-wrap justify-between my-2 lg:my-5">
@@ -171,7 +191,7 @@ function DetailAdmin(props) {
               </div>
               <div className="flex flex-wrap my-2 lg:my-5">
                 <p className="text-base lg:text-2xl text-SecondaryBlue italic">
-                  {/* Note: Addition price for changing the oil and front lamp */}
+                  Note: Additional price for {data.other}
                 </p>
               </div>
             </div>
@@ -180,7 +200,7 @@ function DetailAdmin(props) {
             id="button-submit"
             className="flex justify-center items-center border border-PrimaryRed rounded-lg font-semibold text-2xl text-PrimaryRed m-auto w-28 h-8 lg:w-52 lg:h-14 max-w-xs cursor-pointer"
             label="Submit"
-            onClick={(e) => handleSubmit(e)}
+            onClick={handleUpdate}
           />
           <Footer />
         </div>
