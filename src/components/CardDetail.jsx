@@ -195,7 +195,16 @@ function CardListCostumer({ id, invoice, date, onClick }) {
   );
 }
 
-function CardListService({ vehicle, service, onDelete }) {
+function CardListService({
+  vehicle,
+  service,
+  onDelete,
+  addService,
+  serviceChange,
+  priceChange,
+  serviceVal,
+  priceVal,
+}) {
   // const [datas, setDatas] = useState([]);
 
   // const fetchData = () => {
@@ -267,7 +276,13 @@ function CardListService({ vehicle, service, onDelete }) {
                   className="w-8 h-8 cursor-pointer stroke-PrimaryRed hover:stroke-SecondaryRed"
                   onClick={() => onDelete(data.id)}
                 />
-                <ModalAdminEdit />
+                <ModalAdminEdit
+                  handleAdd={addService}
+                  serviceInput={serviceChange}
+                  priceInput={priceChange}
+                  service={serviceVal}
+                  price={priceVal}
+                />
               </span>
             </div>
           </div>

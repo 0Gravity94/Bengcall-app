@@ -55,7 +55,6 @@ function HomePage() {
                   label="Service Now!"
                 />
               </a>
-              <ModalBookingService />
             </div>
             <p className="p-4">Current Service(s)</p>
             <div className="flex justify-center">
@@ -80,65 +79,71 @@ function HomePage() {
           </div>
         </div>
       </div>
-      <div className="w-10/12 flex flex-col mx-auto lg:mt-20  bg-white">
-        <h1 className="font-extrabold text-lg lg:text-4xl text-PrimaryBlue text-left p-2">
-          Why Choose Our Service?
-        </h1>
-        <div className="card grid grid-rows-4 lg:grid-rows-2 grid-flow-col my-6 mx-2 gap-5">
-          <div className="flex justify-between gap-5 my-6">
-            <div>
-              <TfiReload className="bg-SecondaryBlue rounded w-10 h-10 p-1 text-white" />
+      <div className="h-screen w-full bg-white">
+        <div className="w-10/12 h-full flex flex-col items-center lg:items-start gap-6 mx-auto bg-white">
+          <h1 className="font-extrabold text-2xl lg:text-4xl text-PrimaryBlue text-left p-2">
+            Why Choose Our Service?
+          </h1>
+          <div className="card grid grid-rows-4 lg:grid-rows-2 grid-flow-col  mx-2 gap-10">
+            <div className="flex justify-start lg:justify-between gap-5 ">
+              <div>
+                <TfiReload className="bg-SecondaryBlue rounded w-10 h-10 p-1 text-white" />
+              </div>
+              <div>
+                <h1 className="text-lg lg:text-3xl text-PrimaryBlue font-bold">
+                  Flexible
+                </h1>
+                <p className="text-base lg:text-xl text-black">
+                  Our service can be ordered as comfort as from your home.
+                </p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-lg lg:text-3xl text-PrimaryBlue font-bold mb-2.5">
-                Flexible
-              </h1>
-              <p className="text-base lg:text-xl text-black">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              </p>
+            <div className="flex justify-start lg:justify-between gap-5  ">
+              <div>
+                <TfiMoney className="bg-SecondaryBlue rounded w-10 h-10 p-1 text-white" />
+              </div>
+              <div>
+                <h1 className="text-lg lg:text-3xl text-PrimaryBlue font-bold">
+                  Discounts Price
+                </h1>
+                <p className="text-base lg:text-xl text-black">
+                  No need to dive on your pocket! Cut price is your new friend
+                  with our service.
+                </p>
+              </div>
             </div>
-          </div>
-          <div className="flex justify-between gap-5 my-6 ">
-            <div>
-              <TfiMoney className="bg-SecondaryBlue rounded w-10 h-10 p-1 text-white" />
+            <div className="flex justify-start lg:justify-between gap-5 ">
+              <div>
+                <TfiBolt className="bg-SecondaryBlue rounded w-10 h-10 p-1 text-white" />
+              </div>
+              <div>
+                <h1 className="text-lg lg:text-3xl text-PrimaryBlue font-bold">
+                  Fast
+                </h1>
+                <p className="text-base lg:text-xl text-black">
+                  Goodbye to longer waiting 👋 Reducing waiting time is one of
+                  our priority.
+                </p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-lg lg:text-3xl text-PrimaryBlue font-bold mb-2.5">
-                Discounts Price
-              </h1>
-              <p className="text-base lg:text-xl text-black">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              </p>
-            </div>
-          </div>
-          <div className="flex justify-between gap-5 my-6">
-            <div>
-              <TfiBolt className="bg-SecondaryBlue rounded w-10 h-10 p-1 text-white" />
-            </div>
-            <div>
-              <h1 className="text-lg lg:text-3xl text-PrimaryBlue font-bold mb-2.5">
-                Fast
-              </h1>
-              <p className="text-base lg:text-xl text-black">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              </p>
-            </div>
-          </div>
-          <div className="flex justify-between gap-5 my-6 ">
-            <div>
-              <TfiThumbUp className="bg-SecondaryBlue rounded w-10 h-10 p-1 text-white" />
-            </div>
-            <div>
-              <h1 className="text-lg lg:text-3xl text-PrimaryBlue font-bold mb-2.5">
-                Well Trained Mechanic
-              </h1>
-              <p className="text-base lg:text-xl text-black">
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-              </p>
+            <div className="flex justify-start lg:justify-between gap-5  ">
+              <div>
+                <TfiThumbUp className="bg-SecondaryBlue rounded w-10 h-10 p-1 text-white" />
+              </div>
+              <div>
+                <h1 className="text-lg lg:text-3xl text-PrimaryBlue font-bold">
+                  Well Trained Mechanic
+                </h1>
+                <p className="text-base lg:text-xl text-black">
+                  Worriless when your vehicle handed by us. The Mechanic will
+                  take care of it.
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <ModalBookingService />
     </Layout>
   );
 }

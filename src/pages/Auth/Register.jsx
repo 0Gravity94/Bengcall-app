@@ -118,13 +118,17 @@ function Register() {
             />
             <p className="text-base lg:text-xl text-center mt-7 mb-10">
               Already have an account?{" "}
-              <Link id="login" to="/" className="text-PrimaryRed font-semibold">
+              <Link
+                id="login"
+                to="/"
+                className="text-PrimaryRed hover:underline font-semibold"
+              >
                 Sign in here.
               </Link>
             </p>
             <Button
               id="button-submit"
-              className="flex justify-center items-center border border-PrimaryRed rounded-lg font-semibold text-2xl text-PrimaryRed m-auto w-52 h-14 max-w-xs cursor-pointer"
+              className="flex justify-center items-center border border-PrimaryRed rounded-lg font-semibold text-2xl text-PrimaryRed m-auto w-52 h-14 hover:bg-PrimaryRed hover:text-white max-w-xs cursor-pointer"
               label="Sign Up"
               onClick={handleSubmit}
             />

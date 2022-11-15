@@ -66,7 +66,7 @@ function MyProfile() {
         setObjSubmit({});
       })
       .catch((err) => {
-        swal("Change Profile Error");
+        swal("Failed Change Profile");
       })
       .finally(() => fetchData());
   };
@@ -98,27 +98,24 @@ function MyProfile() {
 
   return (
     <Layout>
-      {/* <div key={data.id}> */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
         <div className="flex justify-center md:justify-end grid-cols-1 mt-24 mb-20 mx-12">
           <div className="flex flex-col items-center">
             <img
               src={image}
               alt={image}
-              className="flex justify-center w-full"
+              className="flex justify-center w-96 h-96 object-contain rounded-lg"
             />
             <CustomInput
               id="change-photo"
               type="file"
               className="w-32 text-center flex justify-center items-center text-SecondaryBlue text-xl mt-2.5 cursor-pointer"
               label="Change Photo"
-              // value={objSubmit.images}
               onChange={(e) => {
                 setImage(URL.createObjectURL(e.target.files[0]));
                 handleChange(e.target.files[0], "images");
               }}
             />
-
             <h1 className="text-center text-4xl text-PrimaryBlue mt-7">
               {fullName}
             </h1>
@@ -126,7 +123,7 @@ function MyProfile() {
             <Button
               onClick={() => (cookies ? handleDelete() : navigate("/"))}
               id="deactivate"
-              className="flex justify-center items-center font-semibold text-PrimaryRed text-xl mt-7 cursor-pointer"
+              className="flex justify-center items-center font-semibold text-PrimaryRed hover:text-SecondaryRed text-xl mt-7 cursor-pointer"
               label="Deactivate"
             />
           </div>

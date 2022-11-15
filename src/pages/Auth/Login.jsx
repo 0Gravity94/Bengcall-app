@@ -108,14 +108,14 @@ function Login() {
               <Link
                 id="register"
                 to="/register"
-                className="text-PrimaryRed font-semibold"
+                className="text-PrimaryRed hover:underline font-semibold"
               >
                 Signup Now!
               </Link>
             </p>
             <Button
               id="button-submit"
-              className="flex justify-center items-center border border-PrimaryRed rounded-lg font-semibold text-2xl text-PrimaryRed m-auto w-52 h-14 max-w-xs cursor-pointer"
+              className="flex justify-center items-center border border-PrimaryRed rounded-lg font-semibold text-2xl text-PrimaryRed hover:bg-PrimaryRed hover:text-white m-auto w-52 h-14 max-w-xs cursor-pointer"
               label="Sign In"
               onClick={handleSubmit}
             />
