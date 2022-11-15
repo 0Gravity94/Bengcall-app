@@ -41,9 +41,10 @@ function ServiceTypeAdmin(props) {
   };
 
   const fetchService = () => {
-    apiRequest("admin/vehicleservice", "get", {})
+    apiRequest(`service/3`, "get", {})
       .then((res) => {
         const results = res.data;
+        console.log(results);
         setServices(results);
       })
       .catch((err) => {
@@ -142,7 +143,12 @@ function ServiceTypeAdmin(props) {
           </div>
           <CardListService
             vehicle={vehicles}
-            service={services.services}
+            service={services}
+            addService={() => handleAddService()}
+            serviceChange={(e) => handleChange(e.target.value, "service_name")}
+            priceChange={(e) => handleChange(e.target.value, "price")}
+            serviceVal={objSubmit.service_name}
+            priceVal={objSubmit.price}
             onDelete={(id) => handleDelete(id)}
             // onNavigate={(id) => navigate(`/service-detail/${id}`)}
           />

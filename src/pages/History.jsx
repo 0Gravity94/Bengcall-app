@@ -47,6 +47,7 @@ function History() {
                   invoice={data.invoice}
                   date={data.date}
                   price={data.total}
+                  // onClick={() => window.open(`${data.payment_link}`, "_blank")}
                 />
               ))
             ) : (

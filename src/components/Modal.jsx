@@ -120,7 +120,7 @@ function ModalBookingService() {
     <div>
       <div className="modal w-full" id="modal-booking">
         <input type="checkbox" id="my-modal" className="modal-toggle" />
-        <div className="w-fit h-full lg:w-2/4 lg:h-3/4 p-8 rounded-lg flex flex-col items-center justify-center gap-6 bg-white shadow-md  overflow-auto m-5 lg:m-0">
+        <div className="w-fit h-full lg:w-2/4 lg:h-3/4 p-8 rounded-lg flex flex-col items-center justify-center gap-6 bg-white shadow-md  overflow-auto lg:overflow-hidden m-5 lg:m-0">
           <h3 className="font-extrabold text-2xl text-PrimaryBlue">
             Booking Service
           </h3>
@@ -173,7 +173,7 @@ function ModalBookingService() {
                 <p className="text-PrimaryBlue">Service Location</p>
                 <select
                   placeholder="Select Location"
-                  className="w-full h-10 border border-Line rounded-md"
+                  className="w-full h-10 border border-Line bg-white rounded-md"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
                 >
@@ -191,7 +191,7 @@ function ModalBookingService() {
                 <select
                   id="select-vehicle"
                   placeholder="Select Vehicle"
-                  className="w-full h-10 border border-Line rounded-md"
+                  className="w-full h-10 border border-Line bg-white rounded-md"
                   value={detail[vehicle_id]}
                   onChange={(e) => {
                     setVehicle_id(e.target.value);
@@ -217,7 +217,7 @@ function ModalBookingService() {
                 >
                   <select
                     placeholder="Select Vehicle"
-                    className="w-full h-10 border border-Line rounded-md"
+                    className="w-full h-10 border border-Line bg-white rounded-md"
                     value={detail[service_id]}
                     onChange={(e) => handleChange(e.target.value)}
                   >
@@ -412,16 +412,23 @@ function ModalAdminAdd({ onChange, addVehicle, value }) {
   );
 }
 
-function ModalAdminEdit({ onClick, service, price }) {
+function ModalAdminEdit({
+  onClick,
+  service,
+  price,
+  handleAdd,
+  serviceInput,
+  priceInput,
+}) {
   // const [vehicles, setVehicles] = useState([]);
-  const [services, setServices] = useState([]);
-  const [loading, setLoading] = useState(true);
+  // const [services, setServices] = useState([]);
+  // const [loading, setLoading] = useState(true);
   const [objSubmit, setObjSubmit] = useState("");
 
-  useEffect(() => {
-    // fetchVehicle();
-    fetchService();
-  }, []);
+  // useEffect(() => {
+  //   fetchVehicle();
+  //   fetchService();
+  // }, []);
 
   // const fetchVehicle = () => {
   //   apiRequest("vehicle", "get", {})
@@ -438,40 +445,40 @@ function ModalAdminEdit({ onClick, service, price }) {
   //     });
   // };
 
-  const fetchService = () => {
-    apiRequest("admin/vehicleservice", "get", {})
-      .then((res) => {
-        const results = res.data;
-        setServices(results);
-      })
-      .catch((err) => {
-        const { data } = err.response;
-        alert(data.message);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
+  // const fetchService = () => {
+  //   apiRequest("admin/vehicleservice", "get", {})
+  //     .then((res) => {
+  //       const results = res.data;
+  //       setServices(results);
+  //     })
+  //     .catch((err) => {
+  //       const { data } = err.response;
+  //       alert(data.message);
+  //     })
+  //     .finally(() => {
+  //       setLoading(false);
+  //     });
+  // };
 
-  const handleAddService = async () => {
-    setLoading(true);
-    const formData = new FormData();
-    for (const key in objSubmit) {
-      formData.append(key, objSubmit[key]);
-    }
-    apiRequest("admin/service", "post", objSubmit, "multipart/form-data")
-      .then((res) => {
-        alert("New Service Added");
-        setObjSubmit({});
-      })
-      .catch((err) => {
-        alert(err);
-      })
-      .finally(() => {
-        fetchService();
-        setLoading(false);
-      });
-  };
+  // const handleAddService = async () => {
+  //   setLoading(true);
+  //   const formData = new FormData();
+  //   for (const key in objSubmit) {
+  //     formData.append(key, objSubmit[key]);
+  //   }
+  //   apiRequest("admin/service", "post", objSubmit, "multipart/form-data")
+  //     .then((res) => {
+  //       alert("New Service Added");
+  //       setObjSubmit({});
+  //     })
+  //     .catch((err) => {
+  //       alert(err);
+  //     })
+  //     .finally(() => {
+  //       fetchService();
+  //       setLoading(false);
+  //     });
+  // };
 
   // const handleDelete = async (id) => {
   //   apiRequest(`admin/service/${id}`, "delete")
@@ -517,10 +524,11 @@ function ModalAdminEdit({ onClick, service, price }) {
               <p>Service Type</p>
               <CustomInput
                 id="input-service-type"
+                maxLength={20}
                 type={"text"}
                 className="border border-Line rounded-md text-20 text-PrimaryBlue mx-auto p-1.5 w-full bg-transparent"
-                value={objSubmit.service_name}
-                onChange={(e) => handleChange(e.target.value, "service_name")}
+                value={service}
+                onChange={serviceInput}
                 placeholder="Input service type"
               />
               <ul className="mt-3">
@@ -544,15 +552,16 @@ function ModalAdminEdit({ onClick, service, price }) {
               <p>Price</p>
               <CustomInput
                 id="input-price"
+                maxLength={8}
                 type={"text"}
                 className="border border-Line rounded-md text-20 text-PrimaryBlue mx-auto p-1.5 w-full bg-transparent"
-                value={objSubmit.price}
-                onChange={(e) => handleChange(e.target.value, "price")}
+                value={price}
+                onChange={priceInput}
                 placeholder="Input price"
               />
 
               <ul className="mt-3">
-                <li className="flex items-center justify-between">
+                {/* <li className="flex items-center justify-between">
                   <p className="text-PrimaryRed">asdad</p>
                   <TiDelete
                     id="btn-delete"
@@ -560,7 +569,7 @@ function ModalAdminEdit({ onClick, service, price }) {
                     fill="#B3B3B3"
                     className="w-6 h-6 cursor-pointer hover:fill-PrimaryRed"
                   />
-                </li>
+                </li> */}
               </ul>
             </div>
           </div>
@@ -570,7 +579,7 @@ function ModalAdminEdit({ onClick, service, price }) {
               id="btn-submit"
               className="border-2 border-PrimaryRed rounded-lg font-semibold text-lg text-PrimaryRed px-5 py-1  hover:bg-PrimaryRed hover:text-white cursor-pointer"
               label="SUBMIT"
-              onClick={() => handleAddService()}
+              onClick={handleAdd}
             />
             <a href="#">
               <Button
