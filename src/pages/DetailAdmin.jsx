@@ -170,7 +170,7 @@ function DetailAdmin(props) {
                   Estimate Price
                 </p>
                 <p className="text-base lg:text-3xl text-PrimaryBlue font-bold">
-                  {/* Rp {data.detail[0].service_name} */}
+                  Rp {data.detail[0].sub_total}
                 </p>
               </div>
               <div className="flex flex-wrap justify-between border border-x-white border-t-white border-b-SecondaryBlue my-2 lg:my-5">
@@ -178,7 +178,7 @@ function DetailAdmin(props) {
                   Add. Price
                 </p>
                 <p className=" text-base lg:text-3xl text-PrimaryBlue font-bold">
-                  {/* Rp {data.additional} */}
+                  Rp {data.additional}
                 </p>
               </div>
               <div className="flex flex-wrap justify-between my-2 lg:my-5">
