@@ -10,6 +10,7 @@ import useTitle from "../utils/useTitle";
 import { WithRouter } from "../utils/Navigation";
 import { NavbarAdmin } from "../components/Navbar";
 import Footer from "../components/Footer";
+import moment from "moment/moment";
 
 function DetailAdmin(props) {
   useTitle("Order Detail");
@@ -19,6 +20,7 @@ function DetailAdmin(props) {
   const [additional, setAdditional] = useState("");
   const [loading, setLoading] = useState(true);
   const [objSubmit, setObjSubmit] = useState("");
+  const date = moment(data.date).format("l");
 
   useEffect(() => {
     fetchData();
@@ -107,9 +109,7 @@ function DetailAdmin(props) {
               <p className="text-base lg:text-2xl text-SecondaryBlue">
                 {data.id}: {data.fullname}
               </p>
-              <p className="text-base lg:text-2xl text-SecondaryBlue">
-                {data.date}
-              </p>
+              <p className="text-base lg:text-2xl text-SecondaryBlue">{date}</p>
             </div>
             <div className="grid grid-flow-row lg:grid-rows-4 lg:grid-flow-col justify-evenly my-10 gap-x-10">
               <div className="flex flex-wrap my-2 lg:my-5">

@@ -444,7 +444,6 @@ function ModalAdminEdit({
         const { data } = res.data;
         const temp = [...vehicles];
         temp.push(...data);
-        console.log(temp);
         setVehicles(temp);
       })
       .catch((err) => {

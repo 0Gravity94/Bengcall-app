@@ -15,14 +15,16 @@ import { WithRouter } from "../utils/Navigation";
 function ServiceTypeAdmin(props) {
   const [vehicles, setVehicles] = useState([]);
   const [services, setServices] = useState([]);
+  const [dataAll, setDataAll] = useState([]);
   const [loading, setLoading] = useState(true);
   const [objSubmit, setObjSubmit] = useState("");
   const navigate = useNavigate();
   useTitle("Vehicle List");
 
   useEffect(() => {
-    fetchVehicle();
-    fetchService();
+    // fetchVehicle();
+    // fetchService();
+    fetchDataAll();
   }, []);
 
   const fetchVehicle = () => {
@@ -56,6 +58,21 @@ function ServiceTypeAdmin(props) {
       });
   };
 
+  const fetchDataAll = () => {
+    apiRequest(`admin/vehicleservice`, "get", {})
+      .then((res) => {
+        const results = res.data;
+        setDataAll(results);
+      })
+      .catch((err) => {
+        const { data } = err.response;
+        alert(data.message);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
   const handleAddVehicle = async () => {
     setLoading(true);
     const formData = new FormData();
@@ -71,7 +88,8 @@ function ServiceTypeAdmin(props) {
         alert(err);
       })
       .finally(() => {
-        fetchVehicle();
+        fetchDataAll();
+        // fetchVehicle();
         setLoading(false);
       });
   };
@@ -91,7 +109,8 @@ function ServiceTypeAdmin(props) {
         alert(err);
       })
       .finally(() => {
-        fetchService();
+        fetchDataAll();
+        // fetchService();
         setLoading(false);
       });
   };
@@ -111,7 +130,7 @@ function ServiceTypeAdmin(props) {
         alert(err.message);
       })
       .finally(() => {
-        fetchVehicle();
+        fetchDataAll();
         setLoading(false);
       });
   };
@@ -157,15 +176,15 @@ function ServiceTypeAdmin(props) {
             />
           </div>
           <CardListService
-            vehicle={vehicles}
-            service={services}
+            vehicles={dataAll}
+            key={dataAll.id}
+            services={dataAll.services}
             addService={() => handleAddService()}
             serviceChange={(e) => handleChange(e.target.value, "service_name")}
             priceChange={(e) => handleChange(e.target.value, "price")}
             serviceVal={objSubmit.service_name}
             priceVal={objSubmit.price}
             onDelete={(id) => handleDelete(id)}
-            // onNavigate={(id) => navigate(`/service-detail/${id}`)}
           />
         </div>
       </div>
