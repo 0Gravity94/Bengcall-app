@@ -10,7 +10,6 @@ import { WithRouter } from "../utils/Navigation";
 
 function DashboardAdmin() {
   const [datas, setDatas] = useState([]);
-  const [status, setStatus] = useState("");
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -33,23 +32,6 @@ function DashboardAdmin() {
         setLoading(false);
       });
   };
-
-  // const handleStatus = async (e) => {
-  //   setLoading(true);
-  //   e.prevent.Default();
-  //   const body = {
-  //     status: parseInt(status),
-  //   };
-  //   apiRequest(`transaction/${number}`, "put", body, "multipart/form-data")
-  //     .then((res) => {
-  //       swal("Status changed");
-  //     })
-  //     .catch((err) => {
-  //       const { data } = err.response;
-  //       swal("Cannot change status");
-  //     })
-  //     .finally(() => setLoading(false));
-  // };
 
   const handleDelete = async (id) => {
     apiRequest(`admin/transaction/${id}`, "delete")
