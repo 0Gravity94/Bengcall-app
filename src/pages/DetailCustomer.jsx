@@ -110,7 +110,7 @@ function DetailCustomer(props) {
                         ""
                       )}
                       {data.status === 5 ? (
-                        <h1 className="font-semibold text-SecondaryBlue text-xs lg:text-4xl text-center mt-5 lg:mt-16 ">
+                        <h1 className="font-semibold text-PrimaryRed text-xs lg:text-4xl text-center mt-5 lg:mt-16 ">
                           Waiting for payment
                         </h1>
                       ) : (

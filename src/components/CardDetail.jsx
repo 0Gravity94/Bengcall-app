@@ -1,16 +1,12 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState } from "react";
 
 import Button from "./CustomButton";
-import { CustomSelect } from "./CustomInput";
-import { default as ReactSelect } from "react-select";
 import { FiSettings } from "react-icons/fi";
 import { HiOutlineTrash, HiCheckCircle } from "react-icons/hi2";
 import { ModalAdminEdit, ModalComment } from "./Modal";
 
 import { apiRequest } from "../utils/apiRequest";
 
-import { Link } from "react-router-dom";
 import swal from "sweetalert";
 import moment from "moment/moment";
 

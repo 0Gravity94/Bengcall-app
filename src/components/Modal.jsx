@@ -1,22 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
 import axios from "axios";
-import { default as ReactSelect } from "react-select";
-import { TiDelete } from "react-icons/ti";
 
 import Swal from "sweetalert";
 
-import { CustomInput, CustomOption, CustomSelect } from "./CustomInput";
+import { CustomInput } from "./CustomInput";
 import Button from "./CustomButton";
 import { apiRequest } from "../utils/apiRequest";
-import { handleService } from "../utils/redux/reducers/reducer";
 import swal from "sweetalert";
-import { parse } from "postcss";
-import { json } from "react-router-dom";
 
 function ModalBookingService() {
-  const dispatch = useDispatch();
-  const [idServices, setIdServices] = useState("");
   const [fullName, setFullName] = useState("");
   const [vehicles, setVehicles] = useState([]);
   const [services, setServices] = useState([]);
@@ -30,6 +22,14 @@ function ModalBookingService() {
   const [sub_total, setSub_total] = useState("");
   const [other, setOther] = useState("");
   const [loading, setLoading] = useState(true);
+
+  let today = new Date();
+  let minDate = new Date(today.setDate(today.getDate() + 1))
+    .toISOString()
+    .split("T")[0];
+  let maxDate = new Date(today.setMonth(today.getMonth() + 1))
+    .toISOString()
+    .split("T")[0];
 
   useEffect(() => {
     fetchVehicles();
@@ -104,7 +104,7 @@ function ModalBookingService() {
 
   function fetchService() {
     axios
-      .get(`https://project-edu.online/service/1`)
+      .get(`https://project-edu.online/service/61`)
       .then((res) => {
         const { data } = res.data;
         const temp = [...services];
@@ -165,6 +165,8 @@ function ModalBookingService() {
                 <CustomInput
                   id="input-date"
                   type={"date"}
+                  min={minDate}
+                  max={maxDate}
                   className="border border-Line rounded-md text-20 mx-auto p-1.5 w-full bg-transparent"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
@@ -230,8 +232,6 @@ function ModalBookingService() {
                       <>
                         <option id="option-service" value={srv.id}>
                           {srv.service_name}
-                          {"-"}
-                          {srv.price}
                         </option>
                       </>
                     ))}
@@ -416,25 +416,15 @@ function ModalAdminAdd({ onChange, addVehicle, value }) {
   );
 }
 
-function ModalAdminEdit({
-  onClick,
-  //service,
-  // price,
-  handleAdd,
-  serviceInput,
-  priceInput,
-}) {
+function ModalAdminEdit({ onClick, handleAdd, serviceInput, priceInput }) {
   const [vehicles, setVehicles] = useState([]);
-  const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [objSubmit, setObjSubmit] = useState("");
   const [vehicle_id, setVehicle_id] = useState("");
   const [service_name, setService_name] = useState("");
   const [price, setPrice] = useState("");
 
   useEffect(() => {
     fetchVehicles();
-    //fetchService();
   }, []);
 
   function fetchVehicles() {
@@ -444,6 +434,7 @@ function ModalAdminEdit({
         const { data } = res.data;
         const temp = [...vehicles];
         temp.push(...data);
+        console.log(temp);
         setVehicles(temp);
       })
       .catch((err) => {
