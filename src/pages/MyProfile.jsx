@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useDispatch } from "react-redux";
 import swal from "sweetalert";
 
 import Layout from "../components/Layout";
@@ -8,13 +7,11 @@ import { CustomInput } from "../components/CustomInput";
 import Button from "../components/CustomButton";
 
 import { apiRequest } from "../utils/apiRequest";
-import { handleAuth } from "../utils/redux/reducers/reducer";
 import useTitle from "../utils/useTitle";
 import { useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 
 function MyProfile() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [datas, setDatas] = useState([]);
   const [cookies, , removeCookie] = useCookies(["token"]);

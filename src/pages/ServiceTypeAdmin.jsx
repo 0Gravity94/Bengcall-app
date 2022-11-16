@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert";
 
 import { NavbarAdmin } from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -22,8 +21,6 @@ function ServiceTypeAdmin(props) {
   useTitle("Vehicle List");
 
   useEffect(() => {
-    // fetchVehicle();
-    // fetchService();
     fetchDataAll();
   }, []);
 
@@ -89,7 +86,6 @@ function ServiceTypeAdmin(props) {
       })
       .finally(() => {
         fetchDataAll();
-        // fetchVehicle();
         setLoading(false);
       });
   };
@@ -110,7 +106,6 @@ function ServiceTypeAdmin(props) {
       })
       .finally(() => {
         fetchDataAll();
-        // fetchService();
         setLoading(false);
       });
   };
@@ -167,13 +162,7 @@ function ServiceTypeAdmin(props) {
               onChange={(e) => handleChange(e.target.value, "name_vehicle")}
               addVehicle={() => handleAddVehicle()}
             />
-            <ModalAdminEdit
-            // handleAdd={addService}
-            // serviceInput={serviceChange}
-            // priceInput={priceChange}
-            // service={serviceVal}
-            // price={priceVal}
-            />
+            <ModalAdminEdit />
           </div>
           <CardListService
             vehicles={dataAll}

@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 
 import { CustomInput } from "../components/CustomInput";
 import Button from "../components/CustomButton";
-import Layout from "../components/Layout";
 
 import { apiRequest } from "../utils/apiRequest";
 import useTitle from "../utils/useTitle";
@@ -41,35 +39,6 @@ function DetailAdmin(props) {
         setLoading(false);
       });
   };
-
-  // const handleSubmit = async (e, id) => {
-  //   setLoading(true);
-  //   e.preventDefault();
-  //   const formData = new FormData();
-  //   for (const key in objSubmit) {
-  //     formData.append(key, objSubmit[key]);
-  //   }
-  //   axios
-  //     .put(`admin/transaction/${id}`, objSubmit, {
-  //       headers: {
-  //         header1: { "Content-Type": "multipart/form-data" },
-  //       },
-  //     })
-  //     .then((res) => {
-  //       alert("Success");
-  //       setObjSubmit({});
-  //     })
-  //     .catch((err) => {
-  //       alert("Failed");
-  //     })
-  //     .finally(() => fetchData());
-  // };
-
-  // const handleChange = (value, key) => {
-  //   let temp = { ...objSubmit };
-  //   temp[key] = value;
-  //   setObjSubmit(temp);
-  // };
 
   const handleUpdate = async (e, id) => {
     setLoading(true);
@@ -170,7 +139,7 @@ function DetailAdmin(props) {
                   Estimate Price
                 </p>
                 <p className="text-base lg:text-3xl text-PrimaryBlue font-bold">
-                  {/* Rp {data.detail[0].service_name} */}
+                  Rp {data.detail[0].service_name}
                 </p>
               </div>
               <div className="flex flex-wrap justify-between border border-x-white border-t-white border-b-SecondaryBlue my-2 lg:my-5">
@@ -178,7 +147,7 @@ function DetailAdmin(props) {
                   Add. Price
                 </p>
                 <p className=" text-base lg:text-3xl text-PrimaryBlue font-bold">
-                  {/* Rp {data.additional} */}
+                  Rp {data.additional}
                 </p>
               </div>
               <div className="flex flex-wrap justify-between my-2 lg:my-5">
