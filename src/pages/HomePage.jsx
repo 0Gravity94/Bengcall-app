@@ -9,6 +9,7 @@ import { CardListCostumer } from "../components/CardDetail";
 import { ModalBookingService } from "../components/Modal";
 import Hero from "../assets/Hero.png";
 import { TfiReload, TfiMoney, TfiBolt, TfiThumbUp } from "react-icons/tfi";
+import moment from "moment/moment";
 
 function HomePage() {
   const [datas, setDatas] = useState([]);
@@ -27,7 +28,6 @@ function HomePage() {
         const temp = [...datas];
         temp.push(data);
         setDatas(temp);
-        console.log(datas);
       })
       .catch((err) => {
         alert(err.toString());
@@ -56,21 +56,25 @@ function HomePage() {
                 />
               </a>
             </div>
-            {datas !== 0 ? <p className="p-4">Current Service(s)</p> : <p> </p>}
+            {datas === null ? (
+              <p className="p-4">Current Service(s)</p>
+            ) : (
+              <p> </p>
+            )}
             <div className="flex justify-center">
-              {datas !== 0 ? (
+              {datas !== null ? (
                 datas &&
                 datas.map((data) => (
                   <CardListCostumer
                     id={data.id}
                     invoice={data.invoice}
-                    date={data.date}
+                    date={moment(data.date).format("l")}
                     onClick={() => navigate(`/detail/${data.id}`)}
                   />
                 ))
               ) : (
-                <div className="w-full h-screen flex justify-center items-center text-center ">
-                  <p className="text-4xl font-extrabold  text-PrimaryBlue">
+                <div className="w-full flex justify-center items-center text-center ">
+                  <p className="text-xl font-normal italic text-PrimaryBlue">
                     "You have no reservation"
                   </p>
                 </div>

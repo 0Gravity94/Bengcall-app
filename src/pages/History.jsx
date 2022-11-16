@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 import useTitle from "../utils/useTitle";
 import { apiRequest } from "../utils/apiRequest";
+
 import Layout from "../components/Layout";
 import { CardHistory } from "../components/CardDetail";
-import { Link } from "react-router-dom";
+
+import moment from "moment/moment";
 
 function History() {
   useTitle("My History");
@@ -39,7 +42,7 @@ function History() {
     <>
       <div className="bg-white">
         <Layout>
-          <div className="w-full h-full flex flex-col items-center my-5">
+          <div className="w-full h-screen flex flex-col items-center mt-16 my-5">
             {datas !== null ? (
               datas &&
               datas.map((data) => (
@@ -47,7 +50,7 @@ function History() {
                   key={data.id}
                   id={data.id}
                   invoice={data.invoice}
-                  date={data.date}
+                  date={moment(datas.date).format("l")}
                   price={data.total}
                 />
               ))
@@ -57,16 +60,14 @@ function History() {
                   "There's nothing to do in here"
                   <br />
                   <span className="text-PrimaryRed">
-                    Lets book
                     <Link
                       id="book-service"
                       className="hover:text-PrimaryBlue italic"
                       to="/home"
                     >
-                      {" "}
-                      a service!
+                      Lets book a service!
                     </Link>
-                  </span>{" "}
+                  </span>
                 </p>
               </div>
             )}

@@ -12,6 +12,7 @@ import { apiRequest } from "../utils/apiRequest";
 
 import { Link } from "react-router-dom";
 import swal from "sweetalert";
+import moment from "moment/moment";
 
 function CardHistory({ id, invoice, date, price }) {
   return (
@@ -112,12 +113,14 @@ function CardListAdmin({
           </span>
           <span className="lg:w-1/4 flex flex-col items-center">
             <p className="text-SecondaryBlue">Service Date</p>
-            <p className="font-bold text-xl text-PrimaryBlue">{date}</p>
+            <p className="font-bold text-xl text-PrimaryBlue">
+              {moment(date).format("l")}
+            </p>
           </span>
           <div className="lg:w-2/4 flex flex-col items-center lg:flex-row lg:items-center gap-6">
             <select
               placeholder="Select status"
-              className="w-full h-10 border border-Line rounded-md"
+              className="w-full h-10 border bg-white border-Line rounded-md"
               onChange={(e) =>
                 handleChange(e.target.value.replace(/\D/g, ""), "status")
               }
@@ -146,7 +149,7 @@ function CardListAdmin({
             <HiCheckCircle
               id="btn-changeStatus"
               viewBox="0 0 24 24"
-              className="w-12 h-12 cursor-pointer stroke-green-600 hover:stroke-green-900"
+              className="w-12 h-12 cursor-pointer stroke-green-600 hover:stroke-green-900 hover:fill-green-500"
               onClick={() => handleSubmit()}
             />
 
@@ -195,16 +198,19 @@ function CardListCostumer({ id, invoice, date, onClick }) {
   );
 }
 
-function CardListService({
-  vehicle,
-  service,
-  onDelete,
-  addService,
-  serviceChange,
-  priceChange,
-  serviceVal,
-  priceVal,
-}) {
+function CardListService(
+  {
+    vehicles,
+    services,
+    onDelete,
+    addService,
+    serviceChange,
+    priceChange,
+    serviceVal,
+    priceVal,
+  },
+  props
+) {
   // const [datas, setDatas] = useState([]);
 
   // const fetchData = () => {
@@ -235,16 +241,19 @@ function CardListService({
           <p className="w-1/4 font bold text-xl text-SecondaryBlue">Price</p>
           <span className="w-1/4"></span>
         </div>
-        {vehicle.map((data) => (
+        {vehicles.map((data) => (
           <div key={data.id}>
             <div className="w-full h-full flex justify-between gap-20 border-b-2">
               <p className="w-1/4 font-bold text-xl text-PrimaryBlue">
                 {data.name_vehicle}
               </p>
-              <ul className="w-1/4 font-bold text-xl text-PrimaryBlue">
-                {service !== null ? (
-                  service &&
-                  service.map((item) => (
+              <ul
+                key={data.id}
+                className="w-1/4 font-bold text-xl text-PrimaryBlue"
+              >
+                {services !== null ? (
+                  services &&
+                  services.map((item) => (
                     <li key={item.id}>{item.service_name}</li>
                   ))
                 ) : (
@@ -252,9 +261,9 @@ function CardListService({
                 )}
               </ul>
               <ul className="w-1/4 font-bold text-xl text-PrimaryRed">
-                {service !== null ? (
-                  service &&
-                  service.map((item) => <li key={item.id}>{item.price}</li>)
+                {services !== null ? (
+                  services &&
+                  services.map((item) => <li key={item.id}>{item.price}</li>)
                 ) : (
                   <li>Tidak ada layanan</li>
                 )}
